@@ -18,9 +18,7 @@ function App() {
             <Route path="" Component={Home} />
             <Route path="/tending" Component={Tending} />
             <Route path="/movies" Component={Movies} />
-            <Route path="/series" Component={Series}></Route>
-            <Route></Route>
-            <Route></Route>
+            <Route path="/series" Component={Series} />
           </Routes>
         </Container>
       </div>
