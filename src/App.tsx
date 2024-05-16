@@ -6,6 +6,7 @@ import { Container } from "@mui/material";
 import { Movies } from "./pages/Movies";
 import { Series } from "./pages/Series";
 import { Home } from "./pages/Home";
+import { Tending } from "./pages/Tending";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Container>
           <Routes>
             <Route path="" Component={Home} />
+            <Route path="/tending" Component={Tending} />
             <Route path="/movies" Component={Movies} />
             <Route path="/series" Component={Series}></Route>
             <Route></Route>
