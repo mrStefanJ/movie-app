@@ -10,20 +10,22 @@ import { Tending } from "./pages/Tending";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Header />
-      <div className="App">
-        <Container>
-          <Routes>
-            <Route path="" Component={Home} />
-            <Route path="/tending" Component={Tending} />
-            <Route path="/movies" Component={Movies} />
-            <Route path="/series" Component={Series} />
-          </Routes>
-        </Container>
-      </div>
-      <Footer />
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Header />
+        <div className="App">
+          <Container>
+            <Routes>
+              <Route path="" Component={Home} />
+              <Route path="/tending" Component={Tending} />
+              <Route path="/movies" Component={Movies} />
+              <Route path="/series" Component={Series} />
+            </Routes>
+          </Container>
+        </div>
+        <Footer />
+      </BrowserRouter>
+    </>
   );
 }
 

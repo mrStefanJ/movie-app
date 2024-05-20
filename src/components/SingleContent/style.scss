@@ -1,0 +1,58 @@
+@import "../../style/mixin.scss";
+
+.content__media {
+  display: block;
+  background: #4169e1;
+  margin: 10px;
+  padding-bottom: 10px;
+  border-radius: 20px;
+  width: 38%;
+  position: relative;
+
+  img {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 3px 3px 0px 0px;
+    border-radius: 20px 20px 0px 0px;
+  }
+
+  &:hover {
+    box-shadow: 9px 9px 6px 2px rgba(0, 0, 255, 0.2);
+  }
+
+  @include breakpoint(mobile-horizontal) {
+    height: 50%;
+    width: 42%;
+  }
+  @include breakpoint(tablet) {
+    width: 30%;
+  }
+  @include breakpoint(tablet-horizontal) {
+    width: 22%;
+  }
+}
+
+.content__title {
+  display: flow;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  font-size: 11px;
+}
+
+.content__subTitle {
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  flex-wrap: nowrap;
+  height: 36%;
+  justify-content: space-between;
+
+  @include breakpoint(mobile-horizontal) {
+    height: 100%;
+  }
+}
