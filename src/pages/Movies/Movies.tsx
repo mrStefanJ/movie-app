@@ -6,7 +6,6 @@ import { CustomePagination } from "../../components/CustomePagination";
 import { Genres } from "../../components/Genres";
 import useGenres from "../../CustomHook/useGenres";
 import { Genre } from "../../type/genre";
-import { Link } from "react-router-dom";
 import "./style.scss";
 
 const Movies = () => {
@@ -14,12 +13,12 @@ const Movies = () => {
   const [page, setPage] = useState<number>(1);
   const [numOfPages, setNumOfPages] = useState<number>();
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
-  const [genres, setGenres] = useState<any[]>([]);
+  const [genres, setGenres] = useState<Genre[]>([]);
   const genreforURL = useGenres(selectedGenres);
 
   useEffect(() => {
     fetchData();
-  }, [page, genreforURL]);
+  }, [genreforURL, page]);
 
   const fetchData = async () => {
     const data = fetchMovies(page, genreforURL);
@@ -28,13 +27,15 @@ const Movies = () => {
       .then((response) => {
         setContent(response.results);
         setNumOfPages(response.total_pages);
-        setSelectedGenres(response.genre_ids);
+        if (Array.isArray(response.genre_ids)) {
+          setSelectedGenres(response.genre_ids);
+        }
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
       });
   };
-
+  console.log("MOVIES: ", content);
   return (
     <div className="movies">
       <Genres
@@ -52,7 +53,7 @@ const Movies = () => {
               key={movie.id}
               id={movie.id}
               poster={movie.poster_path}
-              title={movie.title}
+              title={movie.title || movie.name}
               name={movie.name}
               date={movie.release_date}
               media_type="movie"

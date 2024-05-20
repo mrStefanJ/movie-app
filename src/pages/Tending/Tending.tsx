@@ -11,8 +11,6 @@ const Tending = () => {
   const [content, setContent] = useState<Movie>();
   const [numOfPages, setNumOfPages] = useState<number>();
   const [page, setPage] = useState<number>(1);
-  const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
-  const [genres, setGenres] = useState<any[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -32,14 +30,6 @@ const Tending = () => {
 
   return (
     <div className="tending">
-      <Genres
-        type="movie"
-        selectedGenres={selectedGenres}
-        setSelectedGenres={setSelectedGenres}
-        genres={genres}
-        setGenres={setGenres}
-        setPage={setPage}
-      />
       <div className="tending__container">
         {Array.isArray(content) &&
           content.map((tending: Result) => (

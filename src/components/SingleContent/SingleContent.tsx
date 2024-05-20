@@ -39,9 +39,7 @@ const SingleContent = ({
               <span className="content__media-type">
                 {media_type === "tv" ? "TV" : "Movie"}
               </span>
-              <p className="content__date">
-                Relase date: {date === undefined ? "Undefined" : date}
-              </p>
+              <p className="content__date">Relase date: {date}</p>
             </div>
           </div>
         </div>
