@@ -11,7 +11,7 @@ const Header = () => {
           <MovieCreationOutlinedIcon fontSize="large" />
           <p className="title">Movie</p>
         </Box>
-        <Box>
+        <Box className="header__nav">
           <MainNav />
         </Box>
       </Box>

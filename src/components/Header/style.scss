@@ -1,31 +1,51 @@
 @import "../../style/variable.scss";
 
 .header {
-    width: 100%;
-    min-height: 50px;
-    position: fixed;
-    top: 0;
-    padding: 10px 0;
-    z-index: 100;
-    background-color: $blue;
+  width: 100%;
+  min-height: 50px;
+  position: fixed;
+  top: 0;
+  padding: 10px 0;
+  z-index: 100;
+  background-color: $blue;
+  color: $white;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 4px 7px 21px $black;
+}
+
+.header__title {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.title {
+  padding-top: 0;
+}
+
+.header__nav {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.navigation__link {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+
+  & > a {
     color: $white;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 4px 7px 21px $black;
-}
-
-.header__title{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-}
-
-.title{
-    padding-top: 0;
+    font-size: 12px;
+    &:hover {
+      box-shadow: 1px -1px 14px $grey;
+    }
+  }
 }
