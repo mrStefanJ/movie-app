@@ -4,10 +4,15 @@ import { fetchTending } from "../../data/dataJSON";
 import "./style.scss";
 import { Movie, Result } from "../../type/movie";
 import { CustomePagination } from "../../components/CustomePagination";
+import { Genres } from "../../components/Genres";
+import { Genre } from "../../type/genre";
 
 const Tending = () => {
   const [content, setContent] = useState<Movie>();
+  const [numOfPages, setNumOfPages] = useState<number>();
   const [page, setPage] = useState<number>(1);
+  const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
+  const [genres, setGenres] = useState<any[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -18,6 +23,7 @@ const Tending = () => {
     data
       .then((response) => {
         setContent(response.results);
+        setNumOfPages(response.total_pages);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
@@ -25,22 +31,32 @@ const Tending = () => {
   };
 
   return (
-    <div className="tending__container">
-      <div className="tending__movies">
+    <div className="tending">
+      <Genres
+        type="movie"
+        selectedGenres={selectedGenres}
+        setSelectedGenres={setSelectedGenres}
+        genres={genres}
+        setGenres={setGenres}
+        setPage={setPage}
+      />
+      <div className="tending__container">
         {Array.isArray(content) &&
-          content.map((movie: Result) => (
+          content.map((tending: Result) => (
             <SingleContent
-              key={movie.id}
-              id={movie.id}
-              poster={movie.poster_path}
-              title={movie.title}
-              name={movie.name}
-              date={movie.release_date}
-              media_type={movie.media_type}
-              vote_average={movie.vote_average}
+              key={tending.id}
+              id={tending.id}
+              poster={tending.poster_path}
+              title={tending.title}
+              name={tending.name}
+              date={tending.release_date}
+              media_type={tending.media_type}
+              vote_average={tending.vote_average}
             />
           ))}
-        <CustomePagination setPage={setPage} numberOfPages={10} />
+        {numOfPages && numOfPages > 1 && (
+          <CustomePagination setPage={setPage} numberOfPages={10} />
+        )}
       </div>
     </div>
   );
