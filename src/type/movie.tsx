@@ -23,7 +23,7 @@ export interface Result {
   vote_count: number;
   original_name?: string;
   name: string;
-  first_air_date?: Date;
+  first_air_date: string;
   origin_country?: string[];
 }
 
