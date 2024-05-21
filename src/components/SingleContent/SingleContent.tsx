@@ -10,7 +10,6 @@ const SingleContent = ({
   date,
   media_type,
   vote_average,
-  name,
 }: {
   id: number;
   poster: string;
@@ -18,7 +17,6 @@ const SingleContent = ({
   date: string;
   media_type: string;
   vote_average: number;
-  name: string;
 }) => {
   return (
     <>
@@ -31,13 +29,11 @@ const SingleContent = ({
           />
           <div className="content__subTitle">
             <div className="title">
-              <p className="content__title">
-                {media_type === "tv" ? name : title}
-              </p>
+              <p className="content__title">{title}</p>
             </div>
             <div className="date">
               <span className="content__media-type">
-                {media_type === "tv" ? "TV" : "Movie"}
+                {media_type === "tv" ? "TV Series" : "Movie"}
               </span>
               <p className="content__date">Relase date: {date}</p>
             </div>

@@ -16,7 +16,7 @@ const Carousel = ({ media_type, id }: { media_type: any; id: any }) => {
     const data = await fetchCarousel(media_type, id);
     setCarousel(data?.cast);
   };
-  console.log(carousle);
+
   const handleDragStart = (e: any) => e.preventDefault();
 
   const responsive = {
@@ -43,7 +43,7 @@ const Carousel = ({ media_type, id }: { media_type: any; id: any }) => {
   return (
     <div>
       <AliceCarousel
-        // autoPlay
+        autoPlay
         mouseTracking
         items={items}
         responsive={responsive}

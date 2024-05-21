@@ -61,7 +61,6 @@ const Content = ({
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        closeAfterTransition
       >
         <Fade in={open}>
           {content && (

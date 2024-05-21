@@ -9,7 +9,7 @@ const Header = () => {
       <Box className="header">
         <Box className="header__title">
           <MovieCreationOutlinedIcon fontSize="large" />
-          <p className="title">Movie</p>
+          <p className="title">Movies / Series</p>
         </Box>
         <Box className="header__nav">
           <MainNav />

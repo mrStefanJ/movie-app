@@ -31,7 +31,7 @@ const Series = () => {
         console.error("Error fetching data: ", error);
       });
   };
-
+  console.log(genres);
   return (
     <div className="series">
       <Genres
@@ -44,16 +44,15 @@ const Series = () => {
       />
       <div className="series__container">
         {Array.isArray(content) &&
-          content.map((movie: Result) => (
+          content.map((serie: Result) => (
             <SingleContent
-              key={movie.id}
-              id={movie.id}
-              poster={movie.poster_path}
-              title={movie.title}
-              name={movie.name}
-              date={movie.release_date}
+              key={serie.id}
+              id={serie.id}
+              poster={serie.poster_path}
+              title={serie.title || serie.name}
+              date={serie.release_date || serie.first_air_date}
               media_type="tv"
-              vote_average={movie.vote_average}
+              vote_average={serie.vote_average}
             />
           ))}
         {numOfPages && numOfPages > 1 && (

@@ -4,8 +4,6 @@ import { fetchTending } from "../../data/dataJSON";
 import "./style.scss";
 import { Movie, Result } from "../../type/movie";
 import { CustomePagination } from "../../components/CustomePagination";
-import { Genres } from "../../components/Genres";
-import { Genre } from "../../type/genre";
 
 const Tending = () => {
   const [content, setContent] = useState<Movie>();
@@ -37,9 +35,8 @@ const Tending = () => {
               key={tending.id}
               id={tending.id}
               poster={tending.poster_path}
-              title={tending.title}
-              name={tending.name}
-              date={tending.release_date}
+              title={tending.title || tending.name}
+              date={tending.first_air_date || tending.release_date}
               media_type={tending.media_type}
               vote_average={tending.vote_average}
             />

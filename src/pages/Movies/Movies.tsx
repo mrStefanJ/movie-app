@@ -35,7 +35,7 @@ const Movies = () => {
         console.error("Error fetching data: ", error);
       });
   };
-  console.log("MOVIES: ", content);
+
   return (
     <div className="movies">
       <Genres
@@ -54,8 +54,7 @@ const Movies = () => {
               id={movie.id}
               poster={movie.poster_path}
               title={movie.title || movie.name}
-              name={movie.name}
-              date={movie.release_date}
+              date={movie.first_air_date || movie.release_date}
               media_type="movie"
               vote_average={movie.vote_average}
             />
