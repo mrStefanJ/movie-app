@@ -1,8 +1,9 @@
 @import "../../style/mixin.scss";
+@import "../../style/variable.scss";
 
 .content__media {
   display: block;
-  background: #4169e1;
+  background: $blue-light;
   margin: 10px;
   padding-bottom: 10px;
   border-radius: 20px;
@@ -19,7 +20,7 @@
   }
 
   &:hover {
-    box-shadow: 9px 9px 6px 2px rgba(0, 0, 255, 0.2);
+    box-shadow: 9px 9px 6px 2px $blue-dark;
   }
 
   @include breakpoint(mobile-horizontal) {
@@ -36,7 +37,7 @@
 
 .content__title {
   display: flow;
-  color: white;
+  color: $white;
   font-weight: bold;
   text-align: center;
   padding-top: 5px;

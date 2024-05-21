@@ -1,4 +1,5 @@
 @import "react-alice-carousel/lib/scss/alice-carousel.scss";
+@import "./style/variable.scss";
 
 body {
   margin: 0;
@@ -7,6 +8,16 @@ body {
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    --scrollbar-color-track: #0000ff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $grey;   
+    border-radius: 20px;       
+  }
 }
 
 p {

@@ -44,8 +44,10 @@
   & > a {
     color: $white;
     font-size: 12px;
+    text-align: center;
     &:hover {
       box-shadow: 1px -1px 14px $grey;
+      border-radius: 20px;
     }
   }
 }

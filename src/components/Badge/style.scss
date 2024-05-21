@@ -1,23 +1,25 @@
-.badge__container {
-    position: absolute;
-    top: -7px;
-    right: -6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 25px;
-    height: 25px;
+@import "../../style/variable.scss";
 
-    border: 2px solid black;
-    border-radius: 20px;
-    font-size: 12px;
+.badge__container {
+  position: absolute;
+  top: -7px;
+  right: -6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+
+  border: 2px solid $black;
+  border-radius: 20px;
+  font-size: 12px;
 }
 
 .good__raiting {
-    background: white;
+  background: $white;
 }
 
-.bad__raiting{
-    background: #d31212;
-    color: white;
+.bad__raiting {
+  background: $red;
+  color: $white;
 }

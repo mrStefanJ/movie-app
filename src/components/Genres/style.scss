@@ -1,0 +1,76 @@
+@import "../../style/mixin.scss";
+@import "../../style/variable.scss";
+
+.genres__container {
+  width: 140px;
+  height: 85%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  background: $blue-light;
+  justify-content: center;
+  top: 60px;
+  left: -140px;
+  transition: 0.5s;
+  z-index: 1;
+  border-right: 1px solid $white;
+
+  @include breakpoint(laptop) {
+    height: 87%;
+  }
+
+  & .genres__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(90deg);
+    cursor: pointer;
+    width: 45px;
+    height: 20px;
+    border: 2px solid $blue-light;
+    background: $white;
+    border-radius: 20px;
+    position: absolute;
+    left: 92%;
+  }
+
+  & .genres__name {
+    min-width: 140px;
+    height: 88%;
+    cursor: pointer;
+    overflow-y: overlay;
+    margin-top: 13px;
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $grey;
+      border-radius: 20px;
+      border: 2px solid $white;
+    }
+
+    & .MuiStack-root {
+      .MuiChip-outlined {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border: none;
+        color: $black;
+        & > svg {
+          color: $white;
+        }
+
+        &:hover {
+          color: $white;
+          background: none;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    left: 0px;
+  }
+}

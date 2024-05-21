@@ -14,11 +14,23 @@
   overflow: overlay;
   width: 100%;
 
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $grey;
+    border-radius: 20px;
+    border: 2px solid $white;
+    
+  }
+
   & .content-modal__portrait {
     display: none;
     @include breakpoint(tablet) {
       display: block;
-      width: 100%;
+      width: 450px;
+      height: 500px;
     }
   }
 
@@ -60,6 +72,9 @@
 
 .content-modal__image {
   width: 100%;
+  @include breakpoint(tablet) {
+    width: 50%;
+  }
 }
 
 .content-modal__about {

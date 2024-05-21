@@ -1,31 +1,31 @@
 @import "../../style/mixin.scss";
 
-.actor{
-    margin: 20px 0;
+.actor {
+  margin: 20px 0;
 }
 
-.actor__image{
-    width: 120px;
-    height: 150px;
+.actor__image {
+  width: 120px;
+  height: 150px;
+  @include breakpoint(tablet) {
+    width: 160px;
+    height: 200px;
+  }
+
+  @include breakpoint(desktop-wide) {
+    width: 55%;
+  }
+}
+
+.actor__name {
+  & > p {
+    font-size: 14px;
     @include breakpoint(tablet) {
-        width: 75%;
-        height: 200px;
+      font-size: 12px;
+      padding: 0 5px;
     }
-
-    @include breakpoint(desktop-wide) {
-        width: 55%;
+    @include breakpoint(tablet-horizontal) {
+      font-size: 16px;
     }
-}
-
-.actor__name{
-    & > p {
-        font-size: 14px;
-        @include breakpoint(tablet) {
-            font-size: 12px;
-            padding: 0 5px;
-        }
-        @include breakpoint(tablet-horizontal) {
-            font-size: 16px;
-        }
-    }
+  }
 }
