@@ -1,22 +1,41 @@
 @import "../../style/mixin.scss";
 @import "../../style/variable.scss";
 
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .content__media {
   display: block;
   background: $blue-light;
   margin: 10px;
   padding-bottom: 10px;
   border-radius: 20px;
-  width: 38%;
+  width: 150px;
   position: relative;
+  transform: scale(0.8);
+  opacity: 0;
+  animation: zoomIn 0.5s forwards; 
 
   img {
     margin: 0;
     padding: 0;
     width: 100%;
+    height: 220px;
     -moz-border-radius: 0px;
     -webkit-border-radius: 3px 3px 0px 0px;
     border-radius: 20px 20px 0px 0px;
+
+    @include breakpoint(tablet) {
+      height: 350px;
+    }
   }
 
   &:hover {
@@ -28,11 +47,9 @@
     width: 42%;
   }
   @include breakpoint(tablet) {
-    width: 30%;
+    width: 20%;
   }
-  @include breakpoint(tablet-horizontal) {
-    width: 22%;
-  }
+
 }
 
 .content__title {
@@ -50,8 +67,8 @@
   flex-direction: column;
   font-size: 11px;
   flex-wrap: nowrap;
-  height: 36%;
-  justify-content: space-between;
+  height: 30%;
+  justify-content: flex-start;
 
   @include breakpoint(mobile-horizontal) {
     height: 100%;

@@ -1,3 +1,4 @@
+@import "../../style/mixin.scss";
 @import "../../style/variable.scss";
 
 .header {
@@ -48,6 +49,10 @@
     &:hover {
       box-shadow: 1px -1px 14px $grey;
       border-radius: 20px;
+    }
+
+    @include breakpoint(tablet) {
+      font-size: 16px;
     }
   }
 }
