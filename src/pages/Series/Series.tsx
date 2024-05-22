@@ -17,21 +17,21 @@ const Series = () => {
   const genreforURL = useGenres(selectedGenres);
 
   useEffect(() => {
+    const fetchData = async () => {
+      const data = fetchSeries(page, genreforURL);
+      data
+        .then((response) => {
+          setContent(response.results);
+          setNumOfPages(response.total_pages);
+        })
+        .catch((error) => {
+          console.error("Error fetching data: ", error);
+        });
+    };
+
     fetchData();
   }, [page, genreforURL]);
 
-  const fetchData = async () => {
-    const data = fetchSeries(page, genreforURL);
-    data
-      .then((response) => {
-        setContent(response.results);
-        setNumOfPages(response.total_pages);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
-  };
-  console.log(genres);
   return (
     <div className="series">
       <Genres

@@ -21,24 +21,24 @@ const Genres = ({
   setPage: any;
 }) => {
   useEffect(() => {
+    const fetchGenresData = async () => {
+      const data = fetchGenres(type);
+
+      data
+        .then((response) => {
+          setGenres(response.genres);
+        })
+        .catch((error) => {
+          console.error("Error fetching data: ", error);
+        });
+    };
+
     fetchGenresData();
 
     return () => {
       setGenres([]);
     };
-  }, []);
-
-  const fetchGenresData = async () => {
-    const data = fetchGenres(type);
-
-    data
-      .then((response) => {
-        setGenres(response.genres);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
-  };
+  }, [type]);
 
   const handleAdd = (genre: Genre) => {
     setSelectedGenres([...selectedGenres, genre]);

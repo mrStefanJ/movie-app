@@ -33,19 +33,19 @@ const Content = ({
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      const data = await featchByID(media_type, id);
+      setContent(data);
+    };
+
+    const fetchVideoData = async () => {
+      const videoData = await fetchVideo(media_type, id);
+      setVideo(videoData);
+    };
+
     fetchData();
     fetchVideoData();
-  }, []);
-
-  const fetchData = async () => {
-    const data = await featchByID(media_type, id);
-    setContent(data);
-  };
-
-  const fetchVideoData = async () => {
-    const videoData = await fetchVideo(media_type, id);
-    setVideo(videoData);
-  };
+  }, [media_type, id]);
 
   return (
     <>
