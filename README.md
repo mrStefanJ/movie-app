@@ -1,46 +1,46 @@
-# Getting Started with Create React App
+# Movies and Series
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was worked in React. Project Movies / Series is web app that will show list of movies and series in Tending page and a separate list of movies and series page.
+In Movies and Series page will have options to select genres of your choice. On selected movie or series will popup modal and show details of movie or serie.
 
-## Available Scripts
+Design is started in the mobile-first approach.
 
-In the project directory, you can run:
+## How to run Project
 
-### `npm start`
+First you need to use command:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+npm install
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+to install all package that are used, and whane it is finished start with command
 
-### `npm test`
+```
+ npm start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Library
 
-### `npm run build`
+The Library used in the project are:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [React Router](https://reactrouter.com/en/main)
+- [AXIOS](https://axios-http.com/docs/intro)
+- [Material UI](https://mui.com/material-ui/)
+- [Material UI Core](https://mui.com/material-ui/material-icons/)
+- [SASS](https://sass-lang.com/)
+- [React Alice Carousel](https://www.npmjs.com/package/react-alice-carousel)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## How to use data from MovieDB
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+For API call are used from [MovieDB](https://www.themoviedb.org/).
+Step on how to get API KEY:
 
-### `npm run eject`
+- Create your account
+- After successfully created, select profile icon and go to 'Settings'
+- On the lewft side of page you will se options for 'Settings' and go to 'API'
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+On this site [TMDB](https://developer.themoviedb.org/reference/intro/getting-started) you will see all GET, POST and DELETE methods.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## License
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+[MIT](https://choosealicense.com/licenses/mit/)
