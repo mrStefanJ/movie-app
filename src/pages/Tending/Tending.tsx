@@ -11,20 +11,20 @@ const Tending = () => {
   const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = fetchTending(page);
-      data
-        .then((response) => {
-          setContent(response.results);
-          setNumOfPages(response.total_pages);
-        })
-        .catch((error) => {
-          console.error("Error fetching data: ", error);
-        });
-    };
-
     fetchData();
-  }, [page]);
+  }, [page]); // eslint-disable-line
+
+  const fetchData = async () => {
+    const data = fetchTending(page);
+    data
+      .then((response) => {
+        setContent(response.results);
+        setNumOfPages(response.total_pages);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  };
 
   return (
     <div className="tending">

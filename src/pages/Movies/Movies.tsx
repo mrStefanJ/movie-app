@@ -17,24 +17,24 @@ const Movies = () => {
   const genreforURL = useGenres(selectedGenres);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = fetchMovies(page, genreforURL);
-
-      data
-        .then((response) => {
-          setContent(response.results);
-          setNumOfPages(response.total_pages);
-          if (Array.isArray(response.genre_ids)) {
-            setSelectedGenres(response.genre_ids);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data: ", error);
-        });
-    };
-
     fetchData();
-  }, [genreforURL, page]);
+  }, [genreforURL, page]); // eslint-disable-line
+
+  const fetchData = async () => {
+    const data = fetchMovies(page, genreforURL);
+
+    data
+      .then((response) => {
+        setContent(response.results);
+        setNumOfPages(response.total_pages);
+        if (Array.isArray(response.genre_ids)) {
+          setSelectedGenres(response.genre_ids);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  };
 
   return (
     <div className="movies">

@@ -9,13 +9,13 @@ const Carousel = ({ media_type, id }: { media_type: any; id: any }) => {
   const [carousle, setCarousel] = useState<Actor[]>([]);
 
   useEffect(() => {
-    const featchCarouselData = async () => {
-      const data = await fetchCarousel(media_type, id);
-      setCarousel(data?.cast);
-    };
-
     featchCarouselData();
-  }, [media_type, id]);
+  }, [media_type, id]); // eslint-disable-line
+
+  const featchCarouselData = async () => {
+    const data = await fetchCarousel(media_type, id);
+    setCarousel(data?.cast);
+  };
 
   const handleDragStart = (e: any) => e.preventDefault();
 

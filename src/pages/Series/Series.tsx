@@ -17,20 +17,22 @@ const Series = () => {
   const genreforURL = useGenres(selectedGenres);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = fetchSeries(page, genreforURL);
-      data
-        .then((response) => {
-          setContent(response.results);
-          setNumOfPages(response.total_pages);
-        })
-        .catch((error) => {
-          console.error("Error fetching data: ", error);
-        });
-    };
+    if (!page || !genreforURL) return;
 
     fetchData();
-  }, [page, genreforURL]);
+  }, [page, genreforURL]); // eslint-disable-line
+
+  const fetchData = async () => {
+    const data = fetchSeries(page, genreforURL);
+    data
+      .then((response) => {
+        setContent(response.results);
+        setNumOfPages(response.total_pages);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  };
 
   return (
     <div className="series">

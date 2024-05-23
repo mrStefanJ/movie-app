@@ -33,19 +33,19 @@ const Content = ({
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await featchByID(media_type, id);
-      setContent(data);
-    };
-
-    const fetchVideoData = async () => {
-      const videoData = await fetchVideo(media_type, id);
-      setVideo(videoData);
-    };
-
     fetchData();
     fetchVideoData();
-  }, [media_type, id]);
+  }, [media_type, id]); // eslint-disable-line
+
+  const fetchData = async () => {
+    const data = await featchByID(media_type, id);
+    setContent(data);
+  };
+
+  const fetchVideoData = async () => {
+    const videoData = await fetchVideo(media_type, id);
+    setVideo(videoData);
+  };
 
   return (
     <>
