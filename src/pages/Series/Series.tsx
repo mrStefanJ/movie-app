@@ -17,8 +17,6 @@ const Series = () => {
   const genreforURL = useGenres(selectedGenres);
 
   useEffect(() => {
-    if (!page || !genreforURL) return;
-
     fetchData();
   }, [page, genreforURL]); // eslint-disable-line
 
