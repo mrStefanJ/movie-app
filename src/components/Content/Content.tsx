@@ -60,6 +60,7 @@ const Content = ({
     setVideo(videoData);
   };
 
+  console.log(video);
   return (
     <>
       <div
@@ -163,7 +164,7 @@ const Content = ({
                     color="secondary"
                     target="__blank"
                     href={`https://www.youtube.com/watch?v=${
-                      video?.results[video?.results.length - 1].key
+                      video?.results[video?.results.length - 1]?.key
                     }`}
                   >
                     Watch the Trailer
