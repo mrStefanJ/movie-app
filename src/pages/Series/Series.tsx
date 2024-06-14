@@ -22,15 +22,13 @@ const Series = () => {
   }, [page, genreforURL]); // eslint-disable-line
 
   const fetchData = async () => {
-    const data = fetchSeries(page, genreforURL);
-    data
-      .then((response) => {
-        setContent(response.results);
-        setNumOfPages(response.total_pages);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
+    try {
+      const response = await fetchSeries(page, genreforURL);
+      setContent(response.results);
+      setNumOfPages(response.total_pages);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
   };
 
   return (

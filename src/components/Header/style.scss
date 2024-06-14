@@ -45,7 +45,7 @@
 
 .navigation__link a {
   margin: 0 10px;
-  color: #fff; /* Replace with your $white variable if using a preprocessor */
+  color: #fff;
   font-size: 12px;
   text-align: center;
   position: relative;
@@ -60,9 +60,9 @@
     display: block;
     width: 0;
     height: 2px;
-    background: #fff; /* Replace with your desired color */
+    background: #fff;
     position: absolute;
-    bottom: -3px; /* Adjust based on your preference */
+    bottom: -3px;
     left: 0;
     transition: width 0.3s ease-in-out;
   }

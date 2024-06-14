@@ -1,5 +1,8 @@
 @import "../../style/variable.scss";
 
+.home{
+  height: 84vh;
+}
 .home__title {
     position: relative;
     padding-top: 135px;
@@ -24,3 +27,7 @@
       transform: translateY(-20px)
     }
   }
+
+.home__text {
+  font-size: 24px;
+}

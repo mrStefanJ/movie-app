@@ -15,26 +15,24 @@ const Movies = () => {
   const [numOfPages, setNumOfPages] = useState<number>();
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
+  // const [loading, setLoading] = useState<boolean>(true);
   const genreforURL = useGenres(selectedGenres);
 
   useEffect(() => {
     fetchData();
-  }, [genreforURL, page]); // eslint-disable-line
+  }, [page, genreforURL]); // eslint-disable-line
 
   const fetchData = async () => {
-    const data = fetchMovies(page, genreforURL);
-
-    data
-      .then((response) => {
-        setContent(response.results);
-        setNumOfPages(response.total_pages);
-        if (Array.isArray(response.genre_ids)) {
-          setSelectedGenres(response.genre_ids);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
+    // setLoading(true);
+    try {
+      const response = await fetchMovies(page, genreforURL);
+      setContent(response.results);
+      setNumOfPages(response.total_pages);
+      // setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      // setLoading(false);
+    }
   };
 
   return (
@@ -48,6 +46,12 @@ const Movies = () => {
           setGenres={setGenres}
           setPage={setPage}
         />
+        {/* {loading ? (
+          <div className="loading">
+            <div className="spinner"></div>
+            <p>Loading...</p>
+          </div>
+        ) : ( */}
         <div className="movies__container">
           {Array.isArray(content) &&
             content.map((movie: Result) => (
@@ -64,6 +68,7 @@ const Movies = () => {
             <CustomePagination setPage={setPage} numberOfPages={numOfPages} />
           )}
         </div>
+        {/* )} */}
       </div>
       <Footer />
     </>

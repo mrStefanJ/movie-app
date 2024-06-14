@@ -60,7 +60,8 @@ const Content = ({
     setVideo(videoData);
   };
 
-  console.log(video);
+  console.log(content);
+  console.log(media_type);
   return (
     <>
       <div
@@ -138,6 +139,12 @@ const Content = ({
                                 </ul>
                               </TableCell>
                             </TableRow>
+                            {media_type === "tv" && (
+                              <TableRow>
+                                <TableCell>Seasons</TableCell>
+                                <TableCell>{content.seasons.length}</TableCell>
+                              </TableRow>
+                            )}
                             <TableRow>
                               <TableCell>Laguage</TableCell>
                               <TableCell>{content.original_language}</TableCell>

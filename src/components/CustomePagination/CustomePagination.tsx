@@ -9,9 +9,11 @@ const CustomePagination = ({
   setPage,
   numberOfPages,
 }: CustomePaginationProps) => {
+  const maxPage = 20;
+
   const handleChange = (page: number) => {
     setPage(page);
-    window.scroll(0, 0);
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -24,10 +26,10 @@ const CustomePagination = ({
       }}
     >
       <Pagination
-        count={numberOfPages}
+        count={Math.min(numberOfPages, maxPage)}
         onChange={(e, page) => handleChange(page)}
-        hideNextButton
-        hidePrevButton
+        hideNextButton={numberOfPages <= maxPage}
+        hidePrevButton={numberOfPages <= maxPage}
       />
     </Box>
   );

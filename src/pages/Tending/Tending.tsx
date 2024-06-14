@@ -10,28 +10,39 @@ const Tending = () => {
   const [content, setContent] = useState<Movie>();
   const [numOfPages, setNumOfPages] = useState<number>();
   const [page, setPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetchData();
   }, [page]); // eslint-disable-line
 
   const fetchData = async () => {
-    const data = fetchTending(page);
-    data
-      .then((response) => {
-        setContent(response.results);
-        setNumOfPages(response.total_pages);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
+    setLoading(true);
+    try {
+      const response = await fetchTending(page);
+      setContent(response.results);
+      setNumOfPages(response.total_pages);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      setLoading(false);
+    }
   };
 
-  console.log(content);
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
 
+  console.log("Page: ", page);
   return (
     <>
       <div className="tending">
+        {/* {loading ? (
+          <div className="loading">
+            <div className="spinner"></div>
+            <p>Loading...</p>
+          </div>
+        ) : ( */}
         <div className="tending__container">
           {Array.isArray(content) &&
             content.map((tending: Result) => (
@@ -45,9 +56,10 @@ const Tending = () => {
               />
             ))}
           {numOfPages && numOfPages > 1 && (
-            <CustomePagination setPage={setPage} numberOfPages={10} />
+            <CustomePagination setPage={handlePageChange} numberOfPages={10} />
           )}
         </div>
+        {/* )} */}
       </div>
       <Footer />
     </>
