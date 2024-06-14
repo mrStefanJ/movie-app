@@ -10,22 +10,22 @@ const Tending = () => {
   const [content, setContent] = useState<Movie>();
   const [numOfPages, setNumOfPages] = useState<number>();
   const [page, setPage] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetchData();
   }, [page]); // eslint-disable-line
 
   const fetchData = async () => {
-    setLoading(true);
+    // setLoading(true);
     try {
       const response = await fetchTending(page);
       setContent(response.results);
       setNumOfPages(response.total_pages);
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       console.error("Error fetching data: ", error);
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
