@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { SingleContent } from "../../components/SingleContent";
 import { fetchMovies } from "../../data/dataJSON";
-import { Movie, Result } from "../../type/movie";
+import { Movie, Result } from "../../type/show";
 import { CustomePagination } from "../../components/CustomePagination";
 import { Genres } from "../../components/Genres";
 import useGenres from "../../CustomHook/useGenres";
 import { Genre } from "../../type/genre";
 import "./style.scss";
+import { Footer } from "../../components/Footer";
 
 const Movies = () => {
   const [content, setContent] = useState<Movie>();
@@ -37,33 +38,35 @@ const Movies = () => {
   };
 
   return (
-    <div className="movies">
-      <Genres
-        type="movie"
-        selectedGenres={selectedGenres}
-        setSelectedGenres={setSelectedGenres}
-        genres={genres}
-        setGenres={setGenres}
-        setPage={setPage}
-      />
-      <div className="movies__container">
-        {Array.isArray(content) &&
-          content.map((movie: Result) => (
-            <SingleContent
-              key={movie.id}
-              id={movie.id}
-              poster={movie.poster_path}
-              title={movie.title || movie.name}
-              date={movie.first_air_date || movie.release_date}
-              media_type="movie"
-              vote_average={movie.vote_average}
-            />
-          ))}
-        {numOfPages && numOfPages > 1 && (
-          <CustomePagination setPage={setPage} numberOfPages={numOfPages} />
-        )}
+    <>
+      <div className="movies">
+        <Genres
+          type="movie"
+          selectedGenres={selectedGenres}
+          setSelectedGenres={setSelectedGenres}
+          genres={genres}
+          setGenres={setGenres}
+          setPage={setPage}
+        />
+        <div className="movies__container">
+          {Array.isArray(content) &&
+            content.map((movie: Result) => (
+              <SingleContent
+                key={movie.id}
+                id={movie.id}
+                poster={movie.poster_path}
+                title={movie.title || movie.name}
+                media_type="movie"
+                vote_average={movie.vote_average}
+              />
+            ))}
+          {numOfPages && numOfPages > 1 && (
+            <CustomePagination setPage={setPage} numberOfPages={numOfPages} />
+          )}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

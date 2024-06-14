@@ -1,6 +1,5 @@
 import "./App.scss";
 import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Container } from "@mui/material";
 import { Movies } from "./pages/Movies";
@@ -23,7 +22,6 @@ function App() {
             </Routes>
           </Container>
         </div>
-        <Footer />
       </BrowserRouter>
     </>
   );

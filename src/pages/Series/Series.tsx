@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { SingleContent } from "../../components/SingleContent";
 import { fetchSeries } from "../../data/dataJSON";
-import { Movie, Result } from "../../type/movie";
+import { Movie, Result } from "../../type/show";
 import { CustomePagination } from "../../components/CustomePagination";
 import "./style.scss";
 import useGenres from "../../CustomHook/useGenres";
 import { Genre } from "../../type/genre";
 import { Genres } from "../../components/Genres";
+import { Footer } from "../../components/Footer";
 
 const Series = () => {
   const [content, setContent] = useState<Movie>();
@@ -33,33 +34,35 @@ const Series = () => {
   };
 
   return (
-    <div className="series">
-      <Genres
-        type="tv"
-        selectedGenres={selectedGenres}
-        setSelectedGenres={setSelectedGenres}
-        genres={genres}
-        setGenres={setGenres}
-        setPage={setPage}
-      />
-      <div className="series__container">
-        {Array.isArray(content) &&
-          content.map((serie: Result) => (
-            <SingleContent
-              key={serie.id}
-              id={serie.id}
-              poster={serie.poster_path}
-              title={serie.title || serie.name}
-              date={serie.release_date || serie.first_air_date}
-              media_type="tv"
-              vote_average={serie.vote_average}
-            />
-          ))}
-        {numOfPages && numOfPages > 1 && (
-          <CustomePagination setPage={setPage} numberOfPages={numOfPages} />
-        )}
+    <>
+      <div className="series">
+        <Genres
+          type="tv"
+          selectedGenres={selectedGenres}
+          setSelectedGenres={setSelectedGenres}
+          genres={genres}
+          setGenres={setGenres}
+          setPage={setPage}
+        />
+        <div className="series__container">
+          {Array.isArray(content) &&
+            content.map((serie: Result) => (
+              <SingleContent
+                key={serie.id}
+                id={serie.id}
+                poster={serie.poster_path}
+                title={serie.title || serie.name}
+                media_type="tv"
+                vote_average={serie.vote_average}
+              />
+            ))}
+          {numOfPages && numOfPages > 1 && (
+            <CustomePagination setPage={setPage} numberOfPages={numOfPages} />
+          )}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { SingleContent } from "../../components/SingleContent";
 import { fetchTending } from "../../data/dataJSON";
 import "./style.scss";
-import { Movie, Result } from "../../type/movie";
+import { Movie, Result } from "../../type/show";
 import { CustomePagination } from "../../components/CustomePagination";
+import { Footer } from "../../components/Footer";
 
 const Tending = () => {
   const [content, setContent] = useState<Movie>();
@@ -26,26 +27,30 @@ const Tending = () => {
       });
   };
 
+  console.log(content);
+
   return (
-    <div className="tending">
-      <div className="tending__container">
-        {Array.isArray(content) &&
-          content.map((tending: Result) => (
-            <SingleContent
-              key={tending.id}
-              id={tending.id}
-              poster={tending.poster_path}
-              title={tending.title || tending.name}
-              date={tending.first_air_date || tending.release_date}
-              media_type={tending.media_type}
-              vote_average={tending.vote_average}
-            />
-          ))}
-        {numOfPages && numOfPages > 1 && (
-          <CustomePagination setPage={setPage} numberOfPages={10} />
-        )}
+    <>
+      <div className="tending">
+        <div className="tending__container">
+          {Array.isArray(content) &&
+            content.map((tending: Result) => (
+              <SingleContent
+                key={tending.id}
+                id={tending.id}
+                poster={tending.poster_path}
+                title={tending.title || tending.name}
+                media_type={tending.media_type}
+                vote_average={tending.vote_average}
+              />
+            ))}
+          {numOfPages && numOfPages > 1 && (
+            <CustomePagination setPage={setPage} numberOfPages={10} />
+          )}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
