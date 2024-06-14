@@ -41,19 +41,33 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
 
-  & > a {
-    margin: 0 10px;
-    color: $white;
-    font-size: 12px;
-    text-align: center;
-    &:hover {
-      box-shadow: 1px -1px 14px $grey;
-      border-radius: 20px;
-    }
+.navigation__link a {
+  margin: 0 10px;
+  color: #fff; /* Replace with your $white variable if using a preprocessor */
+  font-size: 12px;
+  text-align: center;
+  position: relative;
+  text-decoration: none;
 
-    @include breakpoint(tablet) {
-      font-size: 16px;
-    }
+  @include breakpoint(tablet) {
+    font-size: 16px;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #fff; /* Replace with your desired color */
+    position: absolute;
+    bottom: -3px; /* Adjust based on your preference */
+    left: 0;
+    transition: width 0.3s ease-in-out;
+  }
+
+  &:hover::after {
+    width: 100%;
   }
 }
