@@ -14,7 +14,6 @@
 
 .content__media {
   display: block;
-  background: $blue-light;
   margin: 10px;
   padding-bottom: 10px;
   border-radius: 20px;
@@ -22,24 +21,24 @@
   position: relative;
   transform: scale(0.8);
   opacity: 0;
-  animation: zoomIn 0.5s forwards; 
+  animation: zoomIn 0.5s forwards;
 
   img {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 220px;
+    height: 250px;
     -moz-border-radius: 0px;
     -webkit-border-radius: 3px 3px 0px 0px;
-    border-radius: 20px 20px 0px 0px;
+    border-radius: 20px;
 
     @include breakpoint(tablet) {
       height: 350px;
     }
   }
 
-  &:hover {
-    box-shadow: 9px 9px 6px 2px $blue-dark;
+  &:hover .content__subTitle {
+    opacity: 1;
   }
 
   @include breakpoint(mobile-horizontal) {
@@ -48,8 +47,8 @@
   }
   @include breakpoint(tablet) {
     width: 20%;
+    height: 340px;
   }
-
 }
 
 .content__title {
@@ -60,17 +59,41 @@
   padding-top: 5px;
   padding-bottom: 10px;
   font-size: 11px;
+
+  @include breakpoint(tablet) {
+    font-size: 18px;
+  }
 }
 
 .content__subTitle {
+  margin-bottom: 14px;
+  height: 30%;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  transition: 0.5s ease;
+  opacity: 0;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 0 0 20px 20px;
   display: flex;
   flex-direction: column;
-  font-size: 11px;
   flex-wrap: nowrap;
-  height: 30%;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: space-around;
+
+  .content__detail{
+    .content__media-type {
+      color: $white;
+      font-size: 12px;
+    }
+  }
 
   @include breakpoint(mobile-horizontal) {
     height: 100%;
+  }
+
+  @include breakpoint(tablet) {
+    margin-bottom: 0;
   }
 }

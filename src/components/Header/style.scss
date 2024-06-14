@@ -39,10 +39,11 @@
 .navigation__link {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
 
   & > a {
+    margin: 0 10px;
     color: $white;
     font-size: 12px;
     text-align: center;

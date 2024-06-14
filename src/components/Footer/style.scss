@@ -1,12 +1,9 @@
 @import "../../style/variable.scss";
 
 .footer {
-  position: fixed;
-  bottom: 0;
   text-align: center;
   width: 100%;
   background: $blue;
   color: $white;
   padding: 20px 0;
-  z-index: 2;
 }
