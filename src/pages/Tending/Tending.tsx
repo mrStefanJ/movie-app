@@ -20,7 +20,7 @@ const Tending = () => {
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     if (!initialLoading) {
