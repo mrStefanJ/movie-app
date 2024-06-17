@@ -5,27 +5,41 @@ import "./style.scss";
 import { Movie, Result } from "../../type/show";
 import { CustomePagination } from "../../components/CustomePagination";
 import { Footer } from "../../components/Footer";
+import { Search } from "../../components/SearchElement";
 
 const Tending = () => {
   const [content, setContent] = useState<Movie>();
   const [numOfPages, setNumOfPages] = useState<number>();
   const [page, setPage] = useState<number>(1);
-  // const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
+  const [searchInput, setSearchInput] = useState<string>("");
 
   useEffect(() => {
-    fetchData();
+    const timer = setTimeout(() => {
+      setInitialLoading(false);
+      fetchData();
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!initialLoading) {
+      fetchData();
+    }
   }, [page]); // eslint-disable-line
 
   const fetchData = async () => {
-    // setLoading(true);
+    setLoading(false);
     try {
       const response = await fetchTending(page);
       setContent(response.results);
       setNumOfPages(response.total_pages);
-      // setLoading(false);
+      setLoading(true);
     } catch (error) {
       console.error("Error fetching data: ", error);
-      // setLoading(false);
+      setLoading(true);
     }
   };
 
@@ -33,33 +47,47 @@ const Tending = () => {
     setPage(newPage);
   };
 
-  console.log("Page: ", page);
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchInput(event.target.value);
+  };
+
+  console.log(searchInput);
+
   return (
     <>
       <div className="tending">
-        {/* {loading ? (
+        {initialLoading || !loading ? (
           <div className="loading">
             <div className="spinner"></div>
-            <p>Loading...</p>
           </div>
-        ) : ( */}
-        <div className="tending__container">
-          {Array.isArray(content) &&
-            content.map((tending: Result) => (
-              <SingleContent
-                key={tending.id}
-                id={tending.id}
-                poster={tending.poster_path}
-                title={tending.title || tending.name}
-                media_type={tending.media_type}
-                vote_average={tending.vote_average}
-              />
-            ))}
-          {numOfPages && numOfPages > 1 && (
-            <CustomePagination setPage={handlePageChange} numberOfPages={10} />
-          )}
-        </div>
-        {/* )} */}
+        ) : (
+          <>
+            <div className="search__tending">
+              <Search value={searchInput} onChange={handleSearchInputChange} />
+            </div>
+            <div className="tending__container">
+              {Array.isArray(content) &&
+                content.map((tending: Result) => (
+                  <SingleContent
+                    key={tending.id}
+                    id={tending.id}
+                    poster={tending.poster_path}
+                    title={tending.title || tending.name}
+                    media_type={tending.media_type}
+                    vote_average={tending.vote_average}
+                  />
+                ))}
+              {numOfPages && numOfPages > 1 && (
+                <CustomePagination
+                  setPage={handlePageChange}
+                  numberOfPages={10}
+                />
+              )}
+            </div>
+          </>
+        )}
       </div>
       <Footer />
     </>
