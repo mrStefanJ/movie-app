@@ -5,7 +5,6 @@ import "./style.scss";
 import { Movie, Result } from "../../type/show";
 import { CustomePagination } from "../../components/CustomePagination";
 import { Footer } from "../../components/Footer";
-import { Search } from "../../components/SearchElement";
 
 const Tending = () => {
   const [content, setContent] = useState<Movie>();
@@ -13,7 +12,6 @@ const Tending = () => {
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
-  const [searchInput, setSearchInput] = useState<string>("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -47,14 +45,6 @@ const Tending = () => {
     setPage(newPage);
   };
 
-  const handleSearchInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchInput(event.target.value);
-  };
-
-  console.log(searchInput);
-
   return (
     <>
       <div className="tending">
@@ -64,9 +54,6 @@ const Tending = () => {
           </div>
         ) : (
           <>
-            <div className="search__tending">
-              <Search value={searchInput} onChange={handleSearchInputChange} />
-            </div>
             <div className="tending__container">
               {Array.isArray(content) &&
                 content.map((tending: Result) => (
