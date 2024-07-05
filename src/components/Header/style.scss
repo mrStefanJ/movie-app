@@ -11,19 +11,15 @@
   background-color: $blue;
   color: $white;
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
   align-items: center;
   box-shadow: 4px 7px 21px $black;
 }
 
-.header__title {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
+.header__icon {
+  margin-left: 10px;
   font-size: 20px;
 }
 
@@ -32,21 +28,83 @@
 }
 
 .header__nav {
-  width: 100%;
   margin: 10px 0;
 }
 
-.navigation__link {
+.navigation__link--mobile {
+  position: absolute;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  background: $blue;
+  top: 100%;
+  left: -100%;
+  transition: left 0.3s ease-out;
+  height: 150px;
+  justify-content: space-around;
+  width: 100px;
+  padding-left: 15px;
+
+  @include breakpoint(tablet) {
+    display: none;
+  }
+}
+
+.navigation__link--mobile {
+
+  &.show {
+    left: 0%;
+  }
+
+  a {
+    color: white;
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 2px;
+      background: white;
+      position: absolute;
+      top: 20px;
+      left: 0;
+      transition: width 0.3s ease-in-out;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+}
+
+
+.navigation__icon {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: $white;
+  margin-left: 10px;
+  @include breakpoint(tablet) {
+    display: none;
+  }
+}
+
+.navigation__link {
+  display: none;
+  @include breakpoint(tablet) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .navigation__link a {
   margin: 0 10px;
   color: #fff;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
   position: relative;
   text-decoration: none;
@@ -56,11 +114,11 @@
   }
 
   &::after {
-    content: '';
+    content: "";
     display: block;
     width: 0;
     height: 2px;
-    background: #fff;
+    background: $white;
     position: absolute;
     bottom: -3px;
     left: 0;

@@ -7,9 +7,8 @@ const Header = () => {
   return (
     <>
       <Box className="header">
-        <Box className="header__title">
+        <Box className="header__icon">
           <MovieCreationOutlinedIcon fontSize="large" />
-          <p className="title">Movies / Series</p>
         </Box>
         <Box className="header__nav">
           <MainNav />
