@@ -27,7 +27,7 @@ export const fetchMovies = async (page: number, genreforURL: string) => {
 export const fetchSeries = async (page: number, genreforURL: string) => {
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/discovr/tv?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genreforURL}`
+      `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genreforURL}`
     );
     if (response.status === 200) return response.data;
   } catch (error) {

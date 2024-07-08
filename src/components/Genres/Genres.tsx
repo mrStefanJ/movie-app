@@ -7,7 +7,7 @@ import "./style.scss";
 
 const Genres = ({
   type,
-  selectedGenres,
+  selectedGenres = [], // Default to empty array if not provided
   setSelectedGenres,
   setGenres,
   genres,
@@ -42,7 +42,6 @@ const Genres = ({
 
   const handleAdd = (genre: Genre) => {
     setSelectedGenres([...selectedGenres, genre]);
-    setGenres(genres.filter((g: Genre) => g.id !== genre.id));
     setPage(1);
   };
 
@@ -50,36 +49,35 @@ const Genres = ({
     setSelectedGenres(
       selectedGenres.filter((selected: Genre) => selected.id !== genre.id)
     );
-    setGenres([...genres, genre]);
     setPage(1);
   };
+
+  const selectedGenreIds = new Set(selectedGenres.map((genre) => genre.id));
 
   return (
     <>
       <div className="genres__container">
         <div className="genres__name">
           <Stack spacing={1}>
-            {selectedGenres &&
-              selectedGenres.map((genre: Genre) => (
-                <Chip
-                  label={`${genre.name}`}
-                  key={genre.id}
-                  variant="outlined"
-                  color="primary"
-                  clickable
-                  onDelete={() => handleRemove(genre)}
-                />
-              ))}
             {genres &&
-              genres.map((genre: Genre) => (
-                <Chip
-                  label={`${genre.name}`}
-                  key={genre.id}
-                  variant="outlined"
-                  clickable
-                  onClick={() => handleAdd(genre)}
-                />
-              ))}
+              genres.map((genre: Genre) => {
+                const isSelected = selectedGenreIds.has(genre.id);
+                return (
+                  <Chip
+                    label={`${genre.name}`}
+                    key={genre.id}
+                    variant="outlined"
+                    color={isSelected ? "primary" : "default"}
+                    clickable
+                    onClick={() =>
+                      isSelected ? handleRemove(genre) : handleAdd(genre)
+                    }
+                    onDelete={
+                      isSelected ? () => handleRemove(genre) : undefined
+                    }
+                  />
+                );
+              })}
           </Stack>
         </div>
         <div className="genres__icon">

@@ -55,7 +55,7 @@ const Series = () => {
           </div>
         ) : (
           <div className="series__container">
-            {Array.isArray(content) &&
+            {Array.isArray(content) && content.length > 0 ? (
               content.map((serie: Result) => (
                 <SingleContent
                   key={serie.id}
@@ -65,7 +65,12 @@ const Series = () => {
                   media_type="tv"
                   vote_average={serie.vote_average}
                 />
-              ))}
+              ))
+            ) : (
+              <div className="no-series">
+                Serie does not exist by selected genres
+              </div>
+            )}
             {numOfPages && numOfPages > 1 && (
               <CustomePagination setPage={setPage} numberOfPages={numOfPages} />
             )}

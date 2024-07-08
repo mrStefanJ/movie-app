@@ -55,7 +55,7 @@ const Movies = () => {
           </div>
         ) : (
           <div className="movies__container">
-            {Array.isArray(content) &&
+            {Array.isArray(content) && content.length > 0 ? (
               content.map((movie: Result) => (
                 <SingleContent
                   key={movie.id}
@@ -65,7 +65,12 @@ const Movies = () => {
                   media_type="movie"
                   vote_average={movie.vote_average}
                 />
-              ))}
+              ))
+            ) : (
+              <div className="no-series">
+                Movie does not exist by selected genres
+              </div>
+            )}
             {numOfPages && numOfPages > 1 && (
               <CustomePagination setPage={setPage} numberOfPages={numOfPages} />
             )}
