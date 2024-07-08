@@ -1,37 +1,32 @@
-import { Box, Pagination } from "@mui/material";
+import { Pagination, Stack } from "@mui/material";
+import React from "react";
 
 interface CustomePaginationProps {
   setPage: (page: number) => void;
   numberOfPages: number;
 }
 
-const CustomePagination = ({
+const CustomePagination: React.FC<CustomePaginationProps> = ({
   setPage,
-  numberOfPages,
-}: CustomePaginationProps) => {
+  numberOfPages = 10,
+}) => {
   const maxPage = 20;
 
-  const handleChange = (page: number) => {
+  const handlePageChange = (page: number) => {
     setPage(page);
     window.scrollTo(0, 0);
   };
 
   return (
-    <Box
-      style={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        marginTop: 18,
-      }}
-    >
+    <Stack spacing={2}>
       <Pagination
         count={Math.min(numberOfPages, maxPage)}
-        onChange={(e, page) => handleChange(page)}
+        onChange={(e, page) => handlePageChange(page)}
         hideNextButton={numberOfPages <= maxPage}
         hidePrevButton={numberOfPages <= maxPage}
+        color="primary"
       />
-    </Box>
+    </Stack>
   );
 };
 

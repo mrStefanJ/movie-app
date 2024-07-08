@@ -60,8 +60,6 @@ const Content = ({
     setVideo(videoData);
   };
 
-  console.log(content);
-  console.log(media_type);
   return (
     <>
       <div
