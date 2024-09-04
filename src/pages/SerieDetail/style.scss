@@ -1,0 +1,64 @@
+@import "../../style/mixin.scss";
+
+.serie-details {
+  width: 100%;
+}
+
+.serie__but {
+  width: auto;
+  margin: 10px;
+  text-align: end;
+}
+
+.serie-detail {
+  display: flex;
+  flex-direction: column;
+  @include breakpoint(tablet) {
+    flex-direction: row;
+  }
+}
+
+.serie-detail__title {
+  font-size: 18px;
+  padding: 20px 0;
+}
+
+.serie-detail__description {
+  font-size: 14px;
+  padding-bottom: 30px;
+}
+
+.serie-detail__actor {
+  margin-bottom: 20px;
+}
+
+.genre-list {
+  padding-left: 0;
+}
+
+.genre-item {
+  display: inline;
+}
+
+.genre-item::after {
+  content: ", ";
+}
+
+.genre-item:last-child::after {
+  content: "";
+}
+
+.image__portrait {
+  display: none;
+  @include breakpoint(tablet) {
+    display: block;
+  }
+}
+
+.image__landscape {
+  display: block;
+  width: 100%;
+  @include breakpoint(tablet) {
+    display: none;
+  }
+}

@@ -8,6 +8,7 @@ import useGenres from "../../CustomHook/useGenres";
 import { Movie, Result } from "../../type/show";
 import { Genre } from "../../type/genre";
 import "./style.scss";
+import { Link } from "react-router-dom";
 
 const Series = () => {
   const [content, setContent] = useState<Movie>();
@@ -57,14 +58,16 @@ const Series = () => {
           <div className="series__container">
             {Array.isArray(content) && content.length > 0 ? (
               content.map((serie: Result) => (
-                <SingleContent
-                  key={serie.id}
-                  id={serie.id}
-                  poster={serie.poster_path}
-                  title={serie.title || serie.name}
-                  media_type="tv"
-                  vote_average={serie.vote_average}
-                />
+                <Link to={`/serie/${serie.id}`}>
+                  <SingleContent
+                    key={serie.id}
+                    id={serie.id}
+                    poster={serie.poster_path}
+                    title={serie.title || serie.name}
+                    media_type="tv"
+                    vote_average={serie.vote_average}
+                  />
+                </Link>
               ))
             ) : (
               <div className="no-series">

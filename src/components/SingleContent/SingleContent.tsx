@@ -1,7 +1,6 @@
 import { Badge } from "../Badge";
 import { img_300, unavailable } from "../../config/config";
 import "./style.scss";
-import { Content } from "../Content";
 
 const SingleContent = ({
   id,
@@ -18,25 +17,20 @@ const SingleContent = ({
 }) => {
   return (
     <>
-      <Content media_type={media_type} id={id}>
-        <div className="content__media">
-          <Badge badgeContent={vote_average} />
-          <img
-            src={poster ? `${img_300}/${poster}` : unavailable}
-            alt={title}
-          />
-          <div className="content__subTitle">
-            <div className="title">
-              <p className="content__title">{title}</p>
-            </div>
-            <div className="content__detail">
-              <span className="content__media-type">
-                {media_type === "tv" ? "TV Series" : "Movie"}
-              </span>
-            </div>
+      <div className="content__media">
+        <Badge badgeContent={vote_average} />
+        <img src={poster ? `${img_300}/${poster}` : unavailable} alt={title} />
+        <div className="content__subTitle">
+          <div className="title">
+            <p className="content__title">{title}</p>
+          </div>
+          <div className="content__detail">
+            <span className="content__media-type">
+              {media_type === "tv" ? "TV Series" : "Movie"}
+            </span>
           </div>
         </div>
-      </Content>
+      </div>
     </>
   );
 };

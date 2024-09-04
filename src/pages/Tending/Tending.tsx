@@ -5,12 +5,15 @@ import "./style.scss";
 import { Movie, Result } from "../../type/show";
 import { CustomePagination } from "../../components/CustomePagination";
 import { Footer } from "../../components/Footer";
+import { useParams } from "react-router-dom";
 
 const Tending = () => {
   const [content, setContent] = useState<Movie>();
   const [numOfPages, setNumOfPages] = useState<number>();
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
+  const { id } = useParams();
+  console.log(id);
 
   useEffect(() => {
     setTimeout(() => {

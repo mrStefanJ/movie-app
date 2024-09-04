@@ -8,6 +8,7 @@ import useGenres from "../../CustomHook/useGenres";
 import { Genre } from "../../type/genre";
 import { Movie, Result } from "../../type/show";
 import "./style.scss";
+import { Link } from "react-router-dom";
 
 const Movies = () => {
   const [content, setContent] = useState<Movie>();
@@ -17,6 +18,7 @@ const Movies = () => {
   const [genres, setGenres] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const genreforURL = useGenres(selectedGenres);
+  console.log(content);
 
   useEffect(() => {
     setTimeout(() => {
@@ -57,14 +59,16 @@ const Movies = () => {
           <div className="movies__container">
             {Array.isArray(content) && content.length > 0 ? (
               content.map((movie: Result) => (
-                <SingleContent
-                  key={movie.id}
-                  id={movie.id}
-                  poster={movie.poster_path}
-                  title={movie.title}
-                  media_type="movie"
-                  vote_average={movie.vote_average}
-                />
+                <Link to={`/movie/${movie.id}`}>
+                  <SingleContent
+                    key={movie.id}
+                    id={movie.id}
+                    poster={movie.poster_path}
+                    title={movie.title}
+                    media_type="movie"
+                    vote_average={movie.vote_average}
+                  />
+                </Link>
               ))
             ) : (
               <div className="no-series">
