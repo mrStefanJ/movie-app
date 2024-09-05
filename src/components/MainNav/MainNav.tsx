@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -20,7 +20,7 @@ const Navigation = () => {
         <Link to="/">Home</Link>
         <Link to="/tending">Tending</Link>
         <Link to="/movies">Movies</Link>
-        <Link to="/series">Series</Link>
+        <Link to="/tv-shows">TV Shows</Link>
       </nav>
       <button onClick={toggleMobileNav} className="navigation__icon">
         {isMobileNavVisible ? <CloseOutlinedIcon /> : <MenuOutlinedIcon />}

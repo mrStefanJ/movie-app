@@ -8,17 +8,22 @@ import useGenres from "../../CustomHook/useGenres";
 import { Genre } from "../../type/genre";
 import { Movie, Result } from "../../type/show";
 import "./style.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const Movies = () => {
+  const { number } = useParams();
+  const navigate = useNavigate();
   const [content, setContent] = useState<Movie>();
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(Number(number) || 1);
   const [numOfPages, setNumOfPages] = useState<number>();
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
   const [genres, setGenres] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const genreforURL = useGenres(selectedGenres);
-  console.log(content);
+
+  useEffect(() => {
+    navigate(`/movies/${page}`);
+  }, [page, navigate]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -59,10 +64,8 @@ const Movies = () => {
           <div className="movies__container">
             {Array.isArray(content) && content.length > 0 ? (
               content.map((movie: Result) => (
-                <Link to={`/movie/${movie.id}`}>
+                <Link key={movie.id} to={`/movie/${movie.id}`}>
                   <SingleContent
-                    key={movie.id}
-                    id={movie.id}
                     poster={movie.poster_path}
                     title={movie.title}
                     media_type="movie"
@@ -76,7 +79,11 @@ const Movies = () => {
               </div>
             )}
             {numOfPages && numOfPages > 1 && (
-              <CustomePagination setPage={setPage} numberOfPages={numOfPages} />
+              <CustomePagination
+                setPage={setPage}
+                numberOfPages={numOfPages}
+                currentPage={Number(number)}
+              />
             )}
           </div>
         )}

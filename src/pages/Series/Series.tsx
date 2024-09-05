@@ -8,9 +8,11 @@ import useGenres from "../../CustomHook/useGenres";
 import { Movie, Result } from "../../type/show";
 import { Genre } from "../../type/genre";
 import "./style.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const Series = () => {
+  const { number } = useParams();
+  const navigate = useNavigate();
   const [content, setContent] = useState<Movie>();
   const [page, setPage] = useState<number>(1);
   const [numOfPages, setNumOfPages] = useState<number>(0);
@@ -18,6 +20,10 @@ const Series = () => {
   const [genres, setGenres] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const genreforURL = useGenres(selectedGenres);
+
+  useEffect(() => {
+    navigate(`/tv-shows/${page}`);
+  }, [page, navigate]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -58,10 +64,8 @@ const Series = () => {
           <div className="series__container">
             {Array.isArray(content) && content.length > 0 ? (
               content.map((serie: Result) => (
-                <Link to={`/serie/${serie.id}`}>
+                <Link key={serie.id} to={`/tv/${serie.id}`}>
                   <SingleContent
-                    key={serie.id}
-                    id={serie.id}
                     poster={serie.poster_path}
                     title={serie.title || serie.name}
                     media_type="tv"
@@ -75,7 +79,11 @@ const Series = () => {
               </div>
             )}
             {numOfPages && numOfPages > 1 && (
-              <CustomePagination setPage={setPage} numberOfPages={numOfPages} />
+              <CustomePagination
+                setPage={setPage}
+                numberOfPages={numOfPages}
+                currentPage={Number(number)}
+              />
             )}
           </div>
         )}

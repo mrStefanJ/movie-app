@@ -4,15 +4,20 @@ import React from "react";
 interface CustomePaginationProps {
   setPage: (page: number) => void;
   numberOfPages: number;
+  currentPage: number;
 }
 
 const CustomePagination: React.FC<CustomePaginationProps> = ({
   setPage,
   numberOfPages = 10,
+  currentPage,
 }) => {
-  const maxPage = 20;
+  const maxPage = 30;
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
     setPage(page);
     window.scrollTo(0, 0);
   };
@@ -21,10 +26,11 @@ const CustomePagination: React.FC<CustomePaginationProps> = ({
     <Stack spacing={2}>
       <Pagination
         count={Math.min(numberOfPages, maxPage)}
-        onChange={(e, page) => handlePageChange(page)}
+        onChange={handlePageChange}
         hideNextButton={numberOfPages <= maxPage}
         hidePrevButton={numberOfPages <= maxPage}
         color="primary"
+        page={currentPage}
       />
     </Stack>
   );

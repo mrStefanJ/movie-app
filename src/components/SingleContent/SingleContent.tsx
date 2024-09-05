@@ -3,13 +3,11 @@ import { img_300, unavailable } from "../../config/config";
 import "./style.scss";
 
 const SingleContent = ({
-  id,
   poster,
   title,
   media_type,
   vote_average,
 }: {
-  id: number;
   poster: string;
   title: string;
   media_type: string;

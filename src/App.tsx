@@ -18,11 +18,11 @@ function App() {
           <Container>
             <Routes>
               <Route path="" element={<Home />} />
-              <Route path="/tending" element={<Tending />} />
-              <Route path="/movies" element={<Movies />} />
+              <Route path="/tending/:number?" element={<Tending />} />
+              <Route path="/movies/:number?" element={<Movies />} />
               <Route path="/movie/:id" element={<MovieDetail />} />
-              <Route path="/series" element={<Series />} />
-              <Route path="/serie/:id" element={<SerieDetail />} />
+              <Route path="/tv-shows/:number?" element={<Series />} />
+              <Route path="/tv/:id" element={<SerieDetail />} />
             </Routes>
           </Container>
         </div>

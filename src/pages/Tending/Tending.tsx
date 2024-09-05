@@ -5,15 +5,21 @@ import "./style.scss";
 import { Movie, Result } from "../../type/show";
 import { CustomePagination } from "../../components/CustomePagination";
 import { Footer } from "../../components/Footer";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const Tending = () => {
+  const { number } = useParams();
+  const navigate = useNavigate();
   const [content, setContent] = useState<Movie>();
   const [numOfPages, setNumOfPages] = useState<number>();
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
   const { id } = useParams();
   console.log(id);
+
+  useEffect(() => {
+    navigate(`/tending/${page}`);
+  }, [page, navigate]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -46,17 +52,24 @@ const Tending = () => {
           <div className="tending__container">
             {Array.isArray(content) &&
               content.map((tending: Result) => (
-                <SingleContent
+                <Link
                   key={tending.id}
-                  id={tending.id}
-                  poster={tending.poster_path}
-                  title={tending.title || tending.name}
-                  media_type={tending.media_type}
-                  vote_average={tending.vote_average}
-                />
+                  to={`/${tending.media_type}/${tending.id}`}
+                >
+                  <SingleContent
+                    poster={tending.poster_path}
+                    title={tending.title || tending.name}
+                    media_type={tending.media_type}
+                    vote_average={tending.vote_average}
+                  />
+                </Link>
               ))}
             {numOfPages && numOfPages > 1 && (
-              <CustomePagination setPage={setPage} numberOfPages={numOfPages} />
+              <CustomePagination
+                setPage={setPage}
+                numberOfPages={numOfPages}
+                currentPage={Number(number)}
+              />
             )}
           </div>
         )}
