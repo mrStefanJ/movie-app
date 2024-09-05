@@ -27,10 +27,10 @@ const SerieDetail = () => {
   const navigate = useNavigate();
   const [serie, setSerie] = useState<ShowDetails | null>(null);
   const [video, setVideo] = useState<Video>();
-  console.log(serie);
+
   useEffect(() => {
     fetchSerieDetails();
-    fetchVideoData();
+    fetchVideoData(); // eslint-disable-next-line
   }, [id]);
 
   const fetchSerieDetails = async () => {

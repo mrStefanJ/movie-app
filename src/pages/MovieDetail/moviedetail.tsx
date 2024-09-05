@@ -30,7 +30,7 @@ const MovieDetail = () => {
 
   useEffect(() => {
     fetchMovieDetails();
-    fetchVideoData();
+    fetchVideoData(); // eslint-disable-next-line
   }, [id]);
 
   const fetchMovieDetails = async () => {
