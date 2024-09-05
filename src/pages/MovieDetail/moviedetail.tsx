@@ -21,16 +21,25 @@ import { Genre } from "../../type/genre";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
 import { Carousel } from "../../components/Carousel";
 import "./style.scss";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 const MovieDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [movie, setMovie] = useState<ShowDetails | null>(null);
   const [video, setVideo] = useState<Video>();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchMovieDetails();
-    fetchVideoData(); // eslint-disable-next-line
+    fetchVideoData();
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line
   }, [id]);
 
   const fetchMovieDetails = async () => {
@@ -51,110 +60,112 @@ const MovieDetail = () => {
     }
   };
 
-  if (!movie) {
-    return <div>Loading...</div>;
-  }
-
-  console.log(movie);
-  console.log(video);
   return (
     <div className="movie-details">
-      <div className="movie__but">
-        <Button onClick={() => navigate(-1)} variant="outlined">
-          Back
-        </Button>
-      </div>
-      <div className="movie-detail__container">
-        <div className="movie-detail">
-          <div className="movie-detail__image">
-            <img
-              src={
-                movie.poster_path
-                  ? `${img_500}/${movie.poster_path}`
-                  : unavailable
-              }
-              alt={movie.name || movie.title}
-              className="image__portrait"
-            />
-            <img
-              src={
-                movie.backdrop_path
-                  ? `${img_500}/${movie.backdrop_path}`
-                  : unavailableLandscape
-              }
-              alt={movie.name || movie.title}
-              className="image__landscape"
-            />
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <div className="movie__but">
+            <Button onClick={() => navigate(-1)} variant="outlined">
+              Back
+            </Button>
           </div>
-          <div className="movie-detail__about">
-            <div className="movie-detail__title">
-              {movie.name || movie.title}
-            </div>
+          <div className="movie-detail__container">
+            <div className="movie-detail">
+              <div className="movie-detail__image">
+                <img
+                  src={
+                    movie?.poster_path
+                      ? `${img_500}/${movie?.poster_path}`
+                      : unavailable
+                  }
+                  alt={movie?.name || movie?.title}
+                  className="image__portrait"
+                />
+                <img
+                  src={
+                    movie?.backdrop_path
+                      ? `${img_500}/${movie?.backdrop_path}`
+                      : unavailableLandscape
+                  }
+                  alt={movie?.name || movie?.title}
+                  className="image__landscape"
+                />
+              </div>
+              <div className="movie-detail__about">
+                <div className="movie-detail__title">
+                  {movie?.name || movie?.title}
+                </div>
 
-            <div className="movie-detail__description">{movie.overview}</div>
-            {movie.tagline && (
-              <p className="movie__tagline">
-                <span>Tagline slogans: </span>
-                <i className="tagline">"{movie.tagline}"</i>
-              </p>
-            )}
-            <div className="movie-detail__table-details">
-              <TableContainer>
-                <Table aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Release date</TableCell>
-                      <TableCell>
-                        {movie.release_date || movie.first_air_date}
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>Genres</TableCell>
-                      <TableCell>
-                        <ul className="genre-list">
-                          {movie.genres.map((genre: Genre) => (
-                            <li key={genre.id} className="genre-item">
-                              {genre.name}
-                            </li>
-                          ))}
-                        </ul>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Laguage</TableCell>
-                      <TableCell>{movie.original_language}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Status</TableCell>
-                      <TableCell>{movie.status}</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                <div className="movie-detail__description">
+                  {movie?.overview}
+                </div>
+                {movie?.tagline && (
+                  <p className="movie__tagline">
+                    <span>Tagline slogans: </span>
+                    <i className="tagline">"{movie?.tagline}"</i>
+                  </p>
+                )}
+                <div className="movie-detail__table-details">
+                  <TableContainer>
+                    <Table aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Release date</TableCell>
+                          <TableCell>
+                            {movie?.release_date || movie?.first_air_date}
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>Genres</TableCell>
+                          <TableCell>
+                            <ul className="genre-list">
+                              {movie?.genres.map((genre: Genre) => (
+                                <li key={genre.id} className="genre-item">
+                                  {genre.name}
+                                </li>
+                              ))}
+                            </ul>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Laguage</TableCell>
+                          <TableCell>{movie?.original_language}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Status</TableCell>
+                          <TableCell>{movie?.status}</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </div>
+                <div></div>
+              </div>
             </div>
-            <div></div>
-          </div>
-        </div>
-        <div className="movie-detail__actor">
-          <div>
-            <Carousel id={id} media_type={"movie"} />
-          </div>
+            <div className="movie-detail__actor">
+              <div>
+                <Carousel id={id} media_type={"movie"} />
+              </div>
 
-          <Button
-            variant="contained"
-            startIcon={<SubscriptionsOutlinedIcon />}
-            color="secondary"
-            target="__blank"
-            href={`https://www.youtube.com/watch?v=${
-              video?.results[video?.results.length - 1]?.key
-            }`}
-          >
-            Watch the Trailer
-          </Button>
-        </div>
-      </div>
+              <Button
+                variant="contained"
+                startIcon={<SubscriptionsOutlinedIcon />}
+                color="secondary"
+                target="__blank"
+                href={`https://www.youtube.com/watch?v=${
+                  video?.results[video?.results.length - 1]?.key
+                }`}
+              >
+                Watch the Trailer
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
