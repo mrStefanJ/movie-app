@@ -14,7 +14,7 @@ const Series = () => {
   const { number } = useParams();
   const navigate = useNavigate();
   const [content, setContent] = useState<Movie>();
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(Number(number) || 1);
   const [numOfPages, setNumOfPages] = useState<number>(0);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
   const [genres, setGenres] = useState<any[]>([]);

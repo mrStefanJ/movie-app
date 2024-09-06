@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SingleContent } from "../../components/SingleContent";
-import { fetchTending } from "../../data/dataJSON";
+import { fetchTending, searchData } from "../../data/dataJSON";
 import "./style.scss";
 import { Movie, Result } from "../../type/show";
 import { CustomePagination } from "../../components/CustomePagination";
@@ -12,11 +12,9 @@ const Tending = () => {
   const navigate = useNavigate();
   const [content, setContent] = useState<Movie>();
   const [numOfPages, setNumOfPages] = useState<number>();
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(Number(number) || 1);
   const [loading, setLoading] = useState<boolean>(true);
-  const { id } = useParams();
-  console.log(id);
-
+  console.log(content);
   useEffect(() => {
     navigate(`/tending/${page}`);
   }, [page, navigate]);
@@ -41,6 +39,18 @@ const Tending = () => {
     }
   };
 
+  // const fetchSearchData = async () => {
+  //   try {
+  //     const response = await searchData("movie", searchText, page);
+  //     setContent(response.results);
+  //     setNumOfPages(response.total_pages);
+  //   } catch (error) {
+  //     console.error("Error fetching search data: ", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   return (
     <>
       <div className="tending">
@@ -50,6 +60,7 @@ const Tending = () => {
           </div>
         ) : (
           <div className="tending__container">
+            {/* <Search value={searchText} onChange={(e) => setSearchText(e.target.value)} /> */}
             {Array.isArray(content) &&
               content.map((tending: Result) => (
                 <Link

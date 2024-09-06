@@ -12,7 +12,7 @@ const CustomePagination: React.FC<CustomePaginationProps> = ({
   numberOfPages = 10,
   currentPage,
 }) => {
-  const maxPage = 30;
+  const maxPage = 100;
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
