@@ -3,19 +3,18 @@ import { fetchSeries } from "../../data/dataJSON";
 import { SingleContent } from "../../components/SingleContent";
 import { CustomePagination } from "../../components/CustomePagination";
 import { Genres } from "../../components/Genres";
-import { Footer } from "../../components/Footer";
 import useGenres from "../../CustomHook/useGenres";
-import { Movie, Result } from "../../type/show";
+import { Result } from "../../type/show";
 import { Genre } from "../../type/genre";
-import { Search } from "../../components/SearchElement"; // Import the Search component
-import { searchData } from "../../data/dataJSON"; // Import the search function
+import { Search } from "../../components/SearchElement";
+import { searchData } from "../../data/dataJSON";
 import "./style.scss";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const Series = () => {
   const { number } = useParams();
   const navigate = useNavigate();
-  const [content, setContent] = useState<Movie>();
+  const [content, setContent] = useState<Result[]>([]);
   const [page, setPage] = useState<number>(Number(number) || 1);
   const [numOfPages, setNumOfPages] = useState<number>(0);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
@@ -87,7 +86,7 @@ const Series = () => {
           </div>
         ) : (
           <div className="series__container">
-            {Array.isArray(searchResults) && searchResults.length > 0 ? (
+            {searchResults && searchResults.length > 0 ? (
               searchResults.map((serie: Result) => (
                 <Link key={serie.id} to={`/tv/${serie.id}`}>
                   <SingleContent
@@ -98,7 +97,7 @@ const Series = () => {
                   />
                 </Link>
               ))
-            ) : Array.isArray(content) && content.length > 0 ? (
+            ) : content.length > 0 ? (
               content.map((serie: Result) => (
                 <Link key={serie.id} to={`/tv/${serie.id}`}>
                   <SingleContent
@@ -114,15 +113,17 @@ const Series = () => {
                 Serie does not exist by selected genres
               </div>
             )}
-            {numOfPages && numOfPages > 1 && (
-              <CustomePagination
-                setPage={setPage}
-                numberOfPages={numOfPages}
-                currentPage={Number(number)}
-              />
-            )}
           </div>
         )}
+        <div className="series__pagination">
+          {numOfPages && numOfPages > 1 && (
+            <CustomePagination
+              setPage={setPage}
+              numberOfPages={numOfPages}
+              currentPage={Number(number)}
+            />
+          )}
+        </div>
       </div>
     </>
   );

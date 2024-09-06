@@ -1,12 +1,6 @@
 import SearchIcon from "@mui/icons-material/Search";
 import "./style.scss";
-import {
-  Box,
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-} from "@mui/material";
+import { Box, FormControl, InputLabel, OutlinedInput } from "@mui/material";
 
 interface SearchProps {
   value: string;

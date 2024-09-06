@@ -3,7 +3,6 @@ import { fetchMovies, searchData } from "../../data/dataJSON";
 import { SingleContent } from "../../components/SingleContent";
 import { CustomePagination } from "../../components/CustomePagination";
 import { Genres } from "../../components/Genres";
-import { Footer } from "../../components/Footer";
 import useGenres from "../../CustomHook/useGenres";
 import { Genre } from "../../type/genre";
 import { Result } from "../../type/show";
@@ -97,7 +96,7 @@ const Movies = () => {
                 </Link>
               ))
             ) : content.length > 0 ? (
-              content.map((movie) => (
+              content.map((movie: Result) => (
                 <Link key={movie.id} to={`/movie/${movie.id}`}>
                   <SingleContent
                     poster={movie.poster_path}

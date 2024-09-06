@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import "./style.scss";
 
 const Footer = () => {
