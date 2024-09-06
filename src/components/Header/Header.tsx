@@ -6,14 +6,14 @@ import { MainNav } from "../MainNav";
 const Header = () => {
   return (
     <>
-      <Box className="header">
+      <header className="header">
         <Box className="header__icon">
           <MovieCreationOutlinedIcon fontSize="large" />
         </Box>
         <Box className="header__nav">
           <MainNav />
         </Box>
-      </Box>
+      </header>
     </>
   );
 };

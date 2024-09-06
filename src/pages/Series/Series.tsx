@@ -7,6 +7,8 @@ import { Footer } from "../../components/Footer";
 import useGenres from "../../CustomHook/useGenres";
 import { Movie, Result } from "../../type/show";
 import { Genre } from "../../type/genre";
+import { Search } from "../../components/SearchElement"; // Import the Search component
+import { searchData } from "../../data/dataJSON"; // Import the search function
 import "./style.scss";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -19,22 +21,28 @@ const Series = () => {
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
   const [genres, setGenres] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [searchText, setSearchText] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<Result[]>([]);
   const genreforURL = useGenres(selectedGenres);
 
+  // Update URL on page change
   useEffect(() => {
     navigate(`/tv-shows/${page}`);
   }, [page, navigate]);
 
+  // Loading animation timeout
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 1500);
   }, []);
 
+  // Fetch data based on search text or genre selection
   useEffect(() => {
-    fetchData();
-  }, [page, genreforURL]); // eslint-disable-line
+    searchText ? fetchSearchData() : fetchData();
+  }, [page, genreforURL, searchText]); // eslint-disable-line
 
+  // Fetch series based on selected genres
   const fetchData = async () => {
     try {
       const data = await fetchSeries(page, genreforURL);
@@ -45,9 +53,26 @@ const Series = () => {
     }
   };
 
+  // Fetch movies based on search input
+  const fetchSearchData = async () => {
+    try {
+      const data = await searchData("tv", searchText, page);
+      setSearchResults(data.results);
+      setNumOfPages(data.total_pages);
+    } catch (error) {
+      console.error("Error fetching search data: ", error);
+    }
+  };
+
+  // Handle search input change
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value);
+  };
+
   return (
     <>
       <div className="series">
+        <Search value={searchText} onChange={handleSearchChange} />
         <Genres
           type="tv"
           selectedGenres={selectedGenres}
@@ -62,7 +87,18 @@ const Series = () => {
           </div>
         ) : (
           <div className="series__container">
-            {Array.isArray(content) && content.length > 0 ? (
+            {Array.isArray(searchResults) && searchResults.length > 0 ? (
+              searchResults.map((serie: Result) => (
+                <Link key={serie.id} to={`/tv/${serie.id}`}>
+                  <SingleContent
+                    poster={serie.poster_path}
+                    title={serie.title || serie.name}
+                    media_type="tv"
+                    vote_average={serie.vote_average}
+                  />
+                </Link>
+              ))
+            ) : Array.isArray(content) && content.length > 0 ? (
               content.map((serie: Result) => (
                 <Link key={serie.id} to={`/tv/${serie.id}`}>
                   <SingleContent
@@ -88,7 +124,6 @@ const Series = () => {
           </div>
         )}
       </div>
-      <Footer />
     </>
   );
 };

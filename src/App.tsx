@@ -8,13 +8,14 @@ import { Home } from "./pages/Home";
 import { Tending } from "./pages/Tending";
 import { MovieDetail } from "./pages/MovieDetail";
 import { SerieDetail } from "./pages/SerieDetail";
+import { Footer } from "./components/Footer";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Header />
-        <div className="App">
+        <main className="App">
           <Container>
             <Routes>
               <Route path="" element={<Home />} />
@@ -25,7 +26,8 @@ function App() {
               <Route path="/tv/:id" element={<SerieDetail />} />
             </Routes>
           </Container>
-        </div>
+        </main>
+        <Footer />
       </BrowserRouter>
     </>
   );

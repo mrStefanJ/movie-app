@@ -4,9 +4,9 @@ import "./style.scss";
 const Footer = () => {
   return (
     <>
-      <Box className="footer">
+      <footer className="footer">
         <p className="footer__title">Copyright © 2024 BY Stefan Joncic</p>
-      </Box>
+      </footer>
     </>
   );
 };

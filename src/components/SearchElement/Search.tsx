@@ -1,4 +1,12 @@
 import SearchIcon from "@mui/icons-material/Search";
+import "./style.scss";
+import {
+  Box,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
 
 interface SearchProps {
   value: string;
@@ -7,10 +15,18 @@ interface SearchProps {
 
 const Search = ({ value, onChange }: SearchProps) => {
   return (
-    <div className="search">
-      <SearchIcon />
-      <input value={value} onChange={onChange} />
-    </div>
+    <Box className="search">
+      <FormControl fullWidth sx={{ m: 1 }}>
+        <InputLabel htmlFor="outlined-adornment-amount">Search</InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-amount"
+          startAdornment={<SearchIcon />}
+          label="Amount"
+          value={value}
+          onChange={onChange}
+        />
+      </FormControl>
+    </Box>
   );
 };
 

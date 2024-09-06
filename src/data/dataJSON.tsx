@@ -86,7 +86,7 @@ export const searchData = async (
 ) => {
   const response = await axios.get(
     `https://api.themoviedb.org/3/search/${
-      type ? "tv" : "movie"
+      type === "movie" ? "movie" : "tv"
     }?api_key=${API_KEY}&language=en-US&query=${searchText}&page=${page}&include_adult=false`
   );
   return response.data;

@@ -39,7 +39,7 @@ const Navigation = () => {
         <Link to="/movies" onClick={hideMobileNav}>
           Movies
         </Link>
-        <Link to="/series" onClick={hideMobileNav}>
+        <Link to="/tv-shows" onClick={hideMobileNav}>
           Series
         </Link>
       </nav>

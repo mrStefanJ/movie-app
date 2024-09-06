@@ -1,3 +1,20 @@
+@import '../../style/mixin.scss';
+@import '../../style/variable.scss';
+
 .search{
-    position: relative;
+    height: 80px;
+    padding-right: 10px;
+    @include breakpoint(mobile-large) {
+        padding-right: 20px;
+      }
+      @include breakpoint(tablet) {
+        padding: 0 40px 0 30px;
+      }
+      @include breakpoint(laptop) {
+        padding: 0 90px 0 80px;
+      }
+
+      & .MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+        color: $blue-light;
+      }
 }
