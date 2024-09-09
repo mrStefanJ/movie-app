@@ -5,11 +5,17 @@
 
 .series__container {
   display: flex;
+  flex-direction: column;
+  padding-bottom: 80px;
+
+  .series__content {
+    display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   padding-bottom: 80px;
+  }
 }
 
 .no-series {

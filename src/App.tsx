@@ -5,7 +5,7 @@ import { Container } from "@mui/material";
 import { Movies } from "./pages/Movies";
 import { Series } from "./pages/Series";
 import { Home } from "./pages/Home";
-import { Tending } from "./pages/Tending";
+import { Trending } from "./pages/Trending";
 import { MovieDetail } from "./pages/MovieDetail";
 import { SerieDetail } from "./pages/SerieDetail";
 import { Footer } from "./components/Footer";
@@ -19,7 +19,7 @@ function App() {
           <Container>
             <Routes>
               <Route path="" element={<Home />} />
-              <Route path="/tending/:number?" element={<Tending />} />
+              <Route path="/trending/:number?" element={<Trending />} />
               <Route path="/movies/:number?" element={<Movies />} />
               <Route path="/movie/:id" element={<MovieDetail />} />
               <Route path="/tv-shows/:number?" element={<Series />} />

@@ -18,7 +18,7 @@ const Navigation = () => {
     <>
       <nav className="navigation__link">
         <Link to="/">Home</Link>
-        <Link to="/tending">Tending</Link>
+        <Link to="/trending">Trending</Link>
         <Link to="/movies">Movies</Link>
         <Link to="/tv-shows">TV Shows</Link>
       </nav>
@@ -33,7 +33,7 @@ const Navigation = () => {
         <Link to="/" onClick={hideMobileNav}>
           Home
         </Link>
-        <Link to="/tending" onClick={hideMobileNav}>
+        <Link to="/trending" onClick={hideMobileNav}>
           Tending
         </Link>
         <Link to="/movies" onClick={hideMobileNav}>

@@ -1,0 +1,18 @@
+.button-group {
+    .MuiButtonBase-root {
+      /* General button styles */
+      color: #333; // Default color
+      border: 1px solid #ddd;
+  
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+  
+    .active {
+      /* Styles for active button */
+      background-color: #007bff; // Active background color
+      color: #fff; // Active text color
+      border: 1px solid #007bff;
+    }
+  }
