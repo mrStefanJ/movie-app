@@ -1,4 +1,5 @@
 import { ButtonGroup, Button } from "@mui/material";
+import "./style.scss";
 
 interface ButtonGroupProps {
   options: { label: string; value: string }[];
@@ -21,7 +22,7 @@ const ButtonGroups: React.FC<ButtonGroupProps> = ({
             key={option.value}
             value={option.value}
             onClick={() => onSelect(option.value)}
-            className={activeValue === option.value ? "active" : ""}
+            className={activeValue === option.value ? "active" : "disabled"}
             disabled={disabled}
           >
             {option.label}

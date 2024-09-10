@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_KEY = "4ef26acf5650d62d0014f405b5f141a8";
 
-export const fetchTending = async (page: number, type: string) => {
+export const fetchTrending = async (page: number, type: string) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/trending/${type}/day?api_key=${API_KEY}&page=${page}`
@@ -94,7 +94,7 @@ export const searchData = async (
 ) => {
   const response = await axios.get(
     `https://api.themoviedb.org/3/search/${
-      type === "tv" ? "tv" : "movie"
+      type ? "tv" : "movie"
     }?api_key=${API_KEY}&language=en-US&query=${searchText}&page=${page}&include_adult=false`
   );
   return response.data;

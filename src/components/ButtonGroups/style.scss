@@ -1,7 +1,7 @@
 .button-group {
+  padding: 30px 0;
     .MuiButtonBase-root {
-      /* General button styles */
-      color: #333; // Default color
+      color: #333;
       border: 1px solid #ddd;
   
       &:hover {
@@ -10,9 +10,12 @@
     }
   
     .active {
-      /* Styles for active button */
-      background-color: #007bff; // Active background color
-      color: #fff; // Active text color
+      background-color: #007bff;
+      color: #fff;
       border: 1px solid #007bff;
+    }
+
+    .Mui-disabled {
+      cursor: not-allowed;
     }
   }

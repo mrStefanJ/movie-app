@@ -22,8 +22,8 @@ function App() {
               <Route path="/trending/:number?" element={<Trending />} />
               <Route path="/movies/:number?" element={<Movies />} />
               <Route path="/movie/:id" element={<MovieDetail />} />
-              <Route path="/tv-shows/:number?" element={<Series />} />
-              <Route path="/tv/:id" element={<SerieDetail />} />
+              <Route path="/series/:number?" element={<Series />} />
+              <Route path="/serie/:id" element={<SerieDetail />} />
             </Routes>
           </Container>
         </main>

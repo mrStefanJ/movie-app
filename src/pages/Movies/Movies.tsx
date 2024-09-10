@@ -16,13 +16,13 @@ const Movies = () => {
   const navigate = useNavigate();
   const [content, setContent] = useState<Result[]>([]);
   const [type, setType] = useState("now_playing");
-  const [searchResults, setSearchResults] = useState<Result[]>([]);
   const [page, setPage] = useState<number>(Number(number) || 1);
   const [numOfPages, setNumOfPages] = useState<number>(0);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchText, setSearchText] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<Result[]>([]);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
   const genreforURL = useGenres(selectedGenres);
 
@@ -104,7 +104,7 @@ const Movies = () => {
             />
             <div className="movies__content">
               {searchText && searchResults.length > 0 ? (
-                searchResults.map((movie) => (
+                searchResults.map((movie: Result) => (
                   <Link key={movie.id} to={`/movie/${movie.id}`}>
                     <SingleContent
                       poster={movie.poster_path}

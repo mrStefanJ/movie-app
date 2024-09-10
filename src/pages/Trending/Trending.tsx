@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SingleContent } from "../../components/SingleContent";
-import { fetchTending } from "../../data/dataJSON";
+import { fetchTrending } from "../../data/dataJSON";
 import "./style.scss";
 import { Result } from "../../type/show";
 import { CustomePagination } from "../../components/CustomePagination";
@@ -38,7 +38,7 @@ const Trending = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetchTending(page, type);
+      const response = await fetchTrending(page, type);
       setContent(response.results);
       setNumOfPages(response.total_pages);
     } catch (error) {

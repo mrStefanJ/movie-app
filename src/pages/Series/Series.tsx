@@ -20,7 +20,7 @@ const Series = () => {
   const [page, setPage] = useState<number>(Number(number) || 1);
   const [numOfPages, setNumOfPages] = useState<number>(0);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
-  const [genres, setGenres] = useState<any[]>([]);
+  const [genres, setGenres] = useState<Genre[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchText, setSearchText] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Result[]>([]);
@@ -36,14 +36,13 @@ const Series = () => {
 
   // Update URL on page change
   useEffect(() => {
-    navigate(`/tv-shows/${page}`);
+    navigate(`/series/${page}`);
   }, [page, navigate]);
 
   // Loading animation timeout
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
+    const timer = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   // Fetch data based on search text or genre selection
@@ -55,8 +54,8 @@ const Series = () => {
   const fetchData = async () => {
     try {
       const data = await fetchSeries(page, genreforURL, type);
-      setContent(data.results);
-      setNumOfPages(data.total_pages);
+      setContent(data.results || []);
+      setNumOfPages(data.total_pages || 0);
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
@@ -66,8 +65,8 @@ const Series = () => {
   const fetchSearchData = async () => {
     try {
       const data = await searchData("tv", searchText, page);
-      setSearchResults(data.results);
-      setNumOfPages(data.total_pages);
+      setSearchResults(data.results || []);
+      setNumOfPages(data.total_pages || 0);
     } catch (error) {
       console.error("Error fetching search data: ", error);
     }
@@ -105,9 +104,9 @@ const Series = () => {
               disabled={isSearchActive}
             />
             <div className="series__content">
-              {searchResults && searchResults.length > 0 ? (
+              {searchText && searchResults.length > 0 ? (
                 searchResults.map((serie: Result) => (
-                  <Link key={serie.id} to={`/tv/${serie.id}`}>
+                  <Link key={serie.id} to={`/serie/${serie.id}`}>
                     <SingleContent
                       poster={serie.poster_path}
                       title={serie.title || serie.name}
@@ -118,7 +117,7 @@ const Series = () => {
                 ))
               ) : content.length > 0 ? (
                 content.map((serie: Result) => (
-                  <Link key={serie.id} to={`/tv/${serie.id}`}>
+                  <Link key={serie.id} to={`/serie/${serie.id}`}>
                     <SingleContent
                       poster={serie.poster_path}
                       title={serie.title || serie.name}
@@ -136,11 +135,11 @@ const Series = () => {
           </div>
         )}
         <div className="series__pagination">
-          {numOfPages && numOfPages > 1 && (
+          {numOfPages > 1 && (
             <CustomePagination
               setPage={setPage}
               numberOfPages={numOfPages}
-              currentPage={Number(number)}
+              currentPage={page}
             />
           )}
         </div>
