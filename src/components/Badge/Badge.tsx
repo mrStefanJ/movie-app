@@ -5,7 +5,7 @@ const Badge = ({ badgeContent }: { badgeContent: number }) => {
 
   return (
     <div className={`badge__container ${averageRating}`}>
-      10 / {Math.round(badgeContent * 10) / 10}
+      {Math.round(badgeContent * 10) / 10} / 10
     </div>
   );
 };
