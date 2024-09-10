@@ -1,5 +1,5 @@
-import { Pagination, Stack } from "@mui/material";
 import React from "react";
+import { Pagination, Stack } from "@mui/material";
 
 interface CustomePaginationProps {
   setPage: (page: number) => void;

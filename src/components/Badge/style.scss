@@ -1,25 +1,15 @@
 @import "../../style/variable.scss";
 
 .badge__container {
-  position: absolute;
-  top: -7px;
-  right: -6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 25px;
-  height: 25px;
-
-  border: 2px solid $black;
-  border-radius: 20px;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .good__raiting {
-  background: $white;
+  background: inherit;
+  color: $white;
 }
 
 .bad__raiting {
-  background: $red;
-  color: $white;
+  color: #f92929;
 }

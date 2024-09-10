@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { fetchMovies, searchData } from "../../data/dataJSON";
-import { SingleContent } from "../../components/SingleContent";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { ButtonGroups } from "../../components/ButtonGroups";
 import { CustomePagination } from "../../components/CustomePagination";
 import { Genres } from "../../components/Genres";
+import { Search } from "../../components/SearchElement";
+import { SingleContent } from "../../components/SingleContent";
 import useGenres from "../../CustomHook/useGenres";
+import { fetchMovies, searchData } from "../../data/dataJSON";
 import { Genre } from "../../type/genre";
 import { Result } from "../../type/show";
 import "./style.scss";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { Search } from "../../components/SearchElement";
-import { ButtonGroups } from "../../components/ButtonGroups";
 
 const Movies = () => {
   const { number } = useParams();

@@ -1,8 +1,8 @@
-import { Chip, Stack } from "@mui/material";
-import { fetchGenres } from "../../data/dataJSON";
-import { useEffect } from "react";
-import { Genre } from "../../type/genre";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
+import { Chip, Stack } from "@mui/material";
+import { useEffect } from "react";
+import { fetchGenres } from "../../data/dataJSON";
+import { Genre } from "../../type/genre";
 import "./style.scss";
 
 const Genres = ({

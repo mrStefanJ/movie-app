@@ -1,5 +1,4 @@
 import "./style.scss";
-import { Footer } from "../../components/Footer";
 
 const Home = () => {
   return (
@@ -27,7 +26,6 @@ const Home = () => {
         <br />
         <p className="home__text">Enjoy your stay!</p>
       </div>
-      <Footer />
     </>
   );
 };

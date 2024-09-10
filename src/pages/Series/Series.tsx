@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { fetchSeries } from "../../data/dataJSON";
-import { SingleContent } from "../../components/SingleContent";
-import { CustomePagination } from "../../components/CustomePagination";
-import { Genres } from "../../components/Genres";
-import useGenres from "../../CustomHook/useGenres";
-import { Result } from "../../type/show";
-import { Genre } from "../../type/genre";
-import { Search } from "../../components/SearchElement";
-import { searchData } from "../../data/dataJSON";
-import "./style.scss";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ButtonGroups } from "../../components/ButtonGroups";
+import { CustomePagination } from "../../components/CustomePagination";
+import { Genres } from "../../components/Genres";
+import { Search } from "../../components/SearchElement";
+import { SingleContent } from "../../components/SingleContent";
+import useGenres from "../../CustomHook/useGenres";
+import { fetchSeries, searchData } from "../../data/dataJSON";
+import { Genre } from "../../type/genre";
+import { Result } from "../../type/show";
+import "./style.scss";
 
 const Series = () => {
   const { number } = useParams();

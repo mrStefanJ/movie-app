@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { fetchCarousel } from "../../data/dataJSON";
 import AliceCarousel from "react-alice-carousel";
 import { img_300, noPicture } from "../../config/config";
+import { fetchCarousel } from "../../data/dataJSON";
 import { Actor } from "../../type/cast";
 import "./style.scss";
 

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { SingleContent } from "../../components/SingleContent";
-import { fetchTrending } from "../../data/dataJSON";
-import "./style.scss";
-import { Result } from "../../type/show";
-import { CustomePagination } from "../../components/CustomePagination";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ButtonGroups from "../../components/ButtonGroups/ButtonGroups";
+import { CustomePagination } from "../../components/CustomePagination";
+import { SingleContent } from "../../components/SingleContent";
+import { fetchTrending } from "../../data/dataJSON";
+import { Result } from "../../type/show";
+import "./style.scss";
 
 const Trending = () => {
   const { number } = useParams();

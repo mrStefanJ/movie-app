@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navigation = () => {
   const [isMobileNavVisible, setIsMobileNavVisible] = useState(false);

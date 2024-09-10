@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, IconButton } from "@mui/material";
-import SmartDisplayIcon from "@mui/icons-material/SmartDisplay";
 import CloseIcon from "@mui/icons-material/Close";
+import SmartDisplayIcon from "@mui/icons-material/SmartDisplay";
+import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import React, { useState } from "react";
 import "./style.scss";
 
 interface VideoProps {

@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
 import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined";
-import "./style.scss";
+import { Box } from "@mui/material";
 import { MainNav } from "../MainNav";
+import "./style.scss";
 
 const Header = () => {
   return (

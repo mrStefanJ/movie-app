@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { ShowDetails } from "../../type/show";
-import { Video } from "../../type/video";
 import {
   Button,
   Table,
@@ -10,17 +7,20 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Carousel } from "../../components/Carousel";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { VideoYouTube } from "../../components/Video";
-import { Carousel } from "../../components/Carousel";
-import { featchByID, fetchVideo } from "../../data/dataJSON";
 import {
   img_500,
   unavailable,
   unavailableLandscape,
 } from "../../config/config";
+import { featchByID, fetchVideo } from "../../data/dataJSON";
 import { Genre } from "../../type/genre";
+import { ShowDetails } from "../../type/show";
+import { Video } from "../../type/video";
 import "./style.scss";
 
 const SerieDetail = () => {
