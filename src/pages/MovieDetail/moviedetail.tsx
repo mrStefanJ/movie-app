@@ -18,10 +18,10 @@ import {
   TableRow,
 } from "@mui/material";
 import { Genre } from "../../type/genre";
-import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
 import { Carousel } from "../../components/Carousel";
-import "./style.scss";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { VideoYouTube } from "../../components/Video";
+import "./style.scss";
 
 const MovieDetail = () => {
   const { id } = useParams();
@@ -143,25 +143,13 @@ const MovieDetail = () => {
                     </Table>
                   </TableContainer>
                 </div>
-                <div></div>
+                <VideoYouTube video={video} />
               </div>
             </div>
             <div className="movie-detail__actor">
               <div>
                 <Carousel id={id} media_type={"movie"} />
               </div>
-
-              <Button
-                variant="contained"
-                startIcon={<SubscriptionsOutlinedIcon />}
-                color="secondary"
-                target="__blank"
-                href={`https://www.youtube.com/watch?v=${
-                  video?.results[video?.results.length - 1]?.key
-                }`}
-              >
-                Watch the Trailer
-              </Button>
             </div>
           </div>
         </>

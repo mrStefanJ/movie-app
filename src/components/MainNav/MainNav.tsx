@@ -20,7 +20,7 @@ const Navigation = () => {
         <Link to="/">Home</Link>
         <Link to="/trending">Trending</Link>
         <Link to="/movies">Movies</Link>
-        <Link to="/series">Series</Link>
+        <Link to="/tv-shows">TV Shows</Link>
       </nav>
       <button onClick={toggleMobileNav} className="navigation__icon">
         {isMobileNavVisible ? <CloseOutlinedIcon /> : <MenuOutlinedIcon />}
@@ -39,8 +39,8 @@ const Navigation = () => {
         <Link to="/movies" onClick={hideMobileNav}>
           Movies
         </Link>
-        <Link to="/series" onClick={hideMobileNav}>
-          Series
+        <Link to="/tv-shows" onClick={hideMobileNav}>
+          TV Shows
         </Link>
       </nav>
     </>

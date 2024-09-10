@@ -36,7 +36,7 @@ const Series = () => {
 
   // Update URL on page change
   useEffect(() => {
-    navigate(`/series/${page}`);
+    navigate(`/tv-shows/${page}`);
   }, [page, navigate]);
 
   // Loading animation timeout
@@ -106,7 +106,7 @@ const Series = () => {
             <div className="series__content">
               {searchText && searchResults.length > 0 ? (
                 searchResults.map((serie: Result) => (
-                  <Link key={serie.id} to={`/serie/${serie.id}`}>
+                  <Link key={serie.id} to={`/tv/${serie.id}`}>
                     <SingleContent
                       poster={serie.poster_path}
                       title={serie.title || serie.name}
@@ -117,7 +117,7 @@ const Series = () => {
                 ))
               ) : content.length > 0 ? (
                 content.map((serie: Result) => (
-                  <Link key={serie.id} to={`/serie/${serie.id}`}>
+                  <Link key={serie.id} to={`/tv/${serie.id}`}>
                     <SingleContent
                       poster={serie.poster_path}
                       title={serie.title || serie.name}

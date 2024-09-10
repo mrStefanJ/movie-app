@@ -11,9 +11,10 @@ import {
   TableRow,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { VideoYouTube } from "../../components/Video";
 import { Carousel } from "../../components/Carousel";
 import { featchByID, fetchVideo } from "../../data/dataJSON";
-import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
 import {
   img_500,
   unavailable,
@@ -21,7 +22,6 @@ import {
 } from "../../config/config";
 import { Genre } from "../../type/genre";
 import "./style.scss";
-import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 const SerieDetail = () => {
   const { id } = useParams();
@@ -146,24 +146,13 @@ const SerieDetail = () => {
                     </Table>
                   </TableContainer>
                 </div>
+                <VideoYouTube video={video} />
               </div>
             </div>
             <div className="serie-detail__actor">
               <div>
                 <Carousel id={id} media_type={"tv"} />
               </div>
-
-              <Button
-                variant="contained"
-                startIcon={<SubscriptionsOutlinedIcon />}
-                color="secondary"
-                target="__blank"
-                href={`https://www.youtube.com/watch?v=${
-                  video?.results[video?.results.length - 1]?.key
-                }`}
-              >
-                Watch the Trailer
-              </Button>
             </div>
           </div>
         </>

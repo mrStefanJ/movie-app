@@ -19,7 +19,7 @@ const Trending = () => {
   const options = [
     { label: "All", value: "all" },
     { label: "Movies", value: "movie" },
-    { label: "Series", value: "tv" },
+    { label: "TV Shows", value: "tv" },
   ];
 
   useEffect(() => {
