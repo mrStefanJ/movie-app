@@ -6,7 +6,7 @@ import { Genres } from "../../components/Genres";
 import { Search } from "../../components/SearchElement";
 import { SingleContent } from "../../components/SingleContent";
 import useGenres from "../../CustomHook/useGenres";
-import { fetchSeries, searchData } from "../../data/dataJSON";
+import { fetchSeries, fetchSeriesList, searchData } from "../../data/dataJSON";
 import { Genre } from "../../type/genre";
 import { Result } from "../../type/show";
 import "./style.scss";
@@ -15,7 +15,7 @@ const Series = () => {
   const { number } = useParams();
   const navigate = useNavigate();
   const [content, setContent] = useState<Result[]>([]);
-  const [type, setType] = useState("airing_today");
+  const [type, setType] = useState("");
   const [page, setPage] = useState<number>(Number(number) || 1);
   const [numOfPages, setNumOfPages] = useState<number>(0);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
@@ -46,15 +46,29 @@ const Series = () => {
 
   // Fetch data based on search text or genre selection
   useEffect(() => {
-    searchText ? fetchSearchData() : fetchData();
+    if (!searchText) {
+      fetchData();
+      fetchDataList();
+    } else {
+      fetchSearchData();
+    }
   }, [page, genreforURL, searchText, type]); // eslint-disable-line
 
   // Fetch series based on selected genres
   const fetchData = async () => {
     try {
-      const data = await fetchSeries(page, genreforURL, type);
+      const data = await fetchSeries(page, genreforURL);
       setContent(data.results || []);
       setNumOfPages(data.total_pages || 0);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
+  const fetchDataList = async () => {
+    try {
+      const dataList = await fetchSeriesList(page, genreforURL, type);
+      setContent(dataList.results || []);
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
@@ -103,17 +117,21 @@ const Series = () => {
               disabled={isSearchActive}
             />
             <div className="series__content">
-              {searchText && searchResults.length > 0 ? (
-                searchResults.map((serie: Result) => (
-                  <Link key={serie.id} to={`/tv/${serie.id}`}>
-                    <SingleContent
-                      poster={serie.poster_path}
-                      title={serie.title || serie.name}
-                      media_type="tv"
-                      vote_average={serie.vote_average}
-                    />
-                  </Link>
-                ))
+              {searchText ? (
+                searchResults.length > 0 ? (
+                  searchResults.map((serie: Result) => (
+                    <Link key={serie.id} to={`/tv/${serie.id}`}>
+                      <SingleContent
+                        poster={serie.poster_path}
+                        title={serie.title || serie.name}
+                        media_type="tv"
+                        vote_average={serie.vote_average}
+                      />
+                    </Link>
+                  ))
+                ) : (
+                  <div className="no-results">No results found</div>
+                )
               ) : content.length > 0 ? (
                 content.map((serie: Result) => (
                   <Link key={serie.id} to={`/tv/${serie.id}`}>

@@ -6,7 +6,7 @@ import { Genres } from "../../components/Genres";
 import { Search } from "../../components/SearchElement";
 import { SingleContent } from "../../components/SingleContent";
 import useGenres from "../../CustomHook/useGenres";
-import { fetchMovies, searchData } from "../../data/dataJSON";
+import { fetchMovies, fetchMoviesList, searchData } from "../../data/dataJSON";
 import { Genre } from "../../type/genre";
 import { Result } from "../../type/show";
 import "./style.scss";
@@ -15,7 +15,7 @@ const Movies = () => {
   const { number } = useParams();
   const navigate = useNavigate();
   const [content, setContent] = useState<Result[]>([]);
-  const [type, setType] = useState("now_playing");
+  const [type, setType] = useState("");
   const [page, setPage] = useState<number>(Number(number) || 1);
   const [numOfPages, setNumOfPages] = useState<number>(0);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
@@ -46,15 +46,29 @@ const Movies = () => {
 
   // Fetch data based on search text or genre selection
   useEffect(() => {
-    searchText ? fetchSearchData() : fetchData();
-  }, [page, genreforURL, searchText, type]); // eslint-disable-line
+    if (!searchText) {
+      fetchData();
+      fetchDataList();
+    } else {
+      fetchSearchData();
+    }
+  }, [page, type, genreforURL, searchText]); // eslint-disable-line
 
   // Fetch movies based on selected genres
   const fetchData = async () => {
     try {
-      const data = await fetchMovies(page, genreforURL, type);
+      const data = await fetchMovies(page, genreforURL);
       setContent(data.results || []);
       setNumOfPages(data.total_pages || 0);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
+  const fetchDataList = async () => {
+    try {
+      const dataList = await fetchMoviesList(page, genreforURL, type);
+      setContent(dataList.results || []);
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
@@ -103,17 +117,21 @@ const Movies = () => {
               disabled={isSearchActive}
             />
             <div className="movies__content">
-              {searchText && searchResults.length > 0 ? (
-                searchResults.map((movie: Result) => (
-                  <Link key={movie.id} to={`/movie/${movie.id}`}>
-                    <SingleContent
-                      poster={movie.poster_path}
-                      title={movie.title}
-                      media_type="movie"
-                      vote_average={movie.vote_average}
-                    />
-                  </Link>
-                ))
+              {searchText ? (
+                searchResults.length > 0 ? (
+                  searchResults.map((movie: Result) => (
+                    <Link key={movie.id} to={`/movie/${movie.id}`}>
+                      <SingleContent
+                        poster={movie.poster_path}
+                        title={movie.title}
+                        media_type="movie"
+                        vote_average={movie.vote_average}
+                      />
+                    </Link>
+                  ))
+                ) : (
+                  <div className="no-results">No results found</div>
+                )
               ) : content.length > 0 ? (
                 content.map((movie: Result) => (
                   <Link key={movie.id} to={`/movie/${movie.id}`}>

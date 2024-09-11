@@ -1,13 +1,13 @@
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import { Chip, Stack } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchGenres } from "../../data/dataJSON";
 import { Genre } from "../../type/genre";
 import "./style.scss";
 
 const Genres = ({
   type,
-  selectedGenres = [], // Default to empty array if not provided
+  selectedGenres = [],
   setSelectedGenres,
   setGenres,
   genres,
@@ -20,6 +20,8 @@ const Genres = ({
   setGenres: (genres: any) => void;
   setPage: any;
 }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   useEffect(() => {
     fetchGenresData();
 
@@ -54,9 +56,16 @@ const Genres = ({
 
   const selectedGenreIds = new Set(selectedGenres.map((genre) => genre.id));
 
+  const toggleSidebar = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <>
-      <div className="genres__container">
+      <div
+        className="genres__container"
+        style={{ left: isExpanded ? "0px" : "-140px" }}
+      >
         <div className="genres__name">
           <Stack spacing={1}>
             {genres &&
@@ -80,7 +89,7 @@ const Genres = ({
               })}
           </Stack>
         </div>
-        <div className="genres__icon">
+        <div className="genres__icon" onClick={toggleSidebar}>
           <MenuOpenOutlinedIcon />
         </div>
       </div>
