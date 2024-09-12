@@ -1,11 +1,4 @@
-import {
-  ButtonGroup,
-  Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
+import { ButtonGroup, Button } from "@mui/material";
 import "./style.scss";
 
 interface ButtonGroupProps {
