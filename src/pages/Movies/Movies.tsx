@@ -15,7 +15,7 @@ const Movies = () => {
   const { number } = useParams();
   const navigate = useNavigate();
   const [content, setContent] = useState<Result[]>([]);
-  const [type, setType] = useState("");
+  const [type, setType] = useState("all");
   const [page, setPage] = useState<number>(Number(number) || 1);
   const [numOfPages, setNumOfPages] = useState<number>(0);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
@@ -27,34 +27,34 @@ const Movies = () => {
   const genreforURL = useGenres(selectedGenres);
 
   const options = [
+    { label: "All", value: "all" },
     { label: "Now Playing", value: "now_playing" },
     { label: "Popular", value: "popular" },
     { label: "Top Rated", value: "top_rated" },
     { label: "Upcoming", value: "upcoming" },
   ];
 
-  // Update URL on page change
   useEffect(() => {
     navigate(`/movies/${page}`);
   }, [page, navigate]);
 
-  // Loading animation timeout
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
 
-  // Fetch data based on search text or genre selection
   useEffect(() => {
     if (!searchText) {
-      fetchData();
-      fetchDataList();
+      if (type === "all" || type === "") {
+        fetchData();
+      } else {
+        fetchDataList();
+      }
     } else {
       fetchSearchData();
     }
   }, [page, type, genreforURL, searchText]); // eslint-disable-line
 
-  // Fetch movies based on selected genres
   const fetchData = async () => {
     try {
       const data = await fetchMovies(page, genreforURL);
@@ -69,12 +69,12 @@ const Movies = () => {
     try {
       const dataList = await fetchMoviesList(page, genreforURL, type);
       setContent(dataList.results || []);
+      setNumOfPages(dataList.total_pages || 0);
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
   };
 
-  // Fetch movies based on search input
   const fetchSearchData = async () => {
     try {
       const data = await searchData("movie", searchText, page);
@@ -85,11 +85,19 @@ const Movies = () => {
     }
   };
 
-  // Handle search input change
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchText(value);
     setIsSearchActive(value.trim() !== "");
+  };
+
+  const handleSelectData = (type: string) => {
+    setType(type);
+    if (type === "all") {
+      fetchData();
+    } else {
+      fetchDataList();
+    }
   };
 
   return (
@@ -113,7 +121,7 @@ const Movies = () => {
             <ButtonGroups
               options={options}
               activeValue={type}
-              onSelect={setType}
+              onSelect={handleSelectData}
               disabled={isSearchActive}
             />
             <div className="movies__content">

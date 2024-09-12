@@ -1,18 +1,33 @@
+@import "../../style/mixin.scss";
+@import "../../style/variable.scss";
+
 .button-group {
   padding: 30px 0;
-    .MuiButtonBase-root {
-      color: #333;
-      border: 1px solid #ddd;
+  .MuiButtonGroup-root{
+    flex-direction: column;
+    @include breakpoint(tablet){
+      flex-direction: row;
+    }
+  }
+   .MuiButtonBase-root {
+      color: $text-primary;
+      border: 1px solid $white;
+      font-size: 12px;
+
+      @include breakpoint(tablet) {
+        font-size: 16px;
+      }
   
       &:hover {
-        background-color: #f0f0f0;
+        color: $white;
+        background-color: #007bff;
       }
     }
   
     .active {
-      background-color: #007bff;
-      color: #fff;
-      border: 1px solid #007bff;
+      background-color: $blue;
+      color: $white;
+      border: 1px solid $blue;
     }
 
     .Mui-disabled {

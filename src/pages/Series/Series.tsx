@@ -15,7 +15,7 @@ const Series = () => {
   const { number } = useParams();
   const navigate = useNavigate();
   const [content, setContent] = useState<Result[]>([]);
-  const [type, setType] = useState("");
+  const [type, setType] = useState("all");
   const [page, setPage] = useState<number>(Number(number) || 1);
   const [numOfPages, setNumOfPages] = useState<number>(0);
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
@@ -27,6 +27,7 @@ const Series = () => {
   const genreforURL = useGenres(selectedGenres);
 
   const options = [
+    { label: "All", value: "all" },
     { label: "Airing Today", value: "airing_today" },
     { label: "On The Air", value: "on_the_air" },
     { label: "Popular", value: "popular" },
@@ -47,8 +48,11 @@ const Series = () => {
   // Fetch data based on search text or genre selection
   useEffect(() => {
     if (!searchText) {
-      fetchData();
-      fetchDataList();
+      if (type === "all" || type === "") {
+        fetchData();
+      } else {
+        fetchDataList();
+      }
     } else {
       fetchSearchData();
     }
@@ -92,6 +96,15 @@ const Series = () => {
     setIsSearchActive(value.trim() !== "");
   };
 
+  const handleSelectData = (type: string) => {
+    setType(type);
+    if (type === "all") {
+      fetchData();
+    } else {
+      fetchDataList();
+    }
+  };
+
   return (
     <>
       <div className="series">
@@ -113,7 +126,7 @@ const Series = () => {
             <ButtonGroups
               options={options}
               activeValue={type}
-              onSelect={setType}
+              onSelect={handleSelectData}
               disabled={isSearchActive}
             />
             <div className="series__content">
