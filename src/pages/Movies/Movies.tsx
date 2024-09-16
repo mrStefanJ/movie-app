@@ -91,7 +91,7 @@ const Movies = () => {
     setIsSearchActive(value.trim() !== "");
   };
 
-  const handleSelectData = (type: string) => {
+  const handleSelectCategory = (type: string) => {
     setType(type);
     if (type === "all") {
       fetchData();
@@ -119,9 +119,9 @@ const Movies = () => {
         ) : (
           <div className="movies__container">
             <ButtonGroups
-              options={options}
+              category={options}
               activeValue={type}
-              onSelect={handleSelectData}
+              onSelectCategory={handleSelectCategory}
               disabled={isSearchActive}
             />
             <div className="movies__content">

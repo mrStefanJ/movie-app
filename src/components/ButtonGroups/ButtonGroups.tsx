@@ -2,16 +2,16 @@ import { ButtonGroup, Button } from "@mui/material";
 import "./style.scss";
 
 interface ButtonGroupProps {
-  options: { label: string; value: string }[];
+  category: { label: string; value: string }[];
   activeValue: string;
-  onSelect: (value: string) => void;
+  onSelectCategory: (value: string) => void;
   disabled?: boolean;
 }
 
 const ButtonGroups: React.FC<ButtonGroupProps> = ({
-  options,
+  category,
   activeValue,
-  onSelect,
+  onSelectCategory,
   disabled,
 }) => {
   return (
@@ -21,11 +21,11 @@ const ButtonGroups: React.FC<ButtonGroupProps> = ({
         variant="outlined"
         aria-label="Basic button group"
       >
-        {options.map((option) => (
+        {category.map((option) => (
           <Button
             key={option.value}
             value={option.value}
-            onClick={() => onSelect(option.value)}
+            onClick={() => onSelectCategory(option.value)}
             className={activeValue === option.value ? "active" : "disabled"}
             disabled={disabled}
           >

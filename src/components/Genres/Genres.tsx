@@ -1,4 +1,4 @@
-import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { Chip, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchGenres } from "../../data/dataJSON";
@@ -90,7 +90,7 @@ const Genres = ({
           </Stack>
         </div>
         <div className="genres__icon" onClick={toggleSidebar}>
-          <MenuOpenOutlinedIcon />
+          <FilterAltIcon />
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Navigation = () => {
   const [isMobileNavVisible, setIsMobileNavVisible] = useState(false);
@@ -17,10 +17,30 @@ const Navigation = () => {
   return (
     <>
       <nav className="navigation__link">
-        <Link to="/">Home</Link>
-        <Link to="/trending">Trending</Link>
-        <Link to="/movies">Movies</Link>
-        <Link to="/tv-shows">TV Shows</Link>
+        <NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Home
+        </NavLink>
+        <NavLink
+          to="/trending"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Trending
+        </NavLink>
+        <NavLink
+          to="/movies"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Movies
+        </NavLink>
+        <NavLink
+          to="/tv-shows"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          TV Shows
+        </NavLink>
       </nav>
       <button onClick={toggleMobileNav} className="navigation__icon">
         {isMobileNavVisible ? <CloseOutlinedIcon /> : <MenuOutlinedIcon />}
@@ -30,18 +50,34 @@ const Navigation = () => {
           isMobileNavVisible ? "show" : ""
         }`}
       >
-        <Link to="/" onClick={hideMobileNav}>
+        <NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? "active" : "")}
+          onClick={hideMobileNav}
+        >
           Home
-        </Link>
-        <Link to="/trending" onClick={hideMobileNav}>
+        </NavLink>
+        <NavLink
+          to="/trending"
+          className={({ isActive }) => (isActive ? "active" : "")}
+          onClick={hideMobileNav}
+        >
           Tending
-        </Link>
-        <Link to="/movies" onClick={hideMobileNav}>
+        </NavLink>
+        <NavLink
+          to="/movies"
+          className={({ isActive }) => (isActive ? "active" : "")}
+          onClick={hideMobileNav}
+        >
           Movies
-        </Link>
-        <Link to="/tv-shows" onClick={hideMobileNav}>
+        </NavLink>
+        <NavLink
+          to="/tv-shows"
+          className={({ isActive }) => (isActive ? "active" : "")}
+          onClick={hideMobileNav}
+        >
           TV Shows
-        </Link>
+        </NavLink>
       </nav>
     </>
   );

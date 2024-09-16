@@ -63,6 +63,7 @@
 .image__landscape {
   display: block;
   width: 100%;
+  aspect-ratio: 16 / 9;
   @include breakpoint(tablet) {
     display: none;
   }

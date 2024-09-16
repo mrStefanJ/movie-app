@@ -96,7 +96,7 @@ const Series = () => {
     setIsSearchActive(value.trim() !== "");
   };
 
-  const handleSelectData = (type: string) => {
+  const handleSelectCategory = (type: string) => {
     setType(type);
     if (type === "all") {
       fetchData();
@@ -124,9 +124,9 @@ const Series = () => {
         ) : (
           <div className="series__container">
             <ButtonGroups
-              options={options}
+              category={options}
               activeValue={type}
-              onSelect={handleSelectData}
+              onSelectCategory={handleSelectCategory}
               disabled={isSearchActive}
             />
             <div className="series__content">

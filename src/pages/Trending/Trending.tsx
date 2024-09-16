@@ -56,9 +56,9 @@ const Trending = () => {
         ) : (
           <div className="tending__container">
             <ButtonGroups
-              options={options}
+              category={options}
               activeValue={type}
-              onSelect={setType}
+              onSelectCategory={setType}
             />
             <div className="tending__content">
               {content.length > 0 &&

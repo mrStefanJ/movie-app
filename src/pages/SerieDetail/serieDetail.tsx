@@ -59,6 +59,7 @@ const SerieDetail = () => {
     }
   };
 
+  console.log(serie);
   return (
     <div className="serie-details">
       {isLoading ? (
