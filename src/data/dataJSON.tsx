@@ -24,7 +24,7 @@ export const fetchMovies = async (page: number, genreforURL: string) => {
   }
 };
 
-export const fetchMoviesList = async (
+export const fetchMoviesCategory = async (
   page: number,
   genreforURL: string,
   type: string
@@ -50,7 +50,7 @@ export const fetchSeries = async (page: number, genreforURL: string) => {
   }
 };
 
-export const fetchSeriesList = async (
+export const fetchSeriesCategory = async (
   page: number,
   genreforURL: string,
   type: string

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ButtonGroups } from "../../components/ButtonGroups";
 import { CustomePagination } from "../../components/CustomePagination";
@@ -6,14 +6,20 @@ import { Genres } from "../../components/Genres";
 import { Search } from "../../components/SearchElement";
 import { SingleContent } from "../../components/SingleContent";
 import useGenres from "../../CustomHook/useGenres";
-import { fetchMovies, fetchMoviesList, searchData } from "../../data/dataJSON";
+import {
+  fetchMovies,
+  fetchMoviesCategory,
+  searchData,
+} from "../../data/dataJSON";
 import { Genre } from "../../type/genre";
 import { Result } from "../../type/show";
 import "./style.scss";
+import useSearch from "../../CustomHook/useSearch"; // Import the custom hook
 
 const Movies = () => {
   const { number } = useParams();
   const navigate = useNavigate();
+
   const [content, setContent] = useState<Result[]>([]);
   const [type, setType] = useState("all");
   const [page, setPage] = useState<number>(Number(number) || 1);
@@ -21,9 +27,10 @@ const Movies = () => {
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [searchText, setSearchText] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Result[]>([]);
-  const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
+
+  const { searchText, isSearchActive, handleSearchChange } = useSearch();
+
   const genreforURL = useGenres(selectedGenres);
 
   const options = [
@@ -38,71 +45,52 @@ const Movies = () => {
     navigate(`/movies/${page}`);
   }, [page, navigate]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    const loadingTimeout = setTimeout(() => setLoading(false), 5000);
+    try {
+      let data;
+      // When searchText is present, fetch search results
+      if (searchText) {
+        data = await searchData("movie", searchText, page);
+        setSearchResults(data.results || []);
 
-  useEffect(() => {
-    if (!searchText) {
-      if (type === "all" || type === "") {
-        fetchData();
+        // When genres are selected, always fetch using fetchMovies
+      } else if (genreforURL) {
+        data = await fetchMovies(page, genreforURL);
+
+        // When a specific type is selected, fetch based on category
+      } else if (type !== "all") {
+        data = await fetchMoviesCategory(page, genreforURL, type);
+
+        // Default case: No search, no genres, no type filter, fetch default series
       } else {
-        fetchDataList();
+        data = await fetchMovies(page, genreforURL);
       }
-    } else {
-      fetchSearchData();
-    }
-  }, [page, type, genreforURL, searchText]); // eslint-disable-line
 
-  const fetchData = async () => {
-    try {
-      const data = await fetchMovies(page, genreforURL);
-      setContent(data.results || []);
-      setNumOfPages(data.total_pages || 0);
+      setContent(data?.results || []);
+      setNumOfPages(data?.total_pages || 0);
     } catch (error) {
-      console.error("Error fetching data: ", error);
+      console.error("Error fetching data:", error);
+    } finally {
+      clearTimeout(loadingTimeout);
+      setLoading(false);
     }
-  };
-
-  const fetchDataList = async () => {
-    try {
-      const dataList = await fetchMoviesList(page, genreforURL, type);
-      setContent(dataList.results || []);
-      setNumOfPages(dataList.total_pages || 0);
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    }
-  };
-
-  const fetchSearchData = async () => {
-    try {
-      const data = await searchData("movie", searchText, page);
-      setSearchResults(data.results || []);
-      setNumOfPages(data.total_pages || 0);
-    } catch (error) {
-      console.error("Error fetching search data: ", error);
-    }
-  };
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearchText(value);
-    setIsSearchActive(value.trim() !== "");
-  };
+  }, [searchText, genreforURL, page, type]);
 
   const handleSelectCategory = (type: string) => {
     setType(type);
-    if (type === "all") {
-      fetchData();
-    } else {
-      fetchDataList();
-    }
+    setSearchResults([]); // Clear search results when a new category is selected
   };
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <>
       <section className="movies">
+        {/* Use Search input with the custom hook */}
         <Search value={searchText} onChange={handleSearchChange} />
         <Genres
           type="movie"
@@ -122,7 +110,7 @@ const Movies = () => {
               category={options}
               activeValue={type}
               onSelectCategory={handleSelectCategory}
-              disabled={isSearchActive}
+              disabled={isSearchActive || selectedGenres.length > 0}
             />
             <div className="movies__content">
               {searchText ? (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ButtonGroups } from "../../components/ButtonGroups";
 import { CustomePagination } from "../../components/CustomePagination";
@@ -6,14 +6,20 @@ import { Genres } from "../../components/Genres";
 import { Search } from "../../components/SearchElement";
 import { SingleContent } from "../../components/SingleContent";
 import useGenres from "../../CustomHook/useGenres";
-import { fetchSeries, fetchSeriesList, searchData } from "../../data/dataJSON";
+import {
+  fetchSeries,
+  fetchSeriesCategory,
+  searchData,
+} from "../../data/dataJSON";
 import { Genre } from "../../type/genre";
 import { Result } from "../../type/show";
 import "./style.scss";
+import useSearch from "../../CustomHook/useSearch";
 
 const Series = () => {
   const { number } = useParams();
   const navigate = useNavigate();
+
   const [content, setContent] = useState<Result[]>([]);
   const [type, setType] = useState("all");
   const [page, setPage] = useState<number>(Number(number) || 1);
@@ -21,9 +27,10 @@ const Series = () => {
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [searchText, setSearchText] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Result[]>([]);
-  const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
+
+  const { searchText, isSearchActive, handleSearchChange } = useSearch();
+
   const genreforURL = useGenres(selectedGenres);
 
   const options = [
@@ -34,119 +41,80 @@ const Series = () => {
     { label: "Top Rated", value: "top_rated" },
   ];
 
-  // Update URL on page change
   useEffect(() => {
     navigate(`/tv-shows/${page}`);
   }, [page, navigate]);
 
-  // Loading animation timeout
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
+  // Fetch series data based on search, genres, or category
+  const fetchData = useCallback(async () => {
+    setLoading(true);
 
-  // Fetch data based on search text or genre selection
-  useEffect(() => {
-    if (!searchText) {
-      if (type === "all" || type === "") {
-        fetchData();
+    try {
+      let data;
+      // When searchText is present, fetch search results
+      if (searchText) {
+        data = await searchData("tv", searchText, page);
+        setSearchResults(data.results || []);
+
+        // When genres are selected, always fetch using fetchSeries
+      } else if (genreforURL) {
+        data = await fetchSeries(page, genreforURL);
+
+        // When a specific type is selected, fetch based on category
+      } else if (type !== "all") {
+        data = await fetchSeriesCategory(page, genreforURL, type);
+
+        // No search, no genres, no type filter, fetch default series
       } else {
-        fetchDataList();
+        data = await fetchSeries(page, genreforURL);
       }
-    } else {
-      fetchSearchData();
-    }
-  }, [page, genreforURL, searchText, type]); // eslint-disable-line
 
-  // Fetch series based on selected genres
-  const fetchData = async () => {
-    try {
-      const data = await fetchSeries(page, genreforURL);
-      setContent(data.results || []);
-      setNumOfPages(data.total_pages || 0);
+      setContent(data?.results || []);
+      setNumOfPages(data?.total_pages || 0);
     } catch (error) {
-      console.error("Error fetching data: ", error);
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const fetchDataList = async () => {
-    try {
-      const dataList = await fetchSeriesList(page, genreforURL, type);
-      setContent(dataList.results || []);
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    }
-  };
-
-  // Fetch movies based on search input
-  const fetchSearchData = async () => {
-    try {
-      const data = await searchData("tv", searchText, page);
-      setSearchResults(data.results || []);
-      setNumOfPages(data.total_pages || 0);
-    } catch (error) {
-      console.error("Error fetching search data: ", error);
-    }
-  };
-
-  // Handle search input change
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearchText(value);
-    setIsSearchActive(value.trim() !== "");
-  };
+  }, [searchText, genreforURL, page, type]);
 
   const handleSelectCategory = (type: string) => {
     setType(type);
-    if (type === "all") {
-      fetchData();
-    } else {
-      fetchDataList();
-    }
+    setSearchResults([]);
   };
 
+  // Fetch data on mount, page, genre, type, or search change
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   return (
-    <>
-      <div className="series">
-        <Search value={searchText} onChange={handleSearchChange} />
-        <Genres
-          type="tv"
-          selectedGenres={selectedGenres}
-          setSelectedGenres={setSelectedGenres}
-          genres={genres}
-          setGenres={setGenres}
-          setPage={setPage}
-        />
-        {loading ? (
-          <div className="loading">
-            <div className="spinner"></div>
-          </div>
-        ) : (
-          <div className="series__container">
-            <ButtonGroups
-              category={options}
-              activeValue={type}
-              onSelectCategory={handleSelectCategory}
-              disabled={isSearchActive}
-            />
-            <div className="series__content">
-              {searchText ? (
-                searchResults.length > 0 ? (
-                  searchResults.map((serie: Result) => (
-                    <Link key={serie.id} to={`/tv/${serie.id}`}>
-                      <SingleContent
-                        poster={serie.poster_path}
-                        title={serie.title || serie.name}
-                        media_type="tv"
-                        vote_average={serie.vote_average}
-                      />
-                    </Link>
-                  ))
-                ) : (
-                  <div className="no-results">No results found</div>
-                )
-              ) : content.length > 0 ? (
-                content.map((serie: Result) => (
+    <section className="series">
+      <Search value={searchText} onChange={handleSearchChange} />
+      <Genres
+        type="tv"
+        selectedGenres={selectedGenres}
+        setSelectedGenres={setSelectedGenres}
+        genres={genres}
+        setGenres={setGenres}
+        setPage={setPage}
+      />
+      {loading ? (
+        <div className="loading">
+          <div className="spinner"></div>
+        </div>
+      ) : (
+        <div className="series__container">
+          <ButtonGroups
+            category={options}
+            activeValue={type}
+            onSelectCategory={handleSelectCategory}
+            disabled={isSearchActive || selectedGenres.length > 0}
+          />
+          <div className="series__content">
+            {searchText ? (
+              searchResults.length > 0 ? (
+                searchResults.map((serie: Result) => (
                   <Link key={serie.id} to={`/tv/${serie.id}`}>
                     <SingleContent
                       poster={serie.poster_path}
@@ -157,24 +125,37 @@ const Series = () => {
                   </Link>
                 ))
               ) : (
-                <div className="no-series">
-                  Serie does not exist by selected genres
-                </div>
-              )}
-            </div>
+                <div className="no-results">No results found</div>
+              )
+            ) : content.length > 0 ? (
+              content.map((serie: Result) => (
+                <Link key={serie.id} to={`/tv/${serie.id}`}>
+                  <SingleContent
+                    poster={serie.poster_path}
+                    title={serie.title || serie.name}
+                    media_type="tv"
+                    vote_average={serie.vote_average}
+                  />
+                </Link>
+              ))
+            ) : (
+              <div className="no-series">
+                Serie does not exist by selected genres
+              </div>
+            )}
           </div>
-        )}
-        <div className="series__pagination">
-          {numOfPages > 1 && (
-            <CustomePagination
-              setPage={setPage}
-              numberOfPages={numOfPages}
-              currentPage={page}
-            />
-          )}
         </div>
+      )}
+      <div className="series__pagination">
+        {numOfPages > 1 && (
+          <CustomePagination
+            setPage={setPage}
+            numberOfPages={numOfPages}
+            currentPage={page}
+          />
+        )}
       </div>
-    </>
+    </section>
   );
 };
 
