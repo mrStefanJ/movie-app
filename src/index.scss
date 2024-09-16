@@ -1,6 +1,10 @@
 @import "react-alice-carousel/lib/scss/alice-carousel.scss";
 @import "./style/variable.scss";
 
+* {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding: 0;
