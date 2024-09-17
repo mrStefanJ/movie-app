@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ButtonGroups from "../../components/ButtonGroups/ButtonGroups";
 import { CustomePagination } from "../../components/CustomePagination";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { SingleContent } from "../../components/SingleContent";
 import { fetchTrending } from "../../data/dataJSON";
 import { Result } from "../../type/show";
@@ -50,9 +51,7 @@ const Trending = () => {
     <>
       <section className="tending">
         {loading ? (
-          <div className="loading">
-            <div className="spinner"></div>
-          </div>
+          <LoadingSpinner />
         ) : (
           <div className="tending__container">
             <ButtonGroups

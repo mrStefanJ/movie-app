@@ -6,6 +6,7 @@ import { Genres } from "../../components/Genres";
 import { Search } from "../../components/SearchElement";
 import { SingleContent } from "../../components/SingleContent";
 import useGenres from "../../CustomHook/useGenres";
+import useSearch from "../../CustomHook/useSearch";
 import {
   fetchSeries,
   fetchSeriesCategory,
@@ -14,7 +15,7 @@ import {
 import { Genre } from "../../type/genre";
 import { Result } from "../../type/show";
 import "./style.scss";
-import useSearch from "../../CustomHook/useSearch";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 const Series = () => {
   const { number } = useParams();
@@ -100,9 +101,7 @@ const Series = () => {
         setPage={setPage}
       />
       {loading ? (
-        <div className="loading">
-          <div className="spinner"></div>
-        </div>
+        <LoadingSpinner />
       ) : (
         <div className="series__container">
           <ButtonGroups

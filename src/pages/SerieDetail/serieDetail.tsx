@@ -1,16 +1,9 @@
-import {
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Carousel } from "../../components/Carousel";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { TableContent } from "../../components/TableContent";
 import { VideoYouTube } from "../../components/Video";
 import {
   img_500,
@@ -18,7 +11,6 @@ import {
   unavailableLandscape,
 } from "../../config/config";
 import { featchByID, fetchVideo } from "../../data/dataJSON";
-import { Genre } from "../../type/genre";
 import { ShowDetails } from "../../type/show";
 import { Video } from "../../type/video";
 import "./style.scss";
@@ -59,9 +51,8 @@ const SerieDetail = () => {
     }
   };
 
-  console.log(serie);
   return (
-    <div className="serie-details">
+    <section className="serie-details">
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -108,44 +99,7 @@ const SerieDetail = () => {
                   </p>
                 )}
                 <div className="serie-detail__table-details">
-                  <TableContainer>
-                    <Table aria-label="simple table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Release date</TableCell>
-                          <TableCell>
-                            {serie?.release_date || serie?.first_air_date}
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell>Genres</TableCell>
-                          <TableCell>
-                            <ul className="genre-list">
-                              {serie?.genres.map((genre: Genre) => (
-                                <li key={genre.id} className="genre-item">
-                                  {genre.name}
-                                </li>
-                              ))}
-                            </ul>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Seasons</TableCell>
-                          <TableCell>{serie?.seasons.length}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Language</TableCell>
-                          <TableCell>{serie?.original_language}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Status</TableCell>
-                          <TableCell>{serie?.status}</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
+                  <TableContent content={serie} />
                 </div>
                 <VideoYouTube video={video} />
               </div>
@@ -158,7 +112,7 @@ const SerieDetail = () => {
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 };
 

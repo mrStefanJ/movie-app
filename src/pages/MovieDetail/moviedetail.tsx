@@ -1,16 +1,9 @@
-import {
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Carousel } from "../../components/Carousel";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
+import { TableContent } from "../../components/TableContent";
 import { VideoYouTube } from "../../components/Video";
 import {
   img_500,
@@ -18,7 +11,6 @@ import {
   unavailableLandscape,
 } from "../../config/config";
 import { featchByID, fetchVideo } from "../../data/dataJSON";
-import { Genre } from "../../type/genre";
 import { ShowDetails } from "../../type/show";
 import { Video } from "../../type/video";
 import "./style.scss";
@@ -61,7 +53,7 @@ const MovieDetail = () => {
   };
 
   return (
-    <div className="movie-details">
+    <section className="movie-details">
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -108,40 +100,7 @@ const MovieDetail = () => {
                   </p>
                 )}
                 <div className="movie-detail__table-details">
-                  <TableContainer>
-                    <Table aria-label="simple table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Release date</TableCell>
-                          <TableCell>
-                            {movie?.release_date || movie?.first_air_date}
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell>Genres</TableCell>
-                          <TableCell>
-                            <ul className="genre-list">
-                              {movie?.genres.map((genre: Genre) => (
-                                <li key={genre.id} className="genre-item">
-                                  {genre.name}
-                                </li>
-                              ))}
-                            </ul>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Laguage</TableCell>
-                          <TableCell>{movie?.original_language}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Status</TableCell>
-                          <TableCell>{movie?.status}</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
+                  <TableContent content={movie} />
                 </div>
                 <VideoYouTube video={video} />
               </div>
@@ -154,7 +113,7 @@ const MovieDetail = () => {
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 };
 

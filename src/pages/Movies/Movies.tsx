@@ -1,11 +1,13 @@
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ButtonGroups } from "../../components/ButtonGroups";
 import { CustomePagination } from "../../components/CustomePagination";
 import { Genres } from "../../components/Genres";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { Search } from "../../components/SearchElement";
 import { SingleContent } from "../../components/SingleContent";
 import useGenres from "../../CustomHook/useGenres";
+import useSearch from "../../CustomHook/useSearch";
 import {
   fetchMovies,
   fetchMoviesCategory,
@@ -14,7 +16,6 @@ import {
 import { Genre } from "../../type/genre";
 import { Result } from "../../type/show";
 import "./style.scss";
-import useSearch from "../../CustomHook/useSearch"; // Import the custom hook
 
 const Movies = () => {
   const { number } = useParams();
@@ -47,7 +48,6 @@ const Movies = () => {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
-    const loadingTimeout = setTimeout(() => setLoading(false), 5000);
     try {
       let data;
       // When searchText is present, fetch search results
@@ -63,7 +63,7 @@ const Movies = () => {
       } else if (type !== "all") {
         data = await fetchMoviesCategory(page, genreforURL, type);
 
-        // Default case: No search, no genres, no type filter, fetch default series
+        // No search, no genres, no type filter, fetch default series
       } else {
         data = await fetchMovies(page, genreforURL);
       }
@@ -73,7 +73,6 @@ const Movies = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
-      clearTimeout(loadingTimeout);
       setLoading(false);
     }
   }, [searchText, genreforURL, page, type]);
@@ -88,48 +87,30 @@ const Movies = () => {
   }, [fetchData]);
 
   return (
-    <>
-      <section className="movies">
-        {/* Use Search input with the custom hook */}
-        <Search value={searchText} onChange={handleSearchChange} />
-        <Genres
-          type="movie"
-          selectedGenres={selectedGenres}
-          setSelectedGenres={setSelectedGenres}
-          genres={genres}
-          setGenres={setGenres}
-          setPage={setPage}
-        />
-        {loading ? (
-          <div className="loading">
-            <div className="spinner"></div>
-          </div>
-        ) : (
-          <div className="movies__container">
-            <ButtonGroups
-              category={options}
-              activeValue={type}
-              onSelectCategory={handleSelectCategory}
-              disabled={isSearchActive || selectedGenres.length > 0}
-            />
-            <div className="movies__content">
-              {searchText ? (
-                searchResults.length > 0 ? (
-                  searchResults.map((movie: Result) => (
-                    <Link key={movie.id} to={`/movie/${movie.id}`}>
-                      <SingleContent
-                        poster={movie.poster_path}
-                        title={movie.title}
-                        media_type="movie"
-                        vote_average={movie.vote_average}
-                      />
-                    </Link>
-                  ))
-                ) : (
-                  <div className="no-results">No results found</div>
-                )
-              ) : content.length > 0 ? (
-                content.map((movie: Result) => (
+    <section className="movies">
+      <Search value={searchText} onChange={handleSearchChange} />
+      <Genres
+        type="movie"
+        selectedGenres={selectedGenres}
+        setSelectedGenres={setSelectedGenres}
+        genres={genres}
+        setGenres={setGenres}
+        setPage={setPage}
+      />
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="movies__container">
+          <ButtonGroups
+            category={options}
+            activeValue={type}
+            onSelectCategory={handleSelectCategory}
+            disabled={isSearchActive || selectedGenres.length > 0}
+          />
+          <div className="movies__content">
+            {searchText ? (
+              searchResults.length > 0 ? (
+                searchResults.map((movie: Result) => (
                   <Link key={movie.id} to={`/movie/${movie.id}`}>
                     <SingleContent
                       poster={movie.poster_path}
@@ -140,24 +121,37 @@ const Movies = () => {
                   </Link>
                 ))
               ) : (
-                <div className="no-series">
-                  Movie does not exist by selected genres
-                </div>
-              )}
-            </div>
+                <div className="no-results">No results found</div>
+              )
+            ) : content.length > 0 ? (
+              content.map((movie: Result) => (
+                <Link key={movie.id} to={`/movie/${movie.id}`}>
+                  <SingleContent
+                    poster={movie.poster_path}
+                    title={movie.title}
+                    media_type="movie"
+                    vote_average={movie.vote_average}
+                  />
+                </Link>
+              ))
+            ) : (
+              <div className="no-series">
+                Movie does not exist by selected genres
+              </div>
+            )}
           </div>
-        )}
-        <div className="movies__pagination">
-          {numOfPages > 1 && (
-            <CustomePagination
-              setPage={setPage}
-              numberOfPages={numOfPages}
-              currentPage={page}
-            />
-          )}
         </div>
-      </section>
-    </>
+      )}
+      <div className="movies__pagination">
+        {numOfPages > 1 && (
+          <CustomePagination
+            setPage={setPage}
+            numberOfPages={numOfPages}
+            currentPage={page}
+          />
+        )}
+      </div>
+    </section>
   );
 };
 
