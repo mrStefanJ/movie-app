@@ -1,7 +1,7 @@
 # Movies and Series
 
 This project was worked in React. Project Movies / Series is web app that will show list of movies and series in Trending page and a separate list of movies and series page.
-In Movies and Series page will have options to select genres of your choice. On selected movie or series will popup modal and show details of movie or serie.
+In Movies and Series page will have options to select genres of your choice and to choose different category and to search. On selected movie or series will go to the next page with details of movie or serie.
 
 Design is started in the mobile-first approach.
 
