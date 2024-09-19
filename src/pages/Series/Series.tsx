@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { ButtonGroups } from "../../components/ButtonGroups";
 import { CustomePagination } from "../../components/CustomePagination";
 import { Genres } from "../../components/Genres";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { Search } from "../../components/SearchElement";
 import { SingleContent } from "../../components/SingleContent";
 import useGenres from "../../CustomHook/useGenres";
@@ -15,7 +16,6 @@ import {
 import { Genre } from "../../type/genre";
 import { Result } from "../../type/show";
 import "./style.scss";
-import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 const Series = () => {
   const { number } = useParams();
@@ -29,6 +29,7 @@ const Series = () => {
   const [genres, setGenres] = useState<Genre[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchResults, setSearchResults] = useState<Result[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
   const { searchText, isSearchActive, handleSearchChange } = useSearch();
 
@@ -49,7 +50,6 @@ const Series = () => {
   // Fetch series data based on search, genres, or category
   const fetchData = useCallback(async () => {
     setLoading(true);
-
     try {
       let data;
       // When searchText is present, fetch search results
@@ -72,8 +72,10 @@ const Series = () => {
 
       setContent(data?.results || []);
       setNumOfPages(data?.total_pages || 0);
-    } catch (error) {
+      setErrorMessage(undefined);
+    } catch (error: any) {
       console.error("Error fetching data:", error);
+      setErrorMessage(error?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -100,7 +102,9 @@ const Series = () => {
         setGenres={setGenres}
         setPage={setPage}
       />
-      {loading ? (
+      {errorMessage ? (
+        <div className="error__message">{errorMessage}</div>
+      ) : loading ? (
         <LoadingSpinner />
       ) : (
         <div className="series__container">

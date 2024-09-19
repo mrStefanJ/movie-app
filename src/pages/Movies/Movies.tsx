@@ -29,6 +29,7 @@ const Movies = () => {
   const [genres, setGenres] = useState<Genre[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchResults, setSearchResults] = useState<Result[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
   const { searchText, isSearchActive, handleSearchChange } = useSearch();
 
@@ -70,8 +71,9 @@ const Movies = () => {
 
       setContent(data?.results || []);
       setNumOfPages(data?.total_pages || 0);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching data:", error);
+      setErrorMessage(error?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -97,7 +99,9 @@ const Movies = () => {
         setGenres={setGenres}
         setPage={setPage}
       />
-      {loading ? (
+      {errorMessage ? (
+        <div className="error__message">{errorMessage}</div>
+      ) : loading ? (
         <LoadingSpinner />
       ) : (
         <div className="movies__container">

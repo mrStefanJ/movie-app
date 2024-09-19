@@ -16,6 +16,7 @@ const Trending = () => {
   const [numOfPages, setNumOfPages] = useState<number>();
   const [page, setPage] = useState<number>(Number(number) || 1);
   const [loading, setLoading] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
   const options = [
     { label: "All", value: "all" },
@@ -28,29 +29,30 @@ const Trending = () => {
   }, [page, navigate]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [page, type]); // eslint-disable-line
+    setLoading(true);
+    fetchData(); // eslint-disable-next-line
+  }, [page, type]);
 
   const fetchData = async () => {
     try {
       const response = await fetchTrending(page, type);
       setContent(response.results);
       setNumOfPages(response.total_pages);
-    } catch (error) {
+      setErrorMessage(undefined);
+    } catch (error: any) {
       console.error("Error fetching data: ", error);
+      setErrorMessage(error?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
       <section className="tending">
-        {loading ? (
+        {errorMessage ? (
+          <div className="error__message">{errorMessage}</div>
+        ) : loading ? (
           <LoadingSpinner />
         ) : (
           <div className="tending__container">
