@@ -11,17 +11,17 @@
   justify-content: center;
   padding-bottom: 80px;
 
-  .tending__btn-group{
+  .tending__btn-group {
     padding-bottom: 30px;
   }
 
   .tending__content {
     display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 80px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 80px;
   }
 }
 
@@ -29,4 +29,12 @@
   display: flex;
   justify-content: center;
   padding-bottom: 20px;
+}
+
+.error__message {
+  font-size: 18px;
+  display: flex;
+  height: 510px;
+  flex-direction: column;
+  justify-content: center;
 }
