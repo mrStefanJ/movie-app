@@ -64,17 +64,13 @@ const Trending = () => {
             <div className="tending__content">
               {content.length > 0 &&
                 content.map((tending: Result) => (
-                  <Link
-                    key={tending.id}
-                    to={`/${tending.media_type}/${tending.id}`}
-                  >
-                    <SingleContent
-                      poster={tending.poster_path}
-                      title={tending.title || tending.name}
-                      media_type={tending.media_type}
-                      vote_average={tending.vote_average}
-                    />
-                  </Link>
+                  <SingleContent
+                    id={tending.id}
+                    poster={tending.poster_path}
+                    title={tending.title || tending.name}
+                    media_type={tending.media_type}
+                    vote_average={tending.vote_average}
+                  />
                 ))}
             </div>
           </div>

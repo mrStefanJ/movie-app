@@ -1,0 +1,55 @@
+@import "../../style/variable.scss";
+
+.favorite__list {
+  margin: 0 10px;
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 30px;
+}
+
+.favorite__item {
+  position: relative;
+  height: 100%;
+
+  img {
+    border-radius: 20px;
+  }
+
+  .favorite__details {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 3px;
+    background: $black;
+    color: $white;
+    border-radius: 20px;
+    transform: scale(0.8);
+    visibility: hidden;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  &:hover {
+    .favorite__details {
+      visibility: visible;
+      transform: scale(1);
+      opacity: 0.8;
+      .favorite__title, .favorite__media-type, .favorite-remove__button {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+
+.no-favorite {
+  height: 594px;
+  padding-top: 116px;
+  font-weight: bold;
+}

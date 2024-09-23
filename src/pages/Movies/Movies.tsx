@@ -115,28 +115,26 @@ const Movies = () => {
             {searchText ? (
               searchResults.length > 0 ? (
                 searchResults.map((movie: Result) => (
-                  <Link key={movie.id} to={`/movie/${movie.id}`}>
-                    <SingleContent
-                      poster={movie.poster_path}
-                      title={movie.title}
-                      media_type="movie"
-                      vote_average={movie.vote_average}
-                    />
-                  </Link>
+                  <SingleContent
+                    id={movie.id}
+                    poster={movie.poster_path}
+                    title={movie.title}
+                    media_type="movie"
+                    vote_average={movie.vote_average}
+                  />
                 ))
               ) : (
                 <div className="no-results">No results found</div>
               )
             ) : content.length > 0 ? (
               content.map((movie: Result) => (
-                <Link key={movie.id} to={`/movie/${movie.id}`}>
-                  <SingleContent
-                    poster={movie.poster_path}
-                    title={movie.title}
-                    media_type="movie"
-                    vote_average={movie.vote_average}
-                  />
-                </Link>
+                <SingleContent
+                  id={movie.id}
+                  poster={movie.poster_path}
+                  title={movie.title}
+                  media_type="movie"
+                  vote_average={movie.vote_average}
+                />
               ))
             ) : (
               <div className="no-series">

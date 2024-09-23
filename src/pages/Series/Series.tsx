@@ -118,28 +118,26 @@ const Series = () => {
             {searchText ? (
               searchResults.length > 0 ? (
                 searchResults.map((serie: Result) => (
-                  <Link key={serie.id} to={`/tv/${serie.id}`}>
-                    <SingleContent
-                      poster={serie.poster_path}
-                      title={serie.title || serie.name}
-                      media_type="tv"
-                      vote_average={serie.vote_average}
-                    />
-                  </Link>
+                  <SingleContent
+                    id={serie.id}
+                    poster={serie.poster_path}
+                    title={serie.title || serie.name}
+                    media_type="tv"
+                    vote_average={serie.vote_average}
+                  />
                 ))
               ) : (
                 <div className="no-results">No results found</div>
               )
             ) : content.length > 0 ? (
               content.map((serie: Result) => (
-                <Link key={serie.id} to={`/tv/${serie.id}`}>
-                  <SingleContent
-                    poster={serie.poster_path}
-                    title={serie.title || serie.name}
-                    media_type="tv"
-                    vote_average={serie.vote_average}
-                  />
-                </Link>
+                <SingleContent
+                  id={serie.id}
+                  poster={serie.poster_path}
+                  title={serie.title || serie.name}
+                  media_type="tv"
+                  vote_average={serie.vote_average}
+                />
               ))
             ) : (
               <div className="no-series">
