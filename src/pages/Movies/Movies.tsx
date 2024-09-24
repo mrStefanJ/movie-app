@@ -99,18 +99,18 @@ const Movies = () => {
         setGenres={setGenres}
         setPage={setPage}
       />
+      <ButtonGroups
+        category={options}
+        activeValue={type}
+        onSelectCategory={handleSelectCategory}
+        disabled={isSearchActive || selectedGenres.length > 0}
+      />
       {errorMessage ? (
         <div className="error__message">{errorMessage}</div>
       ) : loading ? (
         <LoadingSpinner />
       ) : (
         <div className="movies__container">
-          <ButtonGroups
-            category={options}
-            activeValue={type}
-            onSelectCategory={handleSelectCategory}
-            disabled={isSearchActive || selectedGenres.length > 0}
-          />
           <div className="movies__content">
             {searchText ? (
               searchResults.length > 0 ? (

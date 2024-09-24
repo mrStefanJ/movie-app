@@ -32,13 +32,13 @@ const SingleContent = ({
 
   useEffect(() => {
     if (user) {
-      checkIfFavorite(); // Run this function once the user is set
+      checkIfFavorite();
     } // eslint-disable-next-line
   }, [user]);
 
   // Fetch the user data from localStorage
   const fetchUserData = () => {
-    const loginData = localStorage.getItem("loginData");
+    const loginData = localStorage.getItem("userData");
     if (loginData) {
       setUser(JSON.parse(loginData));
     }

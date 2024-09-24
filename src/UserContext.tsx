@@ -1,10 +1,4 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import { User } from "./type/user";
 
 type UserContextType = {
@@ -12,6 +6,8 @@ type UserContextType = {
   user: User | null;
   login: (user: User) => void;
   logout: () => void;
+  register: (user: User) => void;
+  userList: User[];
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -19,34 +15,44 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [userList, setUserList] = useState<User[]>([]);
 
-  useEffect(() => {
-    loginCheck();
-  }, []);
+  const register = (userData: User) => {
+    const storedUsers = localStorage.getItem("registeredUsers");
+    const users = storedUsers ? JSON.parse(storedUsers) : [];
 
-  const loginCheck = () => {
-    const storedUser = localStorage.getItem("loginData");
-    if (storedUser) {
-      const parsedUser: User = JSON.parse(storedUser);
-      setUser(parsedUser);
-      setIsLoggedIn(true);
-    }
+    const updatedUsers = [...users, userData];
+    setUserList(updatedUsers);
+    localStorage.setItem("registeredUsers", JSON.stringify(updatedUsers));
+
+    setIsLoggedIn(false);
   };
 
   const login = (userData: User) => {
-    setUser(userData);
-    setIsLoggedIn(true);
-    localStorage.setItem("loginData", JSON.stringify(userData));
+    const storedUsers = localStorage.getItem("registeredUsers");
+    const users = storedUsers ? JSON.parse(storedUsers) : [];
+
+    const foundUser = users.find((user: User) => user.email === userData.email);
+
+    if (foundUser) {
+      setUser(foundUser);
+      setIsLoggedIn(true);
+      localStorage.setItem("userData", JSON.stringify(foundUser));
+    } else {
+      setIsLoggedIn(false);
+    }
   };
 
   const logout = () => {
+    localStorage.removeItem("userData");
     setUser(null);
     setIsLoggedIn(false);
-    localStorage.removeItem("loginData");
   };
 
   return (
-    <UserContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <UserContext.Provider
+      value={{ isLoggedIn, user, userList, register, login, logout }}
+    >
       {children}
     </UserContext.Provider>
   );

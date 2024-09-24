@@ -20,7 +20,7 @@ const Favorite = () => {
   }, []);
 
   const fetchFavorites = () => {
-    const loginData = localStorage.getItem("loginData");
+    const loginData = localStorage.getItem("userData");
     if (loginData) {
       const user = JSON.parse(loginData);
       const favoritesKey = `favorites_${user.id}`;
@@ -34,7 +34,7 @@ const Favorite = () => {
   };
 
   const removeFavorite = (id: any) => {
-    const loginData = localStorage.getItem("loginData");
+    const loginData = localStorage.getItem("userData");
     if (loginData) {
       const user = JSON.parse(loginData);
       const favoritesKey = `favorites_${user.id}`;

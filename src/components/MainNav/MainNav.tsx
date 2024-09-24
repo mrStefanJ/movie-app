@@ -1,16 +1,24 @@
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import { Avatar, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Login } from "../Dialog";
+import { Login, Register } from "../Dialog";
 import { useUser } from "../../UserContext";
 
 const Navigation = () => {
   const [isMobileNavVisible, setIsMobileNavVisible] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const [open, setOpen] = useState(false);
-  const { isLoggedIn, logout } = useUser();
+  const [openLogin, setOpenLogin] = useState(false);
+  const [openRegister, setOpenRegister] = useState(false);
+  const { isLoggedIn, user, logout } = useUser();
 
   const toggleMobileNav = () => {
     setIsMobileNavVisible(!isMobileNavVisible);
@@ -28,18 +36,26 @@ const Navigation = () => {
     setAnchorElUser(null);
   };
 
-  const openDialog = () => setOpen(true);
-  const closeDialog = () => setOpen(false);
+  const openLoginDialog = () => setOpenLogin(true);
+  const closeLoginDialog = () => setOpenLogin(false);
+
+  const openRegisterDialog = () => setOpenRegister(true);
+  const closeRegisterDialog = () => setOpenRegister(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("loginData");
     logout();
     handleCloseUserMenu();
   };
 
   const handleLogin = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    openDialog();
+    openLoginDialog();
+    handleCloseUserMenu();
+  };
+
+  const handleRegister = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    openRegisterDialog();
     handleCloseUserMenu();
   };
 
@@ -86,7 +102,11 @@ const Navigation = () => {
 
       <div className="navigation__avatar">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar>H</Avatar>
+          {!isLoggedIn ? (
+            <Avatar>D</Avatar>
+          ) : (
+            <Avatar alt={user?.firstName} src={user?.image} />
+          )}
         </IconButton>
         <Menu
           sx={{ mt: "45px" }}
@@ -109,9 +129,14 @@ const Navigation = () => {
               <Typography sx={{ textAlign: "center" }}>Logout</Typography>
             </MenuItem>
           ) : (
-            <MenuItem onClick={handleLogin}>
-              <Typography sx={{ textAlign: "center" }}>Login</Typography>
-            </MenuItem>
+            <Box>
+              <MenuItem onClick={handleLogin}>
+                <Typography sx={{ textAlign: "center" }}>Login</Typography>
+              </MenuItem>
+              <MenuItem onClick={handleRegister}>
+                <Typography sx={{ textAlign: "center" }}>Register</Typography>
+              </MenuItem>
+            </Box>
           )}
         </Menu>
       </div>
@@ -159,7 +184,8 @@ const Navigation = () => {
           </NavLink>
         )}
       </nav>
-      <Login open={open} handleClose={closeDialog} />
+      <Login open={openLogin} handleClose={closeLoginDialog} />
+      <Register open={openRegister} handleClose={closeRegisterDialog} />
     </>
   );
 };
