@@ -8,6 +8,9 @@ const useSearch = () => {
     const value = event.target.value;
     setSearchText(value);
     setIsSearchActive(value.trim() !== "");
+    if (!value.trim()) {
+      setSearchText("");
+    }
   };
 
   return { searchText, isSearchActive, handleSearchChange };
