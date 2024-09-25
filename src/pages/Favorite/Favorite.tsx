@@ -60,24 +60,30 @@ const Favorite = () => {
                   src={item.poster ? `${img_300}/${item.poster}` : unavailable}
                   alt={item.title}
                 />
+                <div className="favorite__details">
+                  <h3 className="favorite__title">{item.title}</h3>
+                  <Button
+                    className="favorite-remove__button"
+                    onClick={(event) => {
+                      event.preventDefault();
+
+                      removeFavorite(item.id);
+                    }}
+                  >
+                    <FavoriteOutlinedIcon />
+                  </Button>
+                  <p className="favorite__media-type">
+                    {item.media_type === "tv" ? "TV Series" : "Movie"}
+                  </p>
+                </div>
               </Link>
-              <div className="favorite__details">
-                <h3 className="favorite__title">{item.title}</h3>
-                <p className="favorite__media-type">
-                  {item.media_type === "tv" ? "TV Series" : "Movie"}
-                </p>
-                <Button
-                  className="favorite-remove__button"
-                  onClick={() => removeFavorite(item.id)}
-                >
-                  <FavoriteOutlinedIcon />
-                </Button>
-              </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="no-favorite">No favorites added yet.</div>
+        <div className="no-favorite">
+          You don't have favorites moveis or series
+        </div>
       )}
     </section>
   );

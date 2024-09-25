@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { User } from "./type/user";
 
 type UserContextType = {
@@ -17,6 +23,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userList, setUserList] = useState<User[]>([]);
 
+  useEffect(() => {
+    initializeUser();
+  }, []);
+  // Function to register a new user
   const register = (userData: User) => {
     const storedUsers = localStorage.getItem("registeredUsers");
     const users = storedUsers ? JSON.parse(storedUsers) : [];
@@ -27,7 +37,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     setIsLoggedIn(false);
   };
-
+  // Function to log in a user
   const login = (userData: User) => {
     const storedUsers = localStorage.getItem("registeredUsers");
     const users = storedUsers ? JSON.parse(storedUsers) : [];
@@ -42,7 +52,16 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       setIsLoggedIn(false);
     }
   };
-
+  // Function to check if a user is already logged in
+  const initializeUser = () => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      const loggedUser = JSON.parse(storedUserData);
+      setUser(loggedUser);
+      setIsLoggedIn(true);
+    }
+  };
+  // Function to log out the user
   const logout = () => {
     localStorage.removeItem("userData");
     setUser(null);
