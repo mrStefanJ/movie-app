@@ -6,8 +6,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { Genre } from "../../type/genre";
-import { ShowDetails } from "../../type/show";
+import { Genre } from "../../../type/genre";
+import { ShowDetails } from "../../../type/show";
 import "./style.scss";
 
 interface ContentProps {

@@ -80,7 +80,6 @@ const SingleContent = ({
         const newFavorite = { id, title, media_type, poster };
         updatedFavorites = [...favorites, newFavorite];
         setIsFavorite(true); // Update the state immediately
-        console.log("Added to favorites:", newFavorite);
       } else {
         // Remove the favorite item
         updatedFavorites = favorites.filter(

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Carousel } from "../../components/Carousel";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
-import { TableContent } from "../../components/TableContent";
+import { ContentMoviesSeries } from "../../components/Table";
 import { VideoYouTube } from "../../components/Video";
 import {
   img_500,
@@ -100,7 +100,7 @@ const MovieDetail = () => {
                   </p>
                 )}
                 <div className="movie-detail__table-details">
-                  <TableContent content={movie} />
+                  <ContentMoviesSeries content={movie} />
                 </div>
                 <VideoYouTube video={video} />
               </div>

@@ -1,3 +1,4 @@
+@import "../../style/mixin.scss";
 @import "../../style/variable.scss";
 
 @keyframes zoomIn {
@@ -14,7 +15,6 @@
 .favorite__list {
   margin: 0 10px;
   display: flex;
-  gap: 50px;
   flex-wrap: wrap;
   justify-content: center;
   padding-bottom: 30px;
@@ -31,36 +31,42 @@
   animation: zoomIn 0.5s forwards;
 
   img {
-     -moz-border-radius: 0px;
+    height: 250px;
+    -moz-border-radius: 0px;
     -webkit-border-radius: 3px 3px 0px 0px;
     border-radius: 20px;
+    @include breakpoint(tablet) {
+      height: 350px;
+    }
   }
 
   .favorite__details {
-  margin-bottom: 14px;
-  height: 100%;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  transition: 0.5s ease;
-  opacity: 0;
-  text-align: center;
-  color: $white;
-  background: $black;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: space-around;
+    margin-bottom: 14px;
+    height: 95%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transition: 0.5s ease;
+    opacity: 0;
+    text-align: center;
+    color: $white;
+    background: $black;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-around;
+
+    @include breakpoint(tablet) {
+      height: 96.2%;
+    }
   }
 
   &:hover .favorite__details {
     opacity: 1;
   }
-
 }
-
 
 .no-favorite {
   height: 594px;
