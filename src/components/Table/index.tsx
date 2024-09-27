@@ -1,2 +1,2 @@
-export { default as Users } from "./TableUsers/TableUsers";
-export { default as ContentMoviesSeries } from "./TableContent/TableContent";
+export { default as TableUsers } from "./TableUsers/TableUsers";
+export { default as TableContentMS } from "./TableContent/TableContent";
