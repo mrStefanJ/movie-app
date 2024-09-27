@@ -21,7 +21,10 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [userList, setUserList] = useState<User[]>([]);
+  const [userList, setUserList] = useState<User[]>(() => {
+    const storedUser = localStorage.getItem("registeredUsers");
+    return storedUser ? JSON.parse(storedUser) : [];
+  });
 
   useEffect(() => {
     initializeUser();
@@ -60,6 +63,24 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       setUser(loggedUser);
       setIsLoggedIn(true);
     }
+
+    const storedUser = localStorage.getItem("registeredUsers");
+    const users = storedUser ? JSON.parse(storedUser) : [];
+
+    const adminExist = users.some((user: User) => user.role === "admin");
+    if (!adminExist) {
+      const adminUser = {
+        id: "admin-id",
+        firstName: "Admin",
+        email: "admin@example.com",
+        password: "moviesSeries",
+        role: "admin",
+        lastName: "",
+      };
+      users.push(adminUser);
+      setUserList(users);
+      localStorage.setItem("registeredUsers", JSON.stringify(users));
+    }
   };
   // Function to log out the user
   const logout = () => {
@@ -68,6 +89,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     setIsLoggedIn(false);
   };
 
+  console.log(userList);
   return (
     <UserContext.Provider
       value={{ isLoggedIn, user, userList, register, login, logout }}

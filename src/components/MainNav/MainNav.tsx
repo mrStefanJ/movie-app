@@ -62,37 +62,48 @@ const Navigation = () => {
   return (
     <>
       <nav className="navigation__link">
-        <NavLink
-          to="/"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          Home
-        </NavLink>
-        <NavLink
-          to="/trending"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          Trending
-        </NavLink>
-        <NavLink
-          to="/movies"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          Movies
-        </NavLink>
-        <NavLink
-          to="/tv-shows"
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          TV Shows
-        </NavLink>
-        {isLoggedIn && (
+        {user?.role === "admin" ? (
           <NavLink
-            to="/favorite"
+            to="/admin"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
-            Favorite
+            Users
           </NavLink>
+        ) : (
+          <>
+            <NavLink
+              to="/"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/trending"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Trending
+            </NavLink>
+            <NavLink
+              to="/movies"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Movies
+            </NavLink>
+            <NavLink
+              to="/tv-shows"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              TV Shows
+            </NavLink>
+            {isLoggedIn && (
+              <NavLink
+                to="/favorite"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Favorite
+              </NavLink>
+            )}
+          </>
         )}
       </nav>
 
@@ -146,42 +157,54 @@ const Navigation = () => {
           isMobileNavVisible ? "show" : ""
         }`}
       >
-        <NavLink
-          to="/"
-          className={({ isActive }) => (isActive ? "active" : "")}
-          onClick={hideMobileNav}
-        >
-          Home
-        </NavLink>
-        <NavLink
-          to="/trending"
-          className={({ isActive }) => (isActive ? "active" : "")}
-          onClick={hideMobileNav}
-        >
-          Trending
-        </NavLink>
-        <NavLink
-          to="/movies"
-          className={({ isActive }) => (isActive ? "active" : "")}
-          onClick={hideMobileNav}
-        >
-          Movies
-        </NavLink>
-        <NavLink
-          to="/tv-shows"
-          className={({ isActive }) => (isActive ? "active" : "")}
-          onClick={hideMobileNav}
-        >
-          TV Shows
-        </NavLink>
-        {isLoggedIn && (
+        {user?.role === "admin" ? (
           <NavLink
-            to="/favorite"
+            to="/admin"
             className={({ isActive }) => (isActive ? "active" : "")}
             onClick={hideMobileNav}
           >
-            Favorite
+            Users
           </NavLink>
+        ) : (
+          <>
+            <NavLink
+              to="/"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              onClick={hideMobileNav}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/trending"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              onClick={hideMobileNav}
+            >
+              Trending
+            </NavLink>
+            <NavLink
+              to="/movies"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              onClick={hideMobileNav}
+            >
+              Movies
+            </NavLink>
+            <NavLink
+              to="/tv-shows"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              onClick={hideMobileNav}
+            >
+              TV Shows
+            </NavLink>
+            {isLoggedIn && (
+              <NavLink
+                to="/favorite"
+                className={({ isActive }) => (isActive ? "active" : "")}
+                onClick={hideMobileNav}
+              >
+                Favorite
+              </NavLink>
+            )}
+          </>
         )}
       </nav>
       <Login open={openLogin} handleClose={closeLoginDialog} />

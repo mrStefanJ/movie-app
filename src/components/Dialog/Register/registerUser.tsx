@@ -1,13 +1,19 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  TextField,
+  FormControl,
+  IconButton,
+  Input,
+  InputAdornment,
+  InputLabel,
 } from "@mui/material";
 
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useUser } from "../../../UserContext";
@@ -24,9 +30,26 @@ const RegisterUser = ({
     id: "",
     firstName: "",
     lastName: "",
+    password: "",
     email: "",
     image: null as File | null,
+    role: "user" as "user" | "admin",
   });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -50,18 +73,27 @@ const RegisterUser = ({
       id: uuidv4(),
       firstName: formData.firstName,
       lastName: formData.lastName,
+      password: formData.password,
       email: formData.email,
       image: formData.image ? URL.createObjectURL(formData.image) : undefined,
+      role: formData.role,
     };
 
     register(newUser);
     handleClose(); // Close dialog after registration
+    setFormData((prev) => ({ ...prev, password: "" }));
+  };
+
+  const handleCloseDialog = () => {
+    handleClose();
+    // Clear the password field when dialog is closed
+    setFormData((prev) => ({ ...prev, password: "" }));
   };
 
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={handleCloseDialog}
       PaperProps={{
         component: "form",
         onSubmit: handleRegister,
@@ -70,54 +102,89 @@ const RegisterUser = ({
       <DialogTitle>Register</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          To login to this website, please enter your full name and email
-          address here.
+          Please fill in the blank fields to register!!!
         </DialogContentText>
-        <TextField
-          autoFocus
-          required
-          margin="dense"
-          id="firstName"
-          name="firstName"
-          label="First Name"
-          type="text"
-          fullWidth
-          variant="standard"
-          onChange={handleInputChange}
-        />
-        <TextField
-          required
-          margin="dense"
-          id="lastName"
-          name="lastName"
-          label="Last Name"
-          type="text"
-          fullWidth
-          variant="standard"
-          onChange={handleInputChange}
-        />
-        <TextField
-          required
-          margin="dense"
-          id="email"
-          name="email"
-          label="Email Address"
-          type="email"
-          fullWidth
-          variant="standard"
-          onChange={handleInputChange}
-        />
-        <input
-          type="file"
-          accept="image/*"
-          id="image"
-          name="image"
-          onChange={handleFileChange}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            m: "auto",
+            width: "fit-content",
+          }}
+        >
+          <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+            <InputLabel htmlFor="firstName">First Name</InputLabel>
+            <Input
+              autoFocus
+              required
+              margin="dense"
+              id="firstName"
+              name="firstName"
+              type="text"
+              fullWidth
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+            <InputLabel htmlFor="lastName">Last Name</InputLabel>
+            <Input
+              required
+              margin="dense"
+              id="lastName"
+              name="lastName"
+              type="text"
+              fullWidth
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <Input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={formData.password || ""}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    onMouseUp={handleMouseUpPassword}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+            <InputLabel htmlFor="email">Email Address</InputLabel>
+            <Input
+              required
+              margin="dense"
+              id="email"
+              name="email"
+              type="email"
+              fullWidth
+              onChange={handleInputChange}
+            />
+          </FormControl>
+          <FormControl>
+            <input
+              type="file"
+              accept="image/*"
+              id="image"
+              name="image"
+              onChange={handleFileChange}
+            />
+          </FormControl>
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button type="submit">Register</Button>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleCloseDialog}>Cancel</Button>
       </DialogActions>
     </Dialog>
   );

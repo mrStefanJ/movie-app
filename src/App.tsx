@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
+import { Admin } from "./pages/Admin";
 import { Favorite } from "./pages/Favorite";
 import { Home } from "./pages/Home";
 import { MovieDetail } from "./pages/MovieDetail";
@@ -33,6 +34,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <Favorite />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute>
+                      <Admin />
                     </ProtectedRoute>
                   }
                 />

@@ -1,14 +1,20 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
+  FormControl,
+  IconButton,
+  Input,
+  InputAdornment,
+  InputLabel,
 } from "@mui/material";
 import { useState } from "react";
 import { useUser } from "../../../UserContext";
 import { User } from "../../../type/user";
+import "../style.scss";
 
 const Login = ({
   open,
@@ -23,8 +29,25 @@ const Login = ({
     email: "",
     firstName: "",
     lastName: "",
+    password: "",
+    role: "user" as "user" | "admin",
   });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,7 +64,9 @@ const Login = ({
     const userData = {
       id: formData.id,
       firstName: formData.firstName,
+      password: formData.password,
       email: formData.email,
+      role: formData.role,
     };
 
     const storedUsers = localStorage.getItem("registeredUsers");
@@ -56,46 +81,65 @@ const Login = ({
       handleClose();
       setErrorMessage("");
     } else {
-      setErrorMessage("User or email doesn't exist, please register.");
+      setErrorMessage("Password or Email doesn't exist, please register.");
     }
+
+    setFormData((prev) => ({ ...prev, password: "" }));
+  };
+
+  const handleCloseDialog = () => {
+    handleClose();
+    // Clear the password field when dialog is closed
+    setFormData((prev) => ({ ...prev, password: "" }));
   };
 
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={handleCloseDialog}
       PaperProps={{ component: "form", onSubmit: handleLogin }}
     >
       <DialogTitle>Login</DialogTitle>
       <DialogContent>
-        <TextField
-          autoFocus
-          required
-          margin="dense"
-          id="firstName"
-          name="firstName"
-          label="First Name"
-          type="text"
-          fullWidth
-          variant="standard"
-          onChange={handleInputChange}
-        />
-        <TextField
-          required
-          margin="dense"
-          id="email"
-          name="email"
-          label="Email Address"
-          type="email"
-          fullWidth
-          variant="standard"
-          onChange={handleInputChange}
-        />
+        <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+          <InputLabel htmlFor="password">Password</InputLabel>
+          <Input
+            id="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            value={formData.password}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  onMouseUp={handleMouseUpPassword}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            onChange={handleInputChange}
+          />
+        </FormControl>
+        <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+          <InputLabel htmlFor="email">Email Address</InputLabel>
+          <Input
+            required
+            margin="dense"
+            id="email"
+            name="email"
+            type="email"
+            fullWidth
+            onChange={handleInputChange}
+          />
+        </FormControl>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       </DialogContent>
       <DialogActions>
         <Button type="submit">Login</Button>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleCloseDialog}>Cancel</Button>
       </DialogActions>
     </Dialog>
   );
