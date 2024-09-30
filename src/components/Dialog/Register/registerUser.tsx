@@ -32,7 +32,7 @@ const RegisterUser = ({
     lastName: "",
     password: "",
     email: "",
-    image: null as File | null,
+    image: "",
     role: "user" as "user" | "admin",
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -56,16 +56,6 @@ const RegisterUser = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      setFormData((prev) => ({ ...prev, image: files[0] }));
-    } else {
-      // Handle the case when no file is selected
-      setFormData((prev) => ({ ...prev, image: null }));
-    }
-  };
-
   const handleRegister = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -75,7 +65,7 @@ const RegisterUser = ({
       lastName: formData.lastName,
       password: formData.password,
       email: formData.email,
-      image: formData.image ? URL.createObjectURL(formData.image) : undefined,
+      image: formData.image,
       role: formData.role,
     };
 
@@ -88,6 +78,22 @@ const RegisterUser = ({
     handleClose();
     // Clear the password field when dialog is closed
     setFormData((prev) => ({ ...prev, password: "" }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setFormData((prev) => ({ ...prev, image: reader.result as string }));
+      };
+
+      reader.readAsDataURL(file); // Convert the file to a Base64 string
+    } else {
+      setFormData((prev) => ({ ...prev, image: "" })); // Clear if no file is selected
+    }
   };
 
   return (

@@ -1,4 +1,5 @@
 import { TableUsers } from "../../components/Table";
+import "./style.scss";
 
 const Admin = () => {
   return (

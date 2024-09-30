@@ -4,6 +4,6 @@ export interface User {
   lastName?: string;
   password: string | number;
   email: string;
-  image?: string | undefined;
+  image?: string;
   role: "user" | "admin";
 }

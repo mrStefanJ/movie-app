@@ -2,13 +2,16 @@ import MovieCreationOutlinedIcon from "@mui/icons-material/MovieCreationOutlined
 import { Box } from "@mui/material";
 import { MainNav } from "../MainNav";
 import "./style.scss";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
     <>
-      <header className="header">
+      <header>
         <Box className="header__icon">
-          <MovieCreationOutlinedIcon fontSize="large" />
+          <NavLink to="/">
+            <MovieCreationOutlinedIcon fontSize="large" />
+          </NavLink>
         </Box>
         <Box className="header__nav">
           <MainNav />

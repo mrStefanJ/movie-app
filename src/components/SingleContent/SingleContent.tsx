@@ -96,9 +96,13 @@ const SingleContent = ({
   };
 
   return (
-    <div className="content__media">
-      <Link key={id} to={`/${media_type}/${id}`}>
-        <img src={poster ? `${img_300}/${poster}` : unavailable} alt={title} />
+    <div className="content__media" key={id}>
+      <Link to={`/${media_type}/${id}`}>
+        <img
+          src={poster ? `${img_300}/${poster}` : unavailable}
+          alt={title}
+          className="content__image"
+        />
         <div className="content__subTitle">
           <p className="content__title">{title}</p>
           {isLoggedIn && (
