@@ -9,7 +9,6 @@ import {
   Input,
   InputLabel,
   Typography,
-  Zoom,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { User } from "../../../type/user";
