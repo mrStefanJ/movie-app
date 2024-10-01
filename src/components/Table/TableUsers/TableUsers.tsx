@@ -12,6 +12,7 @@ import { visuallyHidden } from "@mui/utils";
 import * as React from "react";
 import { useUser } from "../../../UserContext";
 import { User } from "../../../type/user";
+import { UserDetail } from "../../Dialog";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -65,6 +66,11 @@ const headCells: readonly HeadCell[] = [
     id: "role",
     numeric: true,
     label: "Role",
+  },
+  {
+    id: "isActive",
+    numeric: true,
+    label: "Active",
   },
 ];
 
@@ -122,6 +128,8 @@ export default function TableUsers() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const { userList } = useUser();
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
 
   const users = userList.filter((user) => user.role === "user");
 
@@ -154,7 +162,6 @@ export default function TableUsers() {
     setPage(0);
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
@@ -165,6 +172,23 @@ export default function TableUsers() {
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [order, orderBy, page, rowsPerPage, users]
   );
+
+  const handleClickUser = (user: User) => {
+    // Update the URL with the user's id without navigating away
+    window.history.pushState({}, "", `/admin/${user.id}`);
+
+    // Set the selected user and open the dialog
+    setSelectedUser(user);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false); // Close the dialog
+
+    // Reset the URL to /admin when the dialog is closed
+    window.history.pushState({}, "", "/admin");
+    setSelectedUser(null); // Reset the selected user
+  };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -180,22 +204,26 @@ export default function TableUsers() {
               rowCount={users.length}
             />
             <TableBody>
-              {visibleRows.map((users, index) => {
-                const isItemSelected = selected.includes(Number(users.id));
+              {visibleRows.map((user) => {
+                const isItemSelected = selected.includes(Number(user.id));
                 return (
                   <TableRow
                     hover
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={users.id}
+                    key={user.id}
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
+                    onClick={() => handleClickUser(user)} // Modify URL and open dialog
                   >
-                    <TableCell align="right">{users.firstName}</TableCell>
-                    <TableCell align="right">{users.lastName}</TableCell>
-                    <TableCell align="right">{users.email}</TableCell>
-                    <TableCell align="right">{users.password}</TableCell>
-                    <TableCell align="right">{users.role}</TableCell>
+                    <TableCell align="right">{user.firstName}</TableCell>
+                    <TableCell align="right">{user.lastName}</TableCell>
+                    <TableCell align="right">{user.email}</TableCell>
+                    <TableCell align="right">{user.password}</TableCell>
+                    <TableCell align="right">{user.role}</TableCell>
+                    <TableCell align="right">
+                      {user.isActive ? "Active" : "Not Active"}
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -217,6 +245,11 @@ export default function TableUsers() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      <UserDetail
+        open={openDialog}
+        onClose={handleCloseDialog}
+        user={selectedUser}
+      />
     </Box>
   );
 }

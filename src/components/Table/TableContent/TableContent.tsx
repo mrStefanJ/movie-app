@@ -15,7 +15,6 @@ interface ContentProps {
 }
 
 const TableContent: React.FC<ContentProps> = ({ content }) => {
-  console.log(content);
   return (
     <TableContainer>
       <Table aria-label="simple table">

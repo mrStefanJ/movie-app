@@ -87,7 +87,6 @@ const SingleContent = ({
             !(favorite.id === id && favorite.media_type === media_type)
         );
         setIsFavorite(false); // Update the state immediately
-        console.log("Removed from favorites");
       }
 
       // Update localStorage

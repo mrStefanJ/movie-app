@@ -1,5 +1,27 @@
-.MuiDialogContent-root{
+.MuiDialogContent-root {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.dialog__user {
+  .MuiPaper-root {
+    width: 100%;
+  }
+
+  .MuiDialogContent-root {
     display: flex;
     flex-direction: column;
-    height: auto;
+  }
+
+  .flex__row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .user__image {
+    width: 200px;
+    height: 150px;
+  }
 }

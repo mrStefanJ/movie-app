@@ -34,6 +34,7 @@ const RegisterUser = ({
     email: "",
     image: "",
     role: "user" as "user" | "admin",
+    isActive: false,
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -67,6 +68,7 @@ const RegisterUser = ({
       email: formData.email,
       image: formData.image,
       role: formData.role,
+      isActive: true,
     };
 
     register(newUser);
@@ -165,7 +167,7 @@ const RegisterUser = ({
               onChange={handleInputChange}
             />
           </FormControl>
-          <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+          <FormControl sx={{ m: "10px", width: "25ch" }} variant="standard">
             <InputLabel htmlFor="email">Email Address</InputLabel>
             <Input
               required

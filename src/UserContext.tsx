@@ -74,6 +74,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         firstName: "Admin",
         email: "admin@example.com",
         password: "moviesSeries",
+        image: "https://images.app.goo.gl/ZiYW25oneR62rJSt9",
         role: "admin",
         lastName: "",
       };
@@ -89,7 +90,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     setIsLoggedIn(false);
   };
 
-  console.log(userList);
   return (
     <UserContext.Provider
       value={{ isLoggedIn, user, userList, register, login, logout }}

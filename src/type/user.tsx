@@ -6,4 +6,5 @@ export interface User {
   email: string;
   image?: string;
   role: "user" | "admin";
+  isActive?: boolean;
 }
