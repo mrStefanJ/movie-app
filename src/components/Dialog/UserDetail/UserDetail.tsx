@@ -17,24 +17,21 @@ const UserDetail = ({
   open,
   onClose,
   user,
+  onUserUpdate,
 }: {
   open: boolean;
-  onClose?: () => void;
+  onClose: () => void;
   user?: User | null;
+  onUserUpdate: (user: User) => void;
 }) => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (user) {
-      const storedFavorites = localStorage.getItem(`favorites_${user.id}`);
-      if (storedFavorites) {
-        setFavorites(JSON.parse(storedFavorites));
-      }
-      setEditedUser(user);
-    }
-  }, [user]);
+    checkUserActive();
+    // eslint-disable-next-line
+  }, [open, user]);
 
   const handleUserChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (editedUser) {
@@ -47,6 +44,47 @@ const UserDetail = ({
 
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
+  };
+
+  const checkUserActive = () => {
+    if (open && user) {
+      const storedFavorites = localStorage.getItem(`favorites_${user.id}`);
+      if (storedFavorites) {
+        setFavorites(JSON.parse(storedFavorites));
+      }
+
+      // Fetch the latest user data from localStorage
+      const registeredUsers = JSON.parse(
+        localStorage.getItem("registeredUsers") || "[]"
+      );
+      const currentUser = registeredUsers.find((u: User) => u.id === user.id);
+
+      if (currentUser) {
+        setEditedUser(currentUser);
+      } else {
+        setEditedUser(user); // Fallback to the passed user prop
+      }
+    }
+  };
+
+  const handleToggleActiveStatus = () => {
+    if (editedUser) {
+      const updatedUser = { ...editedUser, isActive: !editedUser.isActive };
+      setEditedUser(updatedUser);
+
+      const registeredUsers = JSON.parse(
+        localStorage.getItem("registeredUsers") || "[]"
+      );
+
+      const updatedUsers = registeredUsers.map((user: User) => {
+        if (user.id === updatedUser.id) {
+          return updatedUser;
+        }
+        return user;
+      });
+
+      localStorage.setItem("registeredUsers", JSON.stringify(updatedUsers));
+    }
   };
 
   const handleSaveChanges = () => {
@@ -64,6 +102,8 @@ const UserDetail = ({
 
       localStorage.setItem(`registeredUsers`, JSON.stringify(updateUser));
       setIsEditing(false);
+
+      onUserUpdate(editedUser);
     }
   };
 
@@ -140,7 +180,15 @@ const UserDetail = ({
             </Box>
           </Box>
           <Box>
-            {/* <Button>{user.isActive ? "Active" : "Deactive"}</Button> */}
+            <Button
+              onClick={handleToggleActiveStatus}
+              disabled={!isEditing}
+              className={
+                editedUser?.isActive ? "user--active" : "user--deactive"
+              }
+            >
+              {editedUser?.isActive ? "Active" : "Deactive"}
+            </Button>
           </Box>
           <Box sx={{ mb: 2 }}>
             <Typography variant="h6">Favorite Movies/Series</Typography>

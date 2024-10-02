@@ -76,10 +76,17 @@ const Login = ({
       (user: User) => user.email === userData.email
     );
 
+    // Check if user exists and if the account is active
     if (existingUser) {
-      login(userData);
-      handleClose();
-      setErrorMessage("");
+      if (!existingUser.isActive) {
+        setErrorMessage("Your account is deactivated. Please contact support.");
+      } else if (existingUser.password === userData.password) {
+        login(userData); // Login only if the account is active and the password is correct
+        handleClose();
+        setErrorMessage("");
+      } else {
+        setErrorMessage("Incorrect password.");
+      }
     } else {
       setErrorMessage("Password or Email doesn't exist, please register.");
     }
@@ -88,8 +95,8 @@ const Login = ({
   };
 
   const handleCloseDialog = () => {
+    setErrorMessage("");
     handleClose();
-    // Clear the password field when dialog is closed
     setFormData((prev) => ({ ...prev, password: "" }));
   };
 
@@ -101,7 +108,7 @@ const Login = ({
     >
       <DialogTitle>Login</DialogTitle>
       <DialogContent>
-        <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+        <FormControl sx={{ m: 1, width: "30ch" }} variant="standard">
           <InputLabel htmlFor="password">Password</InputLabel>
           <Input
             id="password"
@@ -123,7 +130,7 @@ const Login = ({
             onChange={handleInputChange}
           />
         </FormControl>
-        <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
+        <FormControl sx={{ m: 1, width: "30ch" }} variant="standard">
           <InputLabel htmlFor="email">Email Address</InputLabel>
           <Input
             required

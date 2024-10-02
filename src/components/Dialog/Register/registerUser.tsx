@@ -118,6 +118,7 @@ const RegisterUser = ({
             flexDirection: "column",
             m: "auto",
             width: "fit-content",
+            padding: "20px 60px",
           }}
         >
           <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">

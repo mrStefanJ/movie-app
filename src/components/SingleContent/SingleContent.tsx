@@ -95,33 +95,31 @@ const SingleContent = ({
   };
 
   return (
-    <div className="content__media" key={id}>
-      <Link to={`/${media_type}/${id}`}>
-        <img
-          src={poster ? `${img_300}/${poster}` : unavailable}
-          alt={title}
-          className="content__image"
-        />
-        <div className="content__subTitle">
-          <p className="content__title">{title}</p>
-          {isLoggedIn && (
-            <Button onClick={handleAddFavorite}>
-              {isFavorite ? (
-                <FavoriteOutlinedIcon />
-              ) : (
-                <FavoriteBorderOutlinedIcon />
-              )}
-            </Button>
-          )}
-          <div className="content__detail">
-            <Badge badgeContent={vote_average} />
-            <span className="content__media-type">
-              {media_type === "tv" ? "TV Series" : "Movie"}
-            </span>
-          </div>
+    <Link to={`/${media_type}/${id}`}>
+      <img
+        src={poster ? `${img_300}/${poster}` : unavailable}
+        alt={title}
+        className="content__image"
+      />
+      <div className="content__subTitle">
+        <p className="content__title">{title}</p>
+        {isLoggedIn && (
+          <Button onClick={handleAddFavorite}>
+            {isFavorite ? (
+              <FavoriteOutlinedIcon />
+            ) : (
+              <FavoriteBorderOutlinedIcon />
+            )}
+          </Button>
+        )}
+        <div className="content__detail">
+          <Badge badgeContent={vote_average} />
+          <span className="content__media-type">
+            {media_type === "tv" ? "TV Series" : "Movie"}
+          </span>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 };
 

@@ -1,3 +1,16 @@
+@import "../../style/mixin.scss";
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .series {
   margin-top: 110px;
   padding-top: 0px;
@@ -15,6 +28,32 @@
   align-items: center;
   justify-content: center;
   padding-bottom: 80px;
+  }
+}
+
+.series__list{
+  display: block;
+  margin: 10px;
+  padding-bottom: 10px;
+  border-radius: 20px;
+  width: 150px;
+  position: relative;
+  transform: scale(0.8);
+  opacity: 0;
+  animation: zoomIn 0.5s forwards;
+
+  &:hover .content__subTitle {
+    opacity: 1;
+  }
+
+  @include breakpoint(mobile-horizontal) {
+    height: 50%;
+    width: 42%;
+  }
+
+  @include breakpoint(tablet) {
+    width: 250px;
+    height: 340px;
   }
 }
 

@@ -13,27 +13,9 @@ import * as React from "react";
 import { useUser } from "../../../UserContext";
 import { User } from "../../../type/user";
 import { UserDetail } from "../../Dialog";
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
+import useSortData from "../../../CustomHook/useSort";
 
 type Order = "asc" | "desc";
-
-function getComparator<Key extends keyof User>(
-  order: Order,
-  orderBy: Key
-): (a: User, b: User) => number {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
 
 interface HeadCell {
   id: keyof User;
@@ -122,16 +104,27 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 }
 
 export default function TableUsers() {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof User>("firstName");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const { userList } = useUser();
+  const { userList, setUserList } = useUser();
   const [openDialog, setOpenDialog] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
 
   const users = userList.filter((user) => user.role === "user");
+
+  const { sortedItems, setOrder, setOrderBy, order, orderBy } = useSortData(
+    users,
+    "asc",
+    "firstName"
+  );
+
+  const handleUserUpdate = (updatedUser: User) => {
+    const updatedUsers = userList.map((user) =>
+      user.id === updatedUser.id ? updatedUser : user
+    );
+    setUserList(updatedUsers); // Update the userList in the context or state
+  };
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -167,10 +160,11 @@ export default function TableUsers() {
 
   const visibleRows = React.useMemo(
     () =>
-      [...users]
-        .sort(getComparator(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, users]
+      [...sortedItems].slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage
+      ),
+    [sortedItems, page, rowsPerPage]
   );
 
   const handleClickUser = (user: User) => {
@@ -214,7 +208,7 @@ export default function TableUsers() {
                     key={user.id}
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
-                    onClick={() => handleClickUser(user)} // Modify URL and open dialog
+                    onClick={() => handleClickUser(user)}
                   >
                     <TableCell align="right">{user.firstName}</TableCell>
                     <TableCell align="right">{user.lastName}</TableCell>
@@ -249,6 +243,7 @@ export default function TableUsers() {
         open={openDialog}
         onClose={handleCloseDialog}
         user={selectedUser}
+        onUserUpdate={handleUserUpdate}
       />
     </Box>
   );

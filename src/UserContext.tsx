@@ -14,6 +14,7 @@ type UserContextType = {
   logout: () => void;
   register: (user: User) => void;
   userList: User[];
+  setUserList: (users: User[]) => void;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -28,15 +29,20 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     initializeUser();
+    // eslint-disable-next-line
   }, []);
+
+  const updateUserList = (users: User[]) => {
+    setUserList(users);
+    localStorage.setItem("registeredUsers", JSON.stringify(users)); // Update localStorage
+  };
   // Function to register a new user
   const register = (userData: User) => {
     const storedUsers = localStorage.getItem("registeredUsers");
     const users = storedUsers ? JSON.parse(storedUsers) : [];
 
     const updatedUsers = [...users, userData];
-    setUserList(updatedUsers);
-    localStorage.setItem("registeredUsers", JSON.stringify(updatedUsers));
+    updateUserList(updatedUsers);
 
     setIsLoggedIn(false);
   };
@@ -64,23 +70,22 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       setIsLoggedIn(true);
     }
 
-    const storedUser = localStorage.getItem("registeredUsers");
-    const users = storedUser ? JSON.parse(storedUser) : [];
+    // const storedUser = localStorage.getItem("registeredUsers");
+    // const users = storedUser ? JSON.parse(storedUser) : [];
 
-    const adminExist = users.some((user: User) => user.role === "admin");
+    const adminExist = userList.some((user: User) => user.role === "admin");
     if (!adminExist) {
       const adminUser = {
-        id: "admin-id",
+        id: "adminId33",
         firstName: "Admin",
         email: "admin@example.com",
         password: "moviesSeries",
         image: "https://images.app.goo.gl/ZiYW25oneR62rJSt9",
+        isActive: true,
         role: "admin",
-        lastName: "",
+        lastName: "AdminRole",
       };
-      users.push(adminUser);
-      setUserList(users);
-      localStorage.setItem("registeredUsers", JSON.stringify(users));
+      setUserList([...userList, adminUser]);
     }
   };
   // Function to log out the user
@@ -92,7 +97,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider
-      value={{ isLoggedIn, user, userList, register, login, logout }}
+      value={{
+        isLoggedIn,
+        user,
+        userList,
+        setUserList,
+        register,
+        login,
+        logout,
+      }}
     >
       {children}
     </UserContext.Provider>

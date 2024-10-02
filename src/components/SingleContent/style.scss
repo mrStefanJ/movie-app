@@ -1,28 +1,6 @@
 @import "../../style/mixin.scss";
 @import "../../style/variable.scss";
 
-@keyframes zoomIn {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.content__media {
-  display: block;
-  margin: 10px;
-  padding-bottom: 10px;
-  border-radius: 20px;
-  width: 150px;
-  position: relative;
-  transform: scale(0.8);
-  opacity: 0;
-  animation: zoomIn 0.5s forwards;
-
   .content__image {
     margin: 0;
     padding: 0;
@@ -37,21 +15,6 @@
       height: 350px;
     }
   }
-
-  &:hover .content__subTitle {
-    opacity: 1;
-  }
-
-  @include breakpoint(mobile-horizontal) {
-    height: 50%;
-    width: 42%;
-  }
-
-  @include breakpoint(tablet) {
-    width: 250px;
-    height: 340px;
-  }
-}
 
 .content__title {
   display: flow;
@@ -69,7 +32,7 @@
 
 .content__subTitle {
   margin-bottom: 14px;
-  height: 100%;
+  height: 95%;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -96,6 +59,7 @@
   }
 
   @include breakpoint(tablet) {
+    height: 100%;
     margin-bottom: 0;
   }
 }

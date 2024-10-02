@@ -5,6 +5,6 @@ export interface User {
   password: string | number;
   email: string;
   image?: string;
-  role: "user" | "admin";
   isActive?: boolean;
+  role: string;
 }
