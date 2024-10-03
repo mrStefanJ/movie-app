@@ -87,6 +87,7 @@ const RegisterUser = ({
       role: "user",
       isActive: false,
     });
+    setPreviewImage(DefaultImage);
   };
 
   const handleCloseDialog = () => {
