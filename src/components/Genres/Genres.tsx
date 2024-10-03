@@ -1,4 +1,5 @@
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { Chip, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchGenres } from "../../data/dataJSON";
@@ -90,7 +91,7 @@ const Genres = ({
           </Stack>
         </div>
         <div className="genres__icon" onClick={toggleSidebar}>
-          <FilterAltIcon />
+          {!isExpanded ? <FilterAltIcon /> : <CloseOutlinedIcon />}
         </div>
       </div>
     </>

@@ -12,11 +12,12 @@ import {
   InputAdornment,
   InputLabel,
 } from "@mui/material";
-
+import DefaultImage from "../../../assets/default-avatar.png";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useUser } from "../../../UserContext";
+import { User } from "../../../type/user";
 
 const RegisterUser = ({
   open,
@@ -26,17 +27,18 @@ const RegisterUser = ({
   handleClose: () => void;
 }) => {
   const { register } = useUser();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<User>({
     id: "",
     firstName: "",
     lastName: "",
     password: "",
     email: "",
-    image: "",
+    image: null,
     role: "user" as "user" | "admin",
     isActive: false,
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [previewImage, setPreviewImage] = useState<string | null>(DefaultImage); // Add type
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -72,29 +74,48 @@ const RegisterUser = ({
     };
 
     register(newUser);
-    handleClose(); // Close dialog after registration
-    setFormData((prev) => ({ ...prev, password: "" }));
+    handleClose();
+
+    // Reset the form fields after registration
+    setFormData({
+      id: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+      email: "",
+      image: null,
+      role: "user",
+      isActive: false,
+    });
   };
 
   const handleCloseDialog = () => {
     handleClose();
     // Clear the password field when dialog is closed
     setFormData((prev) => ({ ...prev, password: "" }));
+    setPreviewImage(DefaultImage);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
       const file = files[0];
       const reader = new FileReader();
 
+      setPreviewImage(URL.createObjectURL(file));
+
       reader.onloadend = () => {
-        setFormData((prev) => ({ ...prev, image: reader.result as string }));
+        const result = reader.result;
+        if (result) {
+          setFormData((prev) => ({ ...prev, image: result as string }));
+        } else {
+          setFormData((prev) => ({ ...prev, image: null })); // Handle null case
+        }
       };
 
       reader.readAsDataURL(file); // Convert the file to a Base64 string
     } else {
-      setFormData((prev) => ({ ...prev, image: "" })); // Clear if no file is selected
+      setFormData((prev) => ({ ...prev, image: null })); // Clear image if no file is selected
     }
   };
 
@@ -106,89 +127,94 @@ const RegisterUser = ({
         component: "form",
         onSubmit: handleRegister,
       }}
+      className="register__form"
     >
       <DialogTitle>Register</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Please fill in the blank fields to register!!!
         </DialogContentText>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            m: "auto",
-            width: "fit-content",
-            padding: "20px 60px",
-          }}
-        >
-          <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-            <InputLabel htmlFor="firstName">First Name</InputLabel>
-            <Input
-              autoFocus
-              required
-              margin="dense"
-              id="firstName"
-              name="firstName"
-              type="text"
-              fullWidth
-              onChange={handleInputChange}
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-            <InputLabel htmlFor="lastName">Last Name</InputLabel>
-            <Input
-              required
-              margin="dense"
-              id="lastName"
-              name="lastName"
-              type="text"
-              fullWidth
-              onChange={handleInputChange}
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input
-              id="password"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              value={formData.password || ""}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              onChange={handleInputChange}
-            />
-          </FormControl>
-          <FormControl sx={{ m: "10px", width: "25ch" }} variant="standard">
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input
-              required
-              margin="dense"
-              id="email"
-              name="email"
-              type="email"
-              fullWidth
-              onChange={handleInputChange}
-            />
-          </FormControl>
-          <FormControl>
-            <input
-              type="file"
-              accept="image/*"
-              id="image"
-              name="image"
-              onChange={handleFileChange}
-            />
-          </FormControl>
+        <Box className="form--flex">
+          <Box className="form__input-field">
+            <FormControl sx={{ m: 1 }} variant="standard">
+              <InputLabel htmlFor="firstName">First Name</InputLabel>
+              <Input
+                autoFocus
+                required
+                margin="dense"
+                id="firstName"
+                name="firstName"
+                type="text"
+                fullWidth
+                onChange={handleInputChange}
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1 }} variant="standard">
+              <InputLabel htmlFor="lastName">Last Name</InputLabel>
+              <Input
+                required
+                margin="dense"
+                id="lastName"
+                name="lastName"
+                type="text"
+                fullWidth
+                onChange={handleInputChange}
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1 }} variant="standard">
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password || ""}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      onMouseUp={handleMouseUpPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                onChange={handleInputChange}
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1 }} variant="standard">
+              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <Input
+                required
+                margin="dense"
+                id="email"
+                name="email"
+                type="email"
+                fullWidth
+                onChange={handleInputChange}
+              />
+            </FormControl>
+          </Box>
+          <Box className="form__image">
+            {previewImage && (
+              <div className="image-preview">
+                <img src={previewImage} alt="Preview" />
+              </div>
+            )}
+            <FormControl className="file-input">
+              <label htmlFor="file-upload" className="custome-file-upload">
+                Upload Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                id="file-upload"
+                name="image"
+                onChange={handleImageChange}
+              />
+            </FormControl>
+          </Box>
         </Box>
       </DialogContent>
       <DialogActions>

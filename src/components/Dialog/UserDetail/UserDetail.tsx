@@ -173,7 +173,7 @@ const UserDetail = ({
             </Box>
             <Box>
               <img
-                src={user.image}
+                src={user?.image || ""}
                 alt={user.firstName}
                 className="user__image"
               />
@@ -219,7 +219,13 @@ const UserDetail = ({
             Edit
           </Button>
         )}
-        <Button onClick={onClose} color="primary">
+        <Button
+          onClick={() => {
+            handleEditToggle();
+            onClose();
+          }}
+          color="primary"
+        >
           Close
         </Button>
       </DialogActions>

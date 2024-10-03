@@ -105,10 +105,11 @@ const Login = ({
       open={open}
       onClose={handleCloseDialog}
       PaperProps={{ component: "form", onSubmit: handleLogin }}
+      className="login__form"
     >
       <DialogTitle>Login</DialogTitle>
       <DialogContent>
-        <FormControl sx={{ m: 1, width: "30ch" }} variant="standard">
+        <FormControl sx={{ m: 1 }} variant="standard">
           <InputLabel htmlFor="password">Password</InputLabel>
           <Input
             id="password"
@@ -130,7 +131,7 @@ const Login = ({
             onChange={handleInputChange}
           />
         </FormControl>
-        <FormControl sx={{ m: 1, width: "30ch" }} variant="standard">
+        <FormControl sx={{ m: 1 }} variant="standard">
           <InputLabel htmlFor="email">Email Address</InputLabel>
           <Input
             required
@@ -142,7 +143,9 @@ const Login = ({
             onChange={handleInputChange}
           />
         </FormControl>
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {errorMessage && (
+          <p style={{ color: "red", textAlign: "center" }}>{errorMessage}</p>
+        )}
       </DialogContent>
       <DialogActions>
         <Button type="submit">Login</Button>

@@ -4,7 +4,7 @@ export interface User {
   lastName?: string;
   password: string | number;
   email: string;
-  image?: string;
+  image?: string | null;
   isActive?: boolean;
   role: string;
 }

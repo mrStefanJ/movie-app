@@ -40,8 +40,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const register = (userData: User) => {
     const storedUsers = localStorage.getItem("registeredUsers");
     const users = storedUsers ? JSON.parse(storedUsers) : [];
+    // Check if there are any users in the list, if not assign "Admin" role
+    const role = users.length === 0 ? "admin" : "user";
 
-    const updatedUsers = [...users, userData];
+    const newUser = { ...userData, role };
+
+    const updatedUsers = [...users, newUser];
     updateUserList(updatedUsers);
 
     setIsLoggedIn(false);
@@ -68,24 +72,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       const loggedUser = JSON.parse(storedUserData);
       setUser(loggedUser);
       setIsLoggedIn(true);
-    }
-
-    // const storedUser = localStorage.getItem("registeredUsers");
-    // const users = storedUser ? JSON.parse(storedUser) : [];
-
-    const adminExist = userList.some((user: User) => user.role === "admin");
-    if (!adminExist) {
-      const adminUser = {
-        id: "adminId33",
-        firstName: "Admin",
-        email: "admin@example.com",
-        password: "moviesSeries",
-        image: "https://images.app.goo.gl/ZiYW25oneR62rJSt9",
-        isActive: true,
-        role: "admin",
-        lastName: "AdminRole",
-      };
-      setUserList([...userList, adminUser]);
     }
   };
   // Function to log out the user

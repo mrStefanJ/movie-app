@@ -116,7 +116,7 @@ const Navigation = () => {
           {!isLoggedIn ? (
             <Avatar>D</Avatar>
           ) : (
-            <Avatar alt={user?.firstName} src={user?.image} />
+            <Avatar alt={user?.firstName} src={user?.image || undefined} />
           )}
         </IconButton>
         <Menu
