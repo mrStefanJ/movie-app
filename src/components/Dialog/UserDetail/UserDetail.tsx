@@ -87,6 +87,11 @@ const UserDetail = ({
     }
   };
 
+  const handleCloseDialog = () => {
+    setIsEditing(false);
+    onClose();
+  };
+
   const handleSaveChanges = () => {
     if (editedUser) {
       const registerUser = JSON.parse(
@@ -219,13 +224,7 @@ const UserDetail = ({
             Edit
           </Button>
         )}
-        <Button
-          onClick={() => {
-            handleEditToggle();
-            onClose();
-          }}
-          color="primary"
-        >
+        <Button onClick={handleCloseDialog} color="primary">
           Close
         </Button>
       </DialogActions>
