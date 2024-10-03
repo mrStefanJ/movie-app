@@ -1,4 +1,5 @@
 @import "../../style/mixin.scss";
+@import "../../style/variable.scss";
 
 @keyframes zoomIn {
   from {
@@ -70,7 +71,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border-left-color: #09f;
+  border-left-color: $blue-sky;
   animation: spin 1s linear infinite;
 }
 

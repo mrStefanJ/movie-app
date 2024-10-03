@@ -17,7 +17,7 @@ body {
 
   &::-webkit-scrollbar {
     width: 5px;
-    --scrollbar-color-track: #0000ff;
+    --scrollbar-color-track: $blue;
   }
 
   &::-webkit-scrollbar-thumb {

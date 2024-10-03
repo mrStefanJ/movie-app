@@ -1,3 +1,37 @@
+@import "../../style/mixin.scss";
+@import "../../style/variable.scss";
+
+.login__form {
+  .MuiPaper-root {
+    width: 85vw;
+
+    @include breakpoint(tablet) {
+      width: 65vw;
+    }
+  }
+}
+
+.register__form {
+  .MuiPaper-root {
+    width: 85vw;
+  }
+}
+
+.form--flex {
+  display: flex;
+  flex-direction: column;
+
+  @include breakpoint(tablet) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  & .form__input-field {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .MuiDialogContent-root {
   display: flex;
   flex-direction: column;
@@ -25,26 +59,53 @@
     height: 150px;
   }
 
-  .MuiButton-root.user--active{
-    border: 2px solid green;
-    color: green;
+  .MuiButton-root.user--active {
+    border: 2px solid $green;
+    color: $green;
     &:hover {
-      background: green;
-      color: white;
+      background: $green;
+      color: $white;
     }
   }
 
-  .MuiButton-root.user--deactive{
-    color: red;
-    border: 2px solid red;
+  .MuiButton-root.user--deactive {
+    color: $red;
+    border: 2px solid $red;
     &:hover {
-      background: red;
-      color: white;
+      background: $red;
+      color: $white;
     }
   }
 
   .MuiButtonBase-root:disabled {
     cursor: not-allowed;
-  opacity: 0.6;
-    }
+    opacity: 0.6;
+  }
+}
+
+.file-input {
+  position: relative;
+  display: inline-block;
+
+  input[type="file"] {
+    display: none;
+  }
+
+  .custome-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+}
+
+.form__image {
+  text-align: center;
+}
+
+.image-preview {
+  img {
+    width: 200px;
+    height: 200px;
+  }
 }
