@@ -1,0 +1,13 @@
+@import "../../../style/variable.scss";
+
+.MuiButton-root {
+  &.button__delete {
+    color: $red-light;
+    border: 2px solid $red-light;
+    font-size: 12px;
+    &:hover {
+      background: $red-light;
+      color: $white;
+    }
+  }
+}

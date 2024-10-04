@@ -1,4 +1,6 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Alert,
   Box,
   Button,
   Dialog,
@@ -11,13 +13,14 @@ import {
   Input,
   InputAdornment,
   InputLabel,
+  Snackbar,
 } from "@mui/material";
-import DefaultImage from "../../../assets/default-avatar.png";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useUser } from "../../../UserContext";
+import DefaultImage from "../../../assets/default-avatar.png";
 import { User } from "../../../type/user";
+import "../style.scss";
 
 const RegisterUser = ({
   open,
@@ -26,7 +29,7 @@ const RegisterUser = ({
   open: boolean;
   handleClose: () => void;
 }) => {
-  const { register } = useUser();
+  const { register } = useUser(); // Using the register function from UserContext
   const [formData, setFormData] = useState<User>({
     id: "",
     firstName: "",
@@ -38,7 +41,9 @@ const RegisterUser = ({
     isActive: false,
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [previewImage, setPreviewImage] = useState<string | null>(DefaultImage); // Add type
+  const [previewImage, setPreviewImage] = useState<string | null>(DefaultImage);
+  const [error, setError] = useState<string | null>(null); // Error state for email
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // For error message
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -54,29 +59,38 @@ const RegisterUser = ({
     event.preventDefault();
   };
 
+  // Handle input changes for the form
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Register function to check if email exists and register the user if valid
   const handleRegister = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newUser = {
+      ...formData,
       id: uuidv4(),
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      password: formData.password,
-      email: formData.email,
-      image: formData.image,
-      role: formData.role,
       isActive: true,
     };
 
-    register(newUser);
-    handleClose();
+    const isRegistered = register(newUser); // `register` returns true or false
 
-    // Reset the form fields after registration
+    if (!isRegistered) {
+      // If email already exists, show error message
+      setError("The email already exists! Please use a different one.");
+      setSnackbarOpen(true);
+      return; // Stop further execution if email exists
+    }
+
+    // Reset form and close the dialog if registration is successful
+    handleClose();
+    resetForm();
+  };
+
+  // Reset form data
+  const resetForm = () => {
     setFormData({
       id: "",
       firstName: "",
@@ -90,34 +104,15 @@ const RegisterUser = ({
     setPreviewImage(DefaultImage);
   };
 
+  // Handle dialog close
   const handleCloseDialog = () => {
     handleClose();
-    // Clear the password field when dialog is closed
-    setFormData((prev) => ({ ...prev, password: "" }));
-    setPreviewImage(DefaultImage);
+    resetForm();
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      const file = files[0];
-      const reader = new FileReader();
-
-      setPreviewImage(URL.createObjectURL(file));
-
-      reader.onloadend = () => {
-        const result = reader.result;
-        if (result) {
-          setFormData((prev) => ({ ...prev, image: result as string }));
-        } else {
-          setFormData((prev) => ({ ...prev, image: null })); // Handle null case
-        }
-      };
-
-      reader.readAsDataURL(file); // Convert the file to a Base64 string
-    } else {
-      setFormData((prev) => ({ ...prev, image: null })); // Clear image if no file is selected
-    }
+  // Handle snackbar close for error message
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -133,8 +128,10 @@ const RegisterUser = ({
       <DialogTitle>Register</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Please fill in the blank fields to register!!!
+          INFO: The first user is register has role "admin", the rest have role
+          "user"!
         </DialogContentText>
+
         <Box className="form--flex">
           <Box className="form__input-field">
             <FormControl sx={{ m: 1 }} variant="standard">
@@ -142,7 +139,6 @@ const RegisterUser = ({
               <Input
                 autoFocus
                 required
-                margin="dense"
                 id="firstName"
                 name="firstName"
                 type="text"
@@ -154,7 +150,6 @@ const RegisterUser = ({
               <InputLabel htmlFor="lastName">Last Name</InputLabel>
               <Input
                 required
-                margin="dense"
                 id="lastName"
                 name="lastName"
                 type="text"
@@ -185,10 +180,9 @@ const RegisterUser = ({
               />
             </FormControl>
             <FormControl sx={{ m: 1 }} variant="standard">
-              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <InputLabel htmlFor="email">Email</InputLabel>
               <Input
                 required
-                margin="dense"
                 id="email"
                 name="email"
                 type="email"
@@ -198,13 +192,9 @@ const RegisterUser = ({
             </FormControl>
           </Box>
           <Box className="form__image">
-            {previewImage && (
-              <div className="image-preview">
-                <img src={previewImage} alt="Preview" />
-              </div>
-            )}
+            {previewImage && <img src={previewImage} alt="Preview" />}
             <FormControl className="file-input">
-              <label htmlFor="file-upload" className="custome-file-upload">
+              <label htmlFor="file-upload" className="custom-file-upload">
                 Upload Image
               </label>
               <input
@@ -212,11 +202,26 @@ const RegisterUser = ({
                 accept="image/*"
                 id="file-upload"
                 name="image"
-                onChange={handleImageChange}
+                onChange={(e) => {
+                  const files = e.target.files;
+                  if (files && files.length > 0) {
+                    setPreviewImage(URL.createObjectURL(files[0]));
+                  }
+                }}
               />
             </FormControl>
           </Box>
         </Box>
+        {/* Snackbar for displaying error */}
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleSnackbarClose}
+        >
+          <Alert onClose={handleSnackbarClose} severity="error">
+            {error}
+          </Alert>
+        </Snackbar>
       </DialogContent>
       <DialogActions>
         <Button type="submit">Register</Button>

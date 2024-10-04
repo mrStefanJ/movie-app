@@ -12,7 +12,7 @@ type UserContextType = {
   user: User | null;
   login: (user: User) => void;
   logout: () => void;
-  register: (user: User) => void;
+  register: (user: User) => boolean;
   userList: User[];
   setUserList: (users: User[]) => void;
 };
@@ -32,24 +32,31 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     // eslint-disable-next-line
   }, []);
 
-  const updateUserList = (users: User[]) => {
-    setUserList(users);
-    localStorage.setItem("registeredUsers", JSON.stringify(users)); // Update localStorage
-  };
   // Function to register a new user
-  const register = (userData: User) => {
+  const register = (userData: User): boolean => {
     const storedUsers = localStorage.getItem("registeredUsers");
     const users = storedUsers ? JSON.parse(storedUsers) : [];
-    // Check if there are any users in the list, if not assign "Admin" role
-    const role = users.length === 0 ? "admin" : "user";
 
-    const newUser = { ...userData, role };
+    // Check if the email already exists
+    const emailExists = users.some(
+      (user: User) => user.email === userData.email
+    );
 
+    if (emailExists) {
+      return false; // Return false if email exists
+    }
+
+    // Proceed with registration if email doesn't exist
+    const newUser = {
+      ...userData,
+      role: users.length === 0 ? "admin" : "user",
+    };
     const updatedUsers = [...users, newUser];
-    updateUserList(updatedUsers);
+    localStorage.setItem("registeredUsers", JSON.stringify(updatedUsers));
 
-    setIsLoggedIn(false);
+    return true; // Return true if registration is successful
   };
+
   // Function to log in a user
   const login = (userData: User) => {
     const storedUsers = localStorage.getItem("registeredUsers");
@@ -65,6 +72,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       setIsLoggedIn(false);
     }
   };
+
   // Function to check if a user is already logged in
   const initializeUser = () => {
     const storedUserData = localStorage.getItem("userData");

@@ -1,24 +1,28 @@
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
+import {
+  Button,
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel,
+} from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import * as React from "react";
+import useSortData from "../../../CustomHook/useSort";
 import { useUser } from "../../../UserContext";
 import { User } from "../../../type/user";
 import { UserDetail } from "../../Dialog";
-import useSortData from "../../../CustomHook/useSort";
+import "./style.scss";
 
 type Order = "asc" | "desc";
 
 interface HeadCell {
-  id: keyof User;
+  id: string;
   label: string;
   numeric: boolean;
 }
@@ -50,9 +54,14 @@ const headCells: readonly HeadCell[] = [
     label: "Role",
   },
   {
-    id: "isActive",
+    id: "status",
     numeric: true,
-    label: "Active",
+    label: "Status",
+  },
+  {
+    id: "action",
+    numeric: true,
+    label: "Action",
   },
 ];
 
@@ -71,7 +80,7 @@ interface EnhancedTableProps {
 function EnhancedTableHead(props: EnhancedTableProps) {
   const { order, orderBy, onRequestSort } = props;
   const createSortHandler =
-    (property: keyof User) => (event: React.MouseEvent<unknown>) => {
+    (property: any) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -184,6 +193,15 @@ export default function TableUsers() {
     setSelectedUser(null); // Reset the selected user
   };
 
+  const handleDeleteUser = (id: string) => {
+    const updatedUsers = userList.filter((user) => user.id !== id);
+
+    setUserList(updatedUsers);
+
+    // Update the user list in localStorage
+    localStorage.setItem("registeredUsers", JSON.stringify(updatedUsers));
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -217,6 +235,18 @@ export default function TableUsers() {
                     <TableCell align="right">{user.role}</TableCell>
                     <TableCell align="right">
                       {user.isActive ? "Active" : "Not Active"}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        className="button__delete"
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          handleDeleteUser(user.id);
+                        }}
+                      >
+                        Delete
+                      </Button>
                     </TableCell>
                   </TableRow>
                 );

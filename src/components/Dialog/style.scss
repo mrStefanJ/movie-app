@@ -8,11 +8,15 @@
     @include breakpoint(tablet) {
       width: 65vw;
     }
+
+    .MuiDialogContent-root{
+      padding: 20px 120px;
+    }
   }
 }
 
 .register__form {
-  .MuiPaper-root {
+  &.MuiPaper-root {
     width: 85vw;
   }
 }
@@ -91,21 +95,30 @@
     display: none;
   }
 
-  .custome-file-upload {
+  .custom-file-upload {
     border: 1px solid #ccc;
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
+
+    &:hover {
+      background: $blue;
+      color: $white;
+    }
   }
 }
 
 .form__image {
   text-align: center;
-}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-.image-preview {
   img {
     width: 200px;
     height: 200px;
+    padding-bottom: 10px;
   }
 }
+
+  

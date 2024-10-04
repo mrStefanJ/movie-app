@@ -58,34 +58,37 @@ const Login = ({
     }
   };
 
+  // Helper to find user in localStorage
+  const findUser = (email: string) => {
+    const storedUsers = localStorage.getItem("registeredUsers");
+    const userList = storedUsers ? JSON.parse(storedUsers) : [];
+    return userList.find((user: User) => user.email === email);
+  };
+
+  // Helper to validate the login
+  const validateLogin = (existingUser: User, password: string) => {
+    if (!existingUser.isActive) {
+      return "Your account is deactivated. Please contact support.";
+    }
+    if (existingUser.password !== password) {
+      return "Incorrect password.";
+    }
+    return null; // No errors, valid login
+  };
+
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const userData = {
-      id: formData.id,
-      firstName: formData.firstName,
-      password: formData.password,
-      email: formData.email,
-      role: formData.role,
-    };
-
-    const storedUsers = localStorage.getItem("registeredUsers");
-    const userList = storedUsers ? JSON.parse(storedUsers) : [];
-
-    const existingUser = userList.find(
-      (user: User) => user.email === userData.email
-    );
+    const existingUser = findUser(formData.email);
 
     // Check if user exists and if the account is active
     if (existingUser) {
-      if (!existingUser.isActive) {
-        setErrorMessage("Your account is deactivated. Please contact support.");
-      } else if (existingUser.password === userData.password) {
-        login(userData); // Login only if the account is active and the password is correct
-        handleClose();
-        setErrorMessage("");
+      const validationError = validateLogin(existingUser, formData.password);
+      if (validationError) {
+        setErrorMessage(validationError);
       } else {
-        setErrorMessage("Incorrect password.");
+        login(existingUser);
+        handleClose();
       }
     } else {
       setErrorMessage("Password or Email doesn't exist, please register.");

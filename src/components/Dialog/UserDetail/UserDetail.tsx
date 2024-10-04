@@ -33,11 +33,11 @@ const UserDetail = ({
     // eslint-disable-next-line
   }, [open, user]);
 
-  const handleUserChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUserChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (editedUser) {
       setEditedUser({
         ...editedUser,
-        [e.target.name]: e.target.value,
+        [event.target.name]: event.target.value,
       });
     }
   };
@@ -110,6 +110,22 @@ const UserDetail = ({
 
       onUserUpdate(editedUser);
     }
+  };
+
+  const handleDeleteUser = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: string
+  ) => {
+    event.preventDefault();
+
+    const registeredUsers = JSON.parse(
+      localStorage.getItem("registeredUsers") || "[]"
+    );
+
+    const updatedUsers = registeredUsers.filter((user: User) => user.id !== id);
+    localStorage.setItem("registeredUsers", JSON.stringify(updatedUsers));
+
+    onClose();
   };
 
   return (
@@ -193,6 +209,12 @@ const UserDetail = ({
               }
             >
               {editedUser?.isActive ? "Active" : "Deactive"}
+            </Button>
+            <Button
+              onClick={(event) => handleDeleteUser(event, user.id)}
+              disabled={!isEditing}
+            >
+              Delete
             </Button>
           </Box>
           <Box sx={{ mb: 2 }}>
