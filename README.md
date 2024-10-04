@@ -5,6 +5,12 @@ In Movies and Series page will have options to select genres of your choice and 
 
 Design is started in the mobile-first approach.
 
+UPDATE:
+
+1. Add register and login feature
+2. Add roles "admin" and "user"
+3. Admin have role to update and delete user
+
 ## How to run Project
 
 First you need to use command:
