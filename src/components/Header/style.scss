@@ -89,7 +89,7 @@ header {
     }
 
     &:hover::after {
-      width: 100%;
+      width: 16%;
     }
   }
 
@@ -97,7 +97,7 @@ header {
     color: $white;
 
     &::after {
-      width: 100%;
+      width: 16%;
       background: $white;
     }
   }
