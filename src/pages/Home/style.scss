@@ -1,32 +1,32 @@
 @import "../../style/variable.scss";
 
-.home{
+.home {
   height: 84vh;
 }
 .home__title {
-    position: relative;
-    padding-top: 135px;
-    font-size: 24px;
+  position: relative;
+  padding-top: 135px;
+  font-size: 24px;
 }
 
-
 .home__title span {
-    position: relative;
-    display: inline-block;
-    color: $red;
-    text-transform: uppercase;
-    animation: waviy 1s infinite;
-    animation-delay: calc(.1s * var(--i));
-    
+  position: relative;
+  display: inline-block;
+  color: $red;
+  text-transform: uppercase;
+  animation: waviy 1s infinite;
+  animation-delay: calc(0.1s * var(--i));
+}
+@keyframes waviy {
+  0%,
+  40%,
+  100% {
+    transform: translateY(0);
   }
-  @keyframes waviy {
-    0%,40%,100% {
-      transform: translateY(0)
-    }
-    20% {
-      transform: translateY(-20px)
-    }
+  20% {
+    transform: translateY(-20px);
   }
+}
 
 .home__text {
   font-size: 24px;

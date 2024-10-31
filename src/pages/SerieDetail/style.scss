@@ -1,5 +1,5 @@
 @import "../../style/mixin.scss";
-@import '../../style/variable.scss';
+@import "../../style/variable.scss";
 
 .serie-details {
   width: 100%;
@@ -50,11 +50,11 @@
 
 .video-wrapper {
   position: relative;
-  padding-bottom: 56.25%; 
+  padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
   max-width: 100%;
-  background-color: $black; 
+  background-color: $black;
 
   iframe {
     position: absolute;
@@ -65,7 +65,7 @@
     border: 0;
   }
 
-  .video__message{
+  .video__message {
     color: $white;
   }
 }

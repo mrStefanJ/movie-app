@@ -1,15 +1,15 @@
 .genre-list {
-    padding-left: 0;
-  }
-  
-  .genre-item {
-    display: inline;
-  }
-  
-  .genre-item::after {
-    content: ", ";
-  }
-  
-  .genre-item:last-child::after {
-    content: "";
-  }
+  padding-left: 0;
+}
+
+.genre-item {
+  display: inline;
+}
+
+.genre-item::after {
+  content: ", ";
+}
+
+.genre-item:last-child::after {
+  content: "";
+}
